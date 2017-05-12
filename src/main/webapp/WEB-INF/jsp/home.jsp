@@ -50,12 +50,6 @@
 				<spring:message code="web.content.features.free.text" />
 			</p>
 		</div>
-		<div style="margin-top:50px" class="col-sm-12">
-			<p><spring:message code="web.content.features.free.support" /></p>
-			<div>
-				<script type='text/javascript' src='https://ads.qadservice.com/t?id=fc3e8fa3-f6e2-4251-a96e-6e814a2a020c&size=300x250'></script>
-			</div> 
-		</div>
 	</div>
 </section>
 
