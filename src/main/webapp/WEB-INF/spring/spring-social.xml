@@ -12,7 +12,7 @@
         <constructor-arg index="1" ref="customSocialUserDetailsService"/>
     </bean>
     
-    <facebook:config app-secret="${spring.social.facebook.appSecret}" app-id="${spring.social.facebook.appId}"/>
+    <facebook:config app-secret="${spring.social.facebook.appSecret}" app-id="${spring.social.facebook.appId}" app-namespace="yeloon-kodbot"/>
     
     <social:jdbc-connection-repository  />
      	
@@ -34,7 +34,10 @@
 <!--         </property> -->
     </bean>
     
-    <bean id="providerSignInUtils" class="org.springframework.social.connect.web.ProviderSignInUtils"></bean>
+    <bean id="providerSignInUtils" class="org.springframework.social.connect.web.ProviderSignInUtils">
+        <constructor-arg name="connectionFactoryLocator" ref="connectionFactoryLocator"/>
+        <constructor-arg name="connectionRepository" ref="usersConnectionRepository"/>
+    </bean>
     <bean id="userIdSource" class="org.springframework.social.security.AuthenticationNameUserIdSource"/>
 
 </beans>
