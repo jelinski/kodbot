@@ -1,0 +1,132 @@
+@CHARSET "UTF-8";
+
+body {
+	background: url('../images/content/game/background.png');
+	background-color: rgb(16, 27, 27);
+}
+
+.container-div {
+	height: 600px;
+}
+
+#main-div {
+	overflow:hidden;
+	margin:0 auto;
+	position:relative;
+	height:644px;
+	min-width: 980px;
+	max-width: 1200px;
+	background-color: #272822;
+}
+
+#game-div {
+	float: left;
+	background-color: gray;
+	width: 600px;
+	position: relative;
+}
+
+#editor-div {
+	background-color: green;
+	overflow: hidden;
+}
+
+#controls-div {
+	padding: 5px;
+	clear: both;
+	background: rgba(55,62,50,1);
+	background: -moz-linear-gradient(top, rgba(55,62,50,1) 0%, rgba(45,50,41,1) 44%, rgba(35,39,32,1) 100%);
+	background: -webkit-gradient(left top, left bottom, color-stop(0%, rgba(55,62,50,1)), color-stop(44%, rgba(45,50,41,1)), color-stop(100%, rgba(35,39,32,1)));
+	background: -webkit-linear-gradient(top, rgba(55,62,50,1) 0%, rgba(45,50,41,1) 44%, rgba(35,39,32,1) 100%);
+	background: -o-linear-gradient(top, rgba(55,62,50,1) 0%, rgba(45,50,41,1) 44%, rgba(35,39,32,1) 100%);
+	background: -ms-linear-gradient(top, rgba(55,62,50,1) 0%, rgba(45,50,41,1) 44%, rgba(35,39,32,1) 100%);
+	background: linear-gradient(to bottom, rgba(55,62,50,1) 0%, rgba(45,50,41,1) 44%, rgba(35,39,32,1) 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#373e32', endColorstr='#232720', GradientType=0 );
+}
+
+#not-logged-in-reminder {
+	color: rgb(255, 138, 87);
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(18, 9, 9, 0.93);
+	visibility: hidden;
+	text-align: center;
+}
+
+#not-logged-in-reminder>div {
+	margin-top: 250px;
+}
+
+#not-logged-in-reminder>div>p {
+	font-family: 'ubunturegular', sans-serif;
+	font-size: large;
+}
+
+#error-message-container {
+	font-family: 'ubunturegular', sans-serif;
+	color: white;
+	width: 100%;
+	position: absolute;
+	visibility: hidden;
+	padding: 40px;
+	bottom: 0px;
+	background-color: rgba(109, 179, 63, 0.84);
+}
+
+#score-container {
+	color: white;
+	background-color: rgba(0, 0, 0, 0.85);
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	visibility: hidden;
+}
+
+#score-container table{
+	color:#aaa;
+}
+
+#score-container table td.stat-col{
+	width:100px;
+	text-align: center;
+}
+
+#score-container table tr.even {
+	background-color: rgba(0, 0, 0, 0.25);
+}
+
+.betterScore{
+	color:lime;
+}
+
+#game-overlay{
+	visibility:hidden;
+	color:white;
+	position: absolute;
+	right:0px;
+}
+
+#command-counter{
+	margin-left:5px;
+	vertical-align:top;
+	font-size: 4em;
+	font-family: 'Press Start 2P';
+}
+
+#instruction-help-overlay p{
+	margin:0px;
+	padding:0px;
+}
+
+#instruction-help-overlay .cost-info{
+	position: absolute;
+	left:45%;
+}
+
+
+.cm-main {color: #f92672;}
+.cm-number {color: #9effff;}
+.cm-keyword {color: #a6e22e;}
+.cm-variable {color: #fd971f;}
+.cm-function {color: #ae81ff;}

@@ -1,0 +1,29 @@
+@CHARSET "UTF-8";
+
+@font-face {
+    font-family: 'ubunturegular';
+    src: url('../fonts/ubunturegular.eot') format('eot'),
+         url('../fonts/ubunturegular.woff') format('woff'),
+         url('../fonts/ubunturegular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'ubuntubold';
+    src: url('../fonts/ubuntubold.eot') format('eot'), 
+    	 url('../fonts/ubuntubold.woff') format('woff'),
+         url('../fonts/ubuntubold.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+
+@font-face {
+        font-family: "KBREINDEERGAMES";
+        src: url('../fonts/kbreindeergames.eot') format('eot'),
+        url('../fonts/kbreindeergames.woff') format('woff'),
+        url('../fonts/kbreindeergames.ttf') format('truetype');
+        font-weight: normal;
+        font-style: normal;
+    }

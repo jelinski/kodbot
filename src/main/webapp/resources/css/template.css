@@ -1,0 +1,169 @@
+@CHARSET "UTF-8";
+
+/* WYLACZENIE OBRAMOWANIA DLA ZAZNACZENIA */
+a:focus {outline:none;}
+a::-moz-focus-inner {border:0;}
+
+.vcenter {
+    display: inline-block;
+    vertical-align: middle;
+    float: none;
+}
+
+body {
+	background-color: darkslategrey;
+	font-family: 'ubunturegular', sans-serif;
+}
+
+a {
+	color: rgb(109, 179, 63);
+}
+
+a:active {
+	text-decoration: none;
+}
+
+/* MAIN CONTAINER */
+#mainContainer {
+	border-top: 4px solid #6db33f;
+	color: white;
+	min-width:750px;
+	margin: 0px auto;
+	box-shadow: 0 0 20px 10px #272727;
+}
+
+/* HEADER */
+#header {
+/* 	height:75px; */
+	line-height: 75px;
+	background-color: #34302d;
+}
+
+#logo-container {
+/* 	display: inline-block; */
+}
+
+#logo {
+	display: inline-block;
+	vertical-align: middle;
+	width: 170px;
+	height: 50px;
+	background: url("../images/header/logo.png");
+}
+
+#logo:HOVER {
+	background: url("../images/header/logo-hover.png");
+}
+
+#menu-container {
+	height:75px;
+}
+
+#menu-container a {
+	color: white;
+	text-decoration: none;
+}
+
+.menu-entry {
+	display: inline-block;
+	min-width: 75px;
+	text-align: center;
+	font-size: 22px;
+	padding: 0px 10px;
+/* 	text-transform: uppercase; */
+	font-family: 'ubuntubold', sans-serif;
+	text-shadow: -1px -1px black, 1px 1px gray;
+}
+
+.menu-entry>a {
+	display: block;
+}
+
+.menu-entry .menu-lang-entry{
+	line-height:0px;
+	padding:0px;
+	margin: 14px 0px;
+}
+
+.menu-entry:HOVER {
+	background-color: #6db33f;
+}
+
+#lang-select{
+	background-color:rgba(0,0,0,0);
+}
+
+/* CONTENT */
+#content {
+	min-height: 400px;
+ 	background-color: #44413F;
+}
+
+.green-row{
+	background-color: #6db33f;
+}
+
+.feature-row{
+	text-align:center;
+}
+
+.feature-row h1{
+	font-family: 'KBREINDEERGAMES', cursive;
+	color:#6db33f;
+}
+
+.feature-row.green-row h1{
+	font-family: 'KBREINDEERGAMES', cursive;
+	color:rgb(78, 66, 66);
+}
+
+.feature-row p{
+	font-size:26px;
+}
+
+.list-group>.list-group-item{
+background-color: #34302d;
+border: 1px solid #7C7C7C;
+}
+
+/* PLAY */
+.game-thumbnail-div{
+	width:300px;
+	height:300px;
+	margin-bottom: 10px;
+}
+
+
+/* FOOTER */
+#footer {
+	background-color: #34302d;
+	padding: 15px 15px;
+}
+
+/* MODAL */
+#login-modal div.modal-dialog{
+	margin: 0px auto;
+}
+
+
+#registerUserBean .error{
+	color:red;
+}
+
+#forgotPasswordBean .error{
+	color:red;
+}
+
+#loginForm .error{
+	color:red;
+}
+
+label{
+	font-weight:normal;
+}
+
+.cm-main {color: #f92672;}
+.cm-number {color: #9effff;}
+.cm-keyword {color: #a6e22e;}
+.cm-variable {color: #fd971f;}
+.cm-function {color: #ae81ff;}

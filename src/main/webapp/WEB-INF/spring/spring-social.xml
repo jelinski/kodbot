@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:social="http://www.springframework.org/schema/social"
+   	xmlns:facebook="http://www.springframework.org/schema/social/facebook"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/social/facebook http://www.springframework.org/schema/social/spring-social-facebook.xsd
+	http://www.springframework.org/schema/social http://www.springframework.org/schema/social/spring-social.xsd">
+    
+	<bean id="socialAuthenticationProvider" class="org.springframework.social.security.SocialAuthenticationProvider">
+        <constructor-arg index="0" ref="usersConnectionRepository"/>
+        <constructor-arg index="1" ref="customSocialUserDetailsService"/>
+    </bean>
+    
+    <facebook:config app-secret="${spring.social.facebook.appSecret}" app-id="${spring.social.facebook.appId}"/>
+    
+    <social:jdbc-connection-repository  />
+     	
+	
+	<bean id="socialAuthenticationFilter" class="org.springframework.social.security.SocialAuthenticationFilter">
+        <constructor-arg index="0" ref="authenticationManager"/>
+        <constructor-arg index="1" ref="userIdSource"/>
+        <constructor-arg index="2" ref="usersConnectionRepository"/>
+        <constructor-arg index="3" ref="connectionFactoryLocator"/>
+
+        <!-- Sets the url of the registration form. -->
+        <property name="signupUrl" value="/register/facebook_user"/>
+        <property name="defaultFailureUrl" value="/" />
+        <property name="postLoginUrl" value="/panel" />
+<!--         <property name="authenticationSuccessHandler"> -->
+<!--         	<bean class="org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler"> -->
+<!--     			<property name="useReferer" value="true"/> -->
+<!--     		</bean> -->
+<!--         </property> -->
+    </bean>
+    
+    <bean id="providerSignInUtils" class="org.springframework.social.connect.web.ProviderSignInUtils"></bean>
+    <bean id="userIdSource" class="org.springframework.social.security.AuthenticationNameUserIdSource"/>
+
+</beans>
