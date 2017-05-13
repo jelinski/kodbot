@@ -37,12 +37,10 @@
 		<maven.compiler.target>1.7</maven.compiler.target>
 	</properties>
 	<dependencies>
-		<!-- TRIK Z DODANIEM ZEWNETRZNEGO JARA PONIEWAZ BIBLIOTEKA ANTLR Z REPO 
-			DAWALA BLEDY -->
 		<dependency>
 			<groupId>org.antlr</groupId>
-			<artifactId>antlrruntime</artifactId>
-			<version>1.0</version>
+			<artifactId>antlr4-runtime</artifactId>
+			<version>4.5.3</version>
 		</dependency>
 		<dependency>
 			<groupId>org.slf4j</groupId>
