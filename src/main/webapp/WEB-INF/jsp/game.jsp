@@ -217,7 +217,7 @@
 		</div>
 	</div>
 
-	<script type="text/javascript" src="<c:url value="/resources/js/game.js" />"></script>
+	<script type="text/javascript" src="<c:url value="/resources/js/game.min.js" />"></script>
 	<script type="text/javascript">
 		var fetchUrl = '${fetchUrl}';
 		var gameUrl = '${gameUrl}';
