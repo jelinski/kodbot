@@ -306,44 +306,6 @@
 		</dependencies>
 	</dependencyManagement>
 
-	<build>
-		<plugins>
-
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-war-plugin</artifactId>
-				<version>2.4</version>
-				<configuration>
-					<warSourceExcludes>resources/js/game.js</warSourceExcludes>
-				</configuration>
-			</plugin>
-
-			<plugin>
-				<groupId>com.samaxes.maven</groupId>
-				<artifactId>minify-maven-plugin</artifactId>
-				<version>1.7.4</version>
-				<executions>
-					<execution>
-						<id>default-minify</id>
-						<configuration>
-							<charset>UTF-8</charset>
-							<verbose>true</verbose>
-							<skipMerge>true</skipMerge>
-							<jsSourceDir>resources/js</jsSourceDir>
-							<jsSourceFiles>
-								<jsSourceFile>game.js</jsSourceFile>
-							</jsSourceFiles>
-							<jsEngine>CLOSURE</jsEngine>
-						</configuration>
-						<goals>
-							<goal>minify</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-		</plugins>
-	</build>
-
 	<profiles>
 		<profile>
 			<!-- When built in OpenShift the 'openshift' profile will be used when invoking mvn. -->
