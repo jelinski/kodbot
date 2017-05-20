@@ -6,6 +6,7 @@ import java.util.Locale;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.social.connect.ConnectionRepository;
 import org.springframework.social.facebook.api.Facebook;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.context.request.WebRequest;
 
 import pl.yeloon.magisterium.controller.bean.ChangePasswordBean;
 import pl.yeloon.magisterium.model.Badge;
@@ -30,8 +30,8 @@ import pl.yeloon.magisterium.util.SecurityUtils;
 @Controller
 public class PanelController {
 
-	@Autowired
-	private Facebook facebook;
+    @Autowired
+    private ConnectionRepository connectionRepository;
 
 	@Autowired
 	private SocialService socialService;
@@ -48,9 +48,9 @@ public class PanelController {
 	private static final Logger logger = LoggerFactory.getLogger(PanelController.class);
 
 	@RequestMapping(method = RequestMethod.GET)
-	public String panel(Locale locale, Model model, WebRequest request) {
-
-		model.addAttribute("facebookConnected", facebook.isAuthorized());
+    public String panel(Locale locale, Model model) {
+        boolean isFacebookAuthorized = connectionRepository.findPrimaryConnection(Facebook.class) != null;
+        model.addAttribute("facebookConnected", isFacebookAuthorized);
 		Integer userId = SecurityUtils.getLoggedInUserId();
 		if (userId != null) {
 			User user = userService.getUserById(userId);
