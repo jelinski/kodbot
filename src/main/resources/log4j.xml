@@ -17,23 +17,21 @@
         </layout>
     </appender>
 
-    <logger name="org.hibernate.type.descriptor" additivity="false">
+    <logger name="org.hibernate.type.descriptor">
         <level value="trace"/>
-        <appender-ref ref="console"/>
     </logger>
 
     <logger name="org.springframework">
         <level value="warn"/>
     </logger>
 
-    <logger name="pl.yeloon.magisterium" additivity="false">
+    <logger name="pl.yeloon.magisterium">
         <level value="debug"/>
-        <appender-ref ref="console"/>
         <appender-ref ref="file"/>
     </logger>
 
     <root>
-        <priority value="warn"/>
+        <level value="info"/>
         <appender-ref ref="console"/>
     </root>
 
