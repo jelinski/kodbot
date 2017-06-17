@@ -10,7 +10,7 @@
         </layout>
     </appender>
 
-    <appender name="file" class="org.apache.log4j.FileAppender">
+    <appender name="file" class="org.apache.log4j.RollingFileAppender">
         <param name="file" value="${catalina.home}/logs/kodbot.log"/>
         <layout class="org.apache.log4j.PatternLayout">
             <param name="ConversionPattern" value="%d{dd.MM.yyyy HH:mm:ss} [%t] %-5p: %c - %m%n"/>
@@ -20,27 +20,6 @@
     <logger name="org.hibernate.type.descriptor" additivity="false">
         <level value="trace"/>
         <appender-ref ref="console"/>
-    </logger>
-
-    <!-- 3rdparty Loggers -->
-    <logger name="org.springframework.core">
-        <level value="error"/>
-    </logger>
-
-    <logger name="org.springframework.social">
-        <level value="error"/>
-    </logger>
-
-    <logger name="org.springframework.beans">
-        <level value="error"/>
-    </logger>
-
-    <logger name="org.springframework.context">
-        <level value="error"/>
-    </logger>
-
-    <logger name="org.springframework.web">
-        <level value="error"/>
     </logger>
 
     <logger name="org.springframework">
