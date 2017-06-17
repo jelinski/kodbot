@@ -29,7 +29,7 @@
 		<beans:property name="defaultLocale" value="pl" />
 	</beans:bean>
 	
-	<beans:bean id="connectController" class="pl.yeloon.magisterium.controller.CustomConnectController" autowire="constructor"></beans:bean>
+	<beans:bean id="connectController" class="pl.yeloon.magisterium.controller.CustomConnectController" autowire="constructor"/>
 
 	<interceptors>
 		<beans:bean
