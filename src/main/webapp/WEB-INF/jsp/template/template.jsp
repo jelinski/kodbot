@@ -31,6 +31,7 @@
 <script type="text/javascript" src="<c:url value="/webjars/jquery/1.11.1/jquery.js" />"></script>
 <script type="text/javascript" src="<c:url value="/webjars/bootstrap/3.2.0/js/bootstrap.js" />"></script>
 <script type="text/javascript" src="<c:url value="/resources/js/facebook.js" />"></script>
+<script type="text/javascript" src="<c:url value="/resources/js/cookieseu.min.js" />"></script>
 <script type="text/javascript" src="<c:url value="/resources/js/main.js" />"></script>
 
 </head>
@@ -55,16 +56,35 @@
 		</div>
 
 	</div>
+
+	<%-- GOOGLE ANALYTICS --%>
 	<script>
-  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        $(function () {
+            (function (i, s, o, g, r, a, m) {
+                i['GoogleAnalyticsObject'] = r;
+                i[r] = i[r] || function () {
+                        (i[r].q = i[r].q || []).push(arguments)
+                    }, i[r].l = 1 * new Date();
+                a = s.createElement(o),
+                    m = s.getElementsByTagName(o)[0];
+                a.async = 1;
+                a.src = g;
+                m.parentNode.insertBefore(a, m)
+            })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
 
-  ga('create', 'UA-56721322-1', 'auto');
-  ga('require', 'displayfeatures');
-  ga('send', 'pageview');
+            ga('create', 'UA-56721322-1', 'auto');
+            ga('require', 'displayfeatures');
+            ga('send', 'pageview');
+        });
+	</script>
 
-</script>
+	<%-- COOKIE.EU --%>
+	<script>
+        $(function () {
+            jQuery.fn.cookiesEU({
+                parent: $('#header'),
+            });
+        });
+	</script>
 </body>
 </html>
