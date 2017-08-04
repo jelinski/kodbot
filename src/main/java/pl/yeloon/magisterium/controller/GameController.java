@@ -38,8 +38,6 @@ public class GameController {
 
 	@RequestMapping(value = "/{mapKey}", method = RequestMethod.GET)
     public String help(@PathVariable("mapKey") String mapKey, Model model) {
-		// Wyszukanie planszy po mapKey'u
-		// Jesli nie znalazlo to strona 404 albo /play
 		Map map = mapService.getMapByKey(mapKey);
 		if (map == null) {
 			logger.warn("Request for unexisting map was made with key: " + mapKey);

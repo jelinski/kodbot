@@ -59,7 +59,7 @@ public class RankController {
 			model.addAttribute("scores", scores);
 			return "rank";
 		}
-		return "error404";
+        throw new IllegalArgumentException("Could not find mapKey: " + mapKey);
 	}
 	
 	private String changeImageUrlToSecure(String imageUrl){

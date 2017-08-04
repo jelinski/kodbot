@@ -6,7 +6,7 @@
 		<img src='<c:url value="/resources/images/content/error/ghost.png" />' style="width:75%" />
 	</div><!--
   --><div class="col-sm-6 vcenter">
-		<p class="h1"><spring:message code="web.errors.generic_error.header" /></p>
-		<p class="h2"><spring:message code="web.errors.generic_error.message" /></p>
+	<p class="h1">${errorHeader}</p>
+	<p class="h2">${errorMessage}</p>
 	</div>
 </div>
