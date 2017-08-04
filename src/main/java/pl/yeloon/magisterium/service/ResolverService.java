@@ -19,7 +19,6 @@ import pl.yeloon.magisterium.resolver.evaluator.Evaluator.EvaluatorResult;
 import pl.yeloon.magisterium.resolver.evaluator.EvaluatorException;
 import pl.yeloon.magisterium.resolver.evaluator.command.Command;
 import pl.yeloon.magisterium.resolver.parser.CodeParser;
-import pl.yeloon.magisterium.resolver.parser.JsonParser;
 import pl.yeloon.magisterium.resolver.parser.Parser.ParserResult;
 import pl.yeloon.magisterium.resolver.parser.ParserException;
 import pl.yeloon.magisterium.resolver.simulator.Simulator;
@@ -45,12 +44,8 @@ public class ResolverService {
 	@Autowired
 	MapService mapService;
 
-	private ParserResult parse(String input, boolean codeMode) throws ParserException {
-		if (codeMode) {
-			return new CodeParser().parse(input);
-		} else {
-			return new JsonParser().parse(input);
-		}
+	private ParserResult parse(String input) throws ParserException {
+		return new CodeParser().parse(input);
 	}
 
 	private EvaluatorResult evaluate(List<Command> commands) throws EvaluatorException {
@@ -65,10 +60,10 @@ public class ResolverService {
 		return new StatisticCounter().countStatistics(commands);
 	}
 
-	public ResolverResponse resolve(String input, boolean codeMode, Integer userId, Map map) {
+	public ResolverResponse resolve(String input, Integer userId, Map map) {
 		try {
 
-			ParserResult parserResult = parse(input, codeMode);
+			ParserResult parserResult = parse(input);
 			List<Command> commands = parserResult.getCommands();
 			if (commands == null || commands.isEmpty())
 				throw new ResolverException("No commands generated");

@@ -62,16 +62,10 @@ public class GameController {
 
 	}
 
-	@RequestMapping(value = "/resolve/json", method = RequestMethod.POST)
-	@ResponseBody
-	public ResolverResponse resolveJson(@RequestParam(value = "data") String json, @RequestParam(value = "accessToken") String accessToken, @RequestParam(value = "mapKey") String mapKey) {
-		return resolve(json, false, accessToken, mapKey);
-	}
-
 	@RequestMapping(value = "/resolve/code", method = RequestMethod.POST)
 	@ResponseBody
 	public ResolverResponse resolveCode(@RequestParam(value = "data") String code, @RequestParam(value = "accessToken") String accessToken, @RequestParam(value = "mapKey") String mapKey) {
-		return resolve(code, true, accessToken, mapKey);
+		return resolve(code, accessToken, mapKey);
 	}
 
 	@RequestMapping(value = "/fetchMap", method = RequestMethod.POST)
@@ -88,7 +82,7 @@ public class GameController {
 		return mb;
 	}
 
-	private ResolverResponse resolve(String input, boolean isCodeMode, String accessToken, String mapKey) {
+	private ResolverResponse resolve(String input, String accessToken, String mapKey) {
 		Map map = mapService.getMapByKey(mapKey);
 		if (map != null) {
 			Integer userId = null;
@@ -102,7 +96,7 @@ public class GameController {
 					return new ResolverErrorResponse("Niepoprawna wartosc accessTokenu");
 				}
 			}
-			return resolverService.resolve(input, isCodeMode, userId, map);
+			return resolverService.resolve(input, userId, map);
 
 		} else {
 			return new ResolverErrorResponse("Niepoprawna wartość mapKey");
