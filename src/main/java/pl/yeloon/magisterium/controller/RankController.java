@@ -20,10 +20,10 @@ import pl.yeloon.magisterium.service.RankService;
 public class RankController {
 
 	@Autowired
-	RankService rankService;
+    private RankService rankService;
 
 	@Autowired
-	MapService mapService;
+    private MapService mapService;
 	
 	@RequestMapping(value="/overall-rank")
 	public String showOverallRank(Model model, HttpServletRequest request){

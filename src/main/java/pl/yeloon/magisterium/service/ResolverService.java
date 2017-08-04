@@ -33,16 +33,16 @@ import pl.yeloon.magisterium.resolver.statistic.StatisticDTO;
 public class ResolverService {
 
 	@Autowired
-	StatisticService statisticService;
+    private StatisticService statisticService;
 
 	@Autowired
-	BadgeService badgeService;
+    private BadgeService badgeService;
 
 	@Autowired
-	RankService rankService;
+    private RankService rankService;
 
 	@Autowired
-	MapService mapService;
+    private MapService mapService;
 
 	private ParserResult parse(String input) throws ParserException {
 		return new CodeParser().parse(input);

@@ -2,7 +2,7 @@ package pl.yeloon.magisterium.resolver;
 
 public class ResolverErrorResponse extends ResolverResponse{
 
-	String message;
+    private String message;
 
 	public ResolverErrorResponse(String message) {
 		this.message = message;

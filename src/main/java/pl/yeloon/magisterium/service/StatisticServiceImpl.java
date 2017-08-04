@@ -12,7 +12,7 @@ import pl.yeloon.magisterium.resolver.statistic.StatisticDTO;
 public class StatisticServiceImpl implements StatisticService {
 
 	@Autowired
-	StatisticDAO statisticDAO;
+    private StatisticDAO statisticDAO;
 
 	@Transactional
 	@Override

@@ -5,7 +5,6 @@ import java.util.Locale;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -15,7 +14,7 @@ public class ErrorController {
 	private static final Logger logger = LoggerFactory.getLogger(ErrorController.class);
 
 	@RequestMapping(value = "/error/404", method = RequestMethod.GET)
-	public String handle404(Locale locale, Model model) {
+    public String handle404(Locale locale) {
 		logger.error("ERROR 404. Locale is {}.", locale);
 		return "error404";
 	}

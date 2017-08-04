@@ -16,7 +16,7 @@ public class ForgotPasswordBeanValidator implements Validator {
 	private static final String EMAIL_NOT_IN_USE = "web.forgot_password.validation.email.not_in_use";
 	
 	@Autowired
-	UserService userService;
+    private UserService userService;
 	
 	@Override
 	public boolean supports(Class<?> clazz) {

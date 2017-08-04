@@ -24,7 +24,6 @@ public class CustomConnectController extends ConnectController {
 	@Autowired
 	private UserService userService;
 	
-
 	public CustomConnectController(ConnectionFactoryLocator connectionFactoryLocator, ConnectionRepository connectionRepository) {
 		super(connectionFactoryLocator, connectionRepository);
 		addInterceptor(new ConnectInterceptor<Facebook>(){

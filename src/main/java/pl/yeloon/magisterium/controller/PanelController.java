@@ -124,10 +124,11 @@ public class PanelController {
 			socialService.inviteFriend(friendEmail);
 			response.setStatus("Pomyślnie zaproszono znajomego");
 		} catch (Exception e) {
+            // TODO replace by custom exception
 			if (e instanceof IllegalArgumentException) {
 				response.setStatus("Ten użytkownik został juz przez kogoś zaproszony");
 			} else {
-				logger.error(e.getMessage());
+                logger.error("Problem with sending an invitation to a friend", e);
 				response.setStatus("Wystąpił błąd podczas wysyłania zaproszenia do znajomego. Jeśli błąd ciągle się powtarza, proszę nas o tym powiadomić");
 			}
 		}

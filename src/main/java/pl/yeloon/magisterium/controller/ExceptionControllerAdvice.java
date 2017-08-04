@@ -12,8 +12,7 @@ public class ExceptionControllerAdvice {
 
 	@ExceptionHandler(Exception.class)
 	public String handleException(Exception e){
-		//TODO wymusic zapisywanie jak najwiekszej ilosci informacji
-		logger.error("EXCEPTION!! " + e.getMessage());
+        logger.error("EXCEPTION!!", e);
 		return "generic_error";
 	}
 	

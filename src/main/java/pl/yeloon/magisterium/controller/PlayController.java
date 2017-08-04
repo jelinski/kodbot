@@ -41,9 +41,7 @@ public class PlayController {
 		List<Integer> clearedMapIndexes = new ArrayList<Integer>();
 
 		Integer userId = SecurityUtils.getLoggedInUserId();
-		if (userId == null) {
-
-		} else {
+        if (userId != null) {
 			List<MapUserScore> userMapScore = rankService.getUserMapUserScore(userId);
 			for (MapUserScore mapUserScore : userMapScore) {
 				MapGalleryDTO mapGallery = new MapGalleryDTO();

@@ -1,7 +1,6 @@
 package pl.yeloon.magisterium.controller;
 
 import java.util.List;
-import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -32,13 +31,13 @@ public class GameController {
 	private static final Logger logger = LoggerFactory.getLogger(GameController.class);
 
 	@Autowired
-	MapService mapService;
+    private MapService mapService;
 
 	@Autowired
-	ResolverService resolverService;
+    private ResolverService resolverService;
 
 	@RequestMapping(value = "/{mapKey}", method = RequestMethod.GET)
-	public String help(@PathVariable("mapKey") String mapKey, Locale locale, Model model) {
+    public String help(@PathVariable("mapKey") String mapKey, Model model) {
 		// Wyszukanie planszy po mapKey'u
 		// Jesli nie znalazlo to strona 404 albo /play
 		Map map = mapService.getMapByKey(mapKey);
@@ -53,7 +52,7 @@ public class GameController {
 					model.addAttribute("accessToken", accessToken);
 				}
 			} catch (Exception e) {
-				logger.error(e.getMessage());
+                logger.error("Exception occurred while generating access token for a map", e);
 			}
 
 			model.addAttribute("mapKey", mapKey);

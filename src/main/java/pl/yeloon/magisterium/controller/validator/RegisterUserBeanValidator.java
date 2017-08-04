@@ -13,7 +13,7 @@ import pl.yeloon.magisterium.service.UserService;
 public class RegisterUserBeanValidator implements Validator {
 	
 	@Autowired
-	UserService userService;
+    private UserService userService;
 
 	private static final String EMPTY_OR_WHITESPACE_EMAIL = "web.register.validation.email.required";
 	private static final String EMAIL_IN_USE = "web.register.validation.email.in_use";

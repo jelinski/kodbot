@@ -54,9 +54,6 @@ public class RegisterController {
 	private SecureRandom random = new SecureRandom();
 
 	@Autowired
-	private BadgeService badgeService;
-
-	@Autowired
 	private MailService mailService;
 
 	@Autowired
@@ -67,9 +64,6 @@ public class RegisterController {
 
 	@Autowired
 	private ProviderSignInUtils providerSignInUtils;
-
-	@Autowired
-	private ConnectionFactoryLocator locator;
 
 	@Autowired
 	private UserService userService;

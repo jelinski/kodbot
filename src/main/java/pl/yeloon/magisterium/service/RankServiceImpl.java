@@ -24,10 +24,10 @@ import pl.yeloon.magisterium.resolver.statistic.MapUserScoreDTO;
 public class RankServiceImpl implements RankService {
 
 	@Autowired
-	MapUserScoreDAO mapUserScoreDAO;
+    private MapUserScoreDAO mapUserScoreDAO;
 
 	@Autowired
-	UserService userService;
+    private UserService userService;
 
 	@Override
 	public List<MapUserScore> getUserMapUserScore(int userId) {

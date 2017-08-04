@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 public class CustomSocialUserDetailsService implements SocialUserDetailsService {
 	
 	@Autowired
-	UserDetailsService userDetailsService;
+    private UserDetailsService userDetailsService;
 	
 	@Override
 	public SocialUserDetails loadUserByUserId(String username)

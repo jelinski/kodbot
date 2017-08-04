@@ -17,13 +17,13 @@ import pl.yeloon.magisterium.repository.UserDAO;
 public class UserServiceImpl implements UserService {
 
 	@Autowired
-	UserDAO userDAO;
+    private UserDAO userDAO;
 
 	@Autowired
-	BadgeService badgeService;
+    private BadgeService badgeService;
 
 	@Autowired
-	SocialService socialService;
+    private SocialService socialService;
 
 	@Override
 	public List<User> getUsers(){

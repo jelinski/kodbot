@@ -24,7 +24,7 @@ public class MapServiceImpl implements MapService {
 	private SecureRandom random = new SecureRandom();
 
 	@Autowired
-	MapDAO mapDAO;
+    private MapDAO mapDAO;
 
 	@Override
 	public List<Map> getAllMaps() {

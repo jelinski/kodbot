@@ -2,15 +2,11 @@ package pl.yeloon.magisterium.service;
 
 import java.math.BigInteger;
 import java.security.SecureRandom;
-import java.util.ArrayList;
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import pl.yeloon.magisterium.model.Badge;
 import pl.yeloon.magisterium.model.PartnerCode;
 import pl.yeloon.magisterium.model.User;
 import pl.yeloon.magisterium.repository.SocialDAO;
@@ -22,16 +18,16 @@ public class SocialServiceImpl implements SocialService {
 	private SecureRandom random = new SecureRandom();
 
 	@Autowired
-	SocialDAO socialDAO;
+    private SocialDAO socialDAO;
 
 	@Autowired
-	MailService mailService;
+    private MailService mailService;
 
 	@Autowired
-	UserService userService;
+    private UserService userService;
 
 	@Autowired
-	BadgeService badgeService;
+    private BadgeService badgeService;
 
 	@Transactional
 	@Override
