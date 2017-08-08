@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import pl.yeloon.magisterium.controller.bean.MapRankDTO;
 import pl.yeloon.magisterium.controller.bean.OverallRankDTO;
+import pl.yeloon.magisterium.exception.MapRankNotFound;
 import pl.yeloon.magisterium.model.Map;
 import pl.yeloon.magisterium.service.MapService;
 import pl.yeloon.magisterium.service.RankService;
@@ -19,16 +20,21 @@ import pl.yeloon.magisterium.service.RankService;
 @Controller
 public class RankController {
 
-	@Autowired
-    private RankService rankService;
+    private final RankService rankService;
+
+    private final MapService mapService;
 
 	@Autowired
-    private MapService mapService;
-	
+    public RankController(RankService rankService, MapService mapService) {
+        this.rankService = rankService;
+        this.mapService = mapService;
+    }
+
 	@RequestMapping(value="/overall-rank")
 	public String showOverallRank(Model model, HttpServletRequest request){
 		List<OverallRankDTO> scores = rankService.getOverallRank();
 		model.addAttribute("scores", scores);
+        // TODO KodBot uses https by default...
 		if(request.isSecure()){
 			for(OverallRankDTO score : scores){
 				if(score.getImageUrl()!=null){
@@ -40,8 +46,7 @@ public class RankController {
 	}
 
 	@RequestMapping(value = "/rank/{mapKey}")
-	public String showMapRank(@PathVariable("mapKey") String mapKey, Model model, HttpServletRequest request) {
-
+    public String showMapRank(@PathVariable String mapKey, Model model, HttpServletRequest request) {
 		Map map = mapService.getMapByKey(mapKey);
 		if (map != null) {
 			List<MapRankDTO> scores = rankService.getMapRank(map.getId());
@@ -59,7 +64,7 @@ public class RankController {
 			model.addAttribute("scores", scores);
 			return "rank";
 		}
-        throw new IllegalArgumentException("Could not find mapKey: " + mapKey);
+        throw new MapRankNotFound();
 	}
 	
 	private String changeImageUrlToSecure(String imageUrl){
