@@ -2,10 +2,10 @@
 <!DOCTYPE tiles-definitions PUBLIC "-//Apache Software Foundation//DTD Tiles Configuration 3.0//EN" "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
 
 <tiles-definitions>
+
 	<definition name="defaultTemplate" template="/WEB-INF/jsp/template/template.jsp">
 		<put-attribute name="modals" value="/WEB-INF/jsp/template/modals.jsp"/>
 		<put-attribute name="header" value="/WEB-INF/jsp/template/header.jsp" />
-		<put-attribute name="content" value="" />
 		<put-attribute name="footer" value="/WEB-INF/jsp/template/footer.jsp" />
 	</definition>
 
@@ -17,9 +17,6 @@
 		<put-attribute name="content" value="/WEB-INF/jsp/rerequest_facebook_permissions.jsp" />
 	</definition>
 
-	<definition name="error404" extends="defaultTemplate">
-		<put-attribute name="content" value="/WEB-INF/jsp/errors/error404.jsp" />
-	</definition>
 	<definition name="generic_error" extends="defaultTemplate">
 		<put-attribute name="content" value="/WEB-INF/jsp/errors/generic_error.jsp" />
 	</definition>

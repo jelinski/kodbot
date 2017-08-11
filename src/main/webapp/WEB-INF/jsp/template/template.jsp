@@ -20,9 +20,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 <meta name="description" content="Oficjalna strona gry KodBot">
 
-<%-- 	<link rel="icon" href="<c:url value="/static/images/favicon.ico"/>" type="image/x-icon" /> --%>
-<%-- 	<link rel="shortcut icon" href="<c:url value="/static/images/favicon.ico"/>" type="image/x-icon" /> --%>
-
 <link rel="stylesheet" href="<c:url value="/webjars/bootstrap/3.2.0/css/bootstrap.min.css" />">
 <link rel="stylesheet" href="<c:url value="/webjars/font-awesome/4.2.0/css/font-awesome.css" />">
 <link href="<c:url value="/resources/css/fonts.css"/>" rel="stylesheet" type="text/css" />
