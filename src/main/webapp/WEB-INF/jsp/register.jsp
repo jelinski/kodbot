@@ -17,7 +17,7 @@
 			</form>
 			<p class="h3">LUB</p>
 		</div>
-		<c:url value="/register/new_user" var="registerUrl" />
+		<c:url value="/register" var="registerUrl" />
 		<form:form action="${registerUrl}" modelAttribute="registerUserBean" method="POST">
 			<div class="form-group">
 				<form:label path="email">

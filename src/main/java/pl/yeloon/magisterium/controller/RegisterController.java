@@ -2,8 +2,6 @@ package pl.yeloon.magisterium.controller;
 
 import java.math.BigInteger;
 import java.security.SecureRandom;
-import java.util.Locale;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -27,11 +25,11 @@ import org.springframework.social.facebook.connect.FacebookConnectionFactory;
 import org.springframework.social.oauth2.AccessGrant;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -88,21 +86,15 @@ public class RegisterController {
 	}
 
 	@RequestMapping(value = "/register", method = RequestMethod.GET)
-	public String initForm(Map<String, Object> model) {
-		RegisterUserBean registerUserBean = new RegisterUserBean();
-		model.put("registerUserBean", registerUserBean);
+    public String initForm(@ModelAttribute RegisterUserBean registerUserBean,
+            @RequestParam(required = false) String registrationCode) {
+        if (StringUtils.hasText(registrationCode)) {
+            registerUserBean.setRegistrationCode(registrationCode);
+        }
 		return "register";
 	}
 
-	@RequestMapping(value = "/register/{registrationCode}", method = RequestMethod.GET)
-	public String initFormWithRegistrationCode(Locale locale, Map<String, Object> model, @PathVariable("registrationCode") String registrationCode) {
-		RegisterUserBean registerUserBean = new RegisterUserBean();
-		registerUserBean.setRegistrationCode(registrationCode);
-		model.put("registerUserBean", registerUserBean);
-		return "register";
-	}
-
-	@RequestMapping(value = "/register/new_user", method = RequestMethod.POST)
+    @RequestMapping(value = "/register", method = RequestMethod.POST)
 	public String processRegister(@ModelAttribute @Valid RegisterUserBean registerUserBean, BindingResult result, HttpServletRequest request) {
 		if (result.hasErrors()) {
 			return "register";

@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
 import pl.yeloon.magisterium.controller.bean.RegisterUserBean;
 import pl.yeloon.magisterium.model.Badge;
@@ -59,7 +60,6 @@ public class UserServiceImpl implements UserService {
 		return userDAO.getUser(email) != null;
 	}
 
-	// TODO - Bez tej adnotacji wywala blad o braku istniejacej transakcji
 	@Transactional
 	@Override
 	public void createNewUser(RegisterUserBean registerUserBean) {
@@ -68,16 +68,14 @@ public class UserServiceImpl implements UserService {
 		newUser.setNickname(registerUserBean.getNickname());
 		newUser.setPassword(registerUserBean.getPassword());
 		newUser.setEnabled(true);
-		Integer refererId = null;
 		String registrationCode = registerUserBean.getRegistrationCode();
-		if (registrationCode != null && !registrationCode.isEmpty()) {
+		if (StringUtils.hasText(registrationCode)) {
 			PartnerCode partnerCode = socialService.getPartnerCode(registrationCode);
-			refererId = partnerCode.getRefererId();
-			newUser.setRefererId(refererId);
+            Integer referrerId = partnerCode.getRefererId();
+			newUser.setRefererId(referrerId);
+            badgeService.assignBadgeToUserForFriendRegistering(referrerId);
 		}
 		saveUser(newUser);
-		if (refererId != null)
-			badgeService.assignBadgeToUserForFriendRegistering(refererId);
 	}
 
 	@Transactional
