@@ -97,7 +97,7 @@ public class PanelController {
 
 	@ResponseBody
 	@RequestMapping(value = "/change-nickname", method = RequestMethod.POST)
-	public ResponseStatus changeNickname(@RequestParam(value = "nickname", required = true) String nickname) {
+	public ResponseStatus changeNickname(@RequestParam String nickname) {
 		ResponseStatus response = new ResponseStatus();
 		if (nickname.length() >= 4) {
 			Integer userId = SecurityUtils.getLoggedInUserId();
@@ -118,7 +118,7 @@ public class PanelController {
 
 	@ResponseBody
 	@RequestMapping(value = "/invite-friend", method = RequestMethod.POST)
-	public ResponseStatus inviteFriend(@RequestParam("friendEmail") String friendEmail) {
+	public ResponseStatus inviteFriend(@RequestParam String friendEmail) {
 		ResponseStatus response = new ResponseStatus();
 		try {
 			socialService.inviteFriend(friendEmail);

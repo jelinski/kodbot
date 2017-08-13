@@ -169,7 +169,7 @@ public class RegisterController {
 
 	@RequestMapping(value = "/login_facebook")
 	@ResponseBody
-	public String login_facebook(@RequestParam("token") String token) {
+    public String login_facebook(@RequestParam String token) {
 		ConnectionFactory<Facebook> facebookConnectionFactory = connectionFactoryLocator.getConnectionFactory(Facebook.class);
 		FacebookConnectionFactory facebookConnectionFactory2 = (FacebookConnectionFactory) facebookConnectionFactory;
 		Connection<Facebook> ff = facebookConnectionFactory2.createConnection(new AccessGrant(token));

@@ -18,6 +18,7 @@ public class UserStatistic extends BaseEntity {
 	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@JoinColumn(name = "user_id", updatable = false, insertable = false)
 	private User user;
+
 	@Column(name = "overall_score")
 	private Integer overallScore;
 

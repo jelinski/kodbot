@@ -37,7 +37,7 @@ public class GameController {
     private ResolverService resolverService;
 
 	@RequestMapping(value = "/{mapKey}", method = RequestMethod.GET)
-    public String help(@PathVariable("mapKey") String mapKey, Model model) {
+    public String help(@PathVariable String mapKey, Model model) {
 		Map map = mapService.getMapByKey(mapKey);
 		if (map == null) {
 			logger.warn("Request for unexisting map was made with key: " + mapKey);
@@ -61,13 +61,13 @@ public class GameController {
 
 	@RequestMapping(value = "/resolve/code", method = RequestMethod.POST)
 	@ResponseBody
-	public ResolverResponse resolveCode(@RequestParam(value = "data") String code, @RequestParam(value = "accessToken") String accessToken, @RequestParam(value = "mapKey") String mapKey) {
+	public ResolverResponse resolveCode(@RequestParam(value = "data") String code, @RequestParam String accessToken, @RequestParam String mapKey) {
 		return resolve(code, accessToken, mapKey);
 	}
 
 	@RequestMapping(value = "/fetchMap", method = RequestMethod.POST)
 	@ResponseBody
-	public MapBean fetchMap(@RequestParam("mapKey") String mapKey, HttpServletRequest request) {
+	public MapBean fetchMap(@RequestParam String mapKey, HttpServletRequest request) {
 		MapBean mb = mapService.getMapBeanByKey(mapKey);
 		List<String> mapSlidesUrls = mb.getMapSlides();
 		if (mapSlidesUrls != null) {
