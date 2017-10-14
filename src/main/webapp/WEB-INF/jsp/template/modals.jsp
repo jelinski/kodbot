@@ -55,7 +55,7 @@
 						</a>
 					</p>
 					<p>
-						<spring:message code="web.modal.login.forgot.label" /> - <a href="<c:url value="/forgot-password" />"> <spring:message code="web.modal.login.forgot.link" /> </a>
+						<spring:message code="web.modal.login.remindPassword.label" /> - <a href="<c:url value="/remind-password" />"> <spring:message code="web.modal.login.remindPassword.link" /> </a>
 					</p>
 				</div>
 			</form>

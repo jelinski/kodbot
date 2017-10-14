@@ -1,6 +1,8 @@
 package pl.yeloon.magisterium.controller.bean;
 
-public class ForgotPasswordBean {
+import org.apache.commons.lang3.builder.ToStringBuilder;
+
+public class RemindPasswordBean {
 
 	private String email;
 
@@ -14,7 +16,7 @@ public class ForgotPasswordBean {
 
 	@Override
 	public String toString() {
-		return "ForgotPasswordBean [email=" + email + "]";
+        return new ToStringBuilder(this).append("email", email).toString();
 	}
-	
+
 }

@@ -30,7 +30,7 @@ public class MailService {
 	}
 
     public void sendInvitation(String to, String refererEmail, String registrationCode) {
-        String url = UriComponentsBuilder.newInstance().scheme("https").host("www.kodbot.pl").path("register")
+        String url = UriComponentsBuilder.newInstance().scheme("https").host("kodbot.yeloon.pl").path("register")
                 .queryParam("registrationCode", registrationCode).toUriString();
 
          sendMail(to, "Twój znajomy zaprasza Cię do zagrania w KodBot", "Twój znajomy o emailu: \"" + refererEmail + "\" zaprasza Cię do zagrania w grę KodBot. Twój specjalny link aktywacyjny to: " + url);
@@ -39,7 +39,7 @@ public class MailService {
 	public void remindPassword(String email) {
 		User user = userService.getUser(email);
 		if (user != null) {
-			sendMail(email, "Zapomiane hasło", "Twoje hasło w serwisie KodBot.pl to: " + user.getPassword());
+			sendMail(email, "Zapomiane hasło", "Twoje hasło w serwisie KodBot to: " + user.getPassword());
 		}
 	}
 

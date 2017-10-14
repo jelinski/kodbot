@@ -24,7 +24,6 @@ import org.springframework.social.facebook.api.Facebook;
 import org.springframework.social.facebook.connect.FacebookConnectionFactory;
 import org.springframework.social.oauth2.AccessGrant;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
@@ -36,13 +35,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.context.request.WebRequest;
 
-import pl.yeloon.magisterium.controller.bean.ForgotPasswordBean;
 import pl.yeloon.magisterium.controller.bean.RegisterUserBean;
-import pl.yeloon.magisterium.controller.validator.ForgotPasswordBeanValidator;
 import pl.yeloon.magisterium.controller.validator.RegisterUserBeanValidator;
 import pl.yeloon.magisterium.model.User;
 import pl.yeloon.magisterium.service.BadgeService;
-import pl.yeloon.magisterium.service.MailService;
 import pl.yeloon.magisterium.service.UserService;
 
 @Controller
@@ -50,9 +46,6 @@ public class RegisterController {
 
 	private static final Logger logger = LoggerFactory.getLogger(RegisterController.class);
 	private SecureRandom random = new SecureRandom();
-
-	@Autowired
-	private MailService mailService;
 
 	@Autowired
 	private ConnectionFactoryLocator connectionFactoryLocator;
@@ -72,17 +65,9 @@ public class RegisterController {
 	@Autowired
 	private RegisterUserBeanValidator registerUserBeanValidator;
 
-	@Autowired
-	private ForgotPasswordBeanValidator forgotPasswordBeanValidator;
-
 	@InitBinder("registerUserBean")
 	private void initBinder(WebDataBinder binder) {
 		binder.setValidator(registerUserBeanValidator);
-	}
-
-	@InitBinder("forgotPasswordBean")
-	private void initForgotPasswordValidator(WebDataBinder binder) {
-		binder.setValidator(forgotPasswordBeanValidator);
 	}
 
 	@RequestMapping(value = "/register", method = RequestMethod.GET)
@@ -105,22 +90,6 @@ public class RegisterController {
 		// mailService.sendMail(registerUserBean.getEmail()
 		authenticateUserAndSetSession(registerUserBean, request);
 		return "redirect:/panel";
-	}
-
-	@RequestMapping(value = "/forgot-password", method = RequestMethod.GET)
-	public String initForgotPassword(Model model) {
-		ForgotPasswordBean forgotPasswordBean = new ForgotPasswordBean();
-		model.addAttribute("forgotPasswordBean", forgotPasswordBean);
-		return "forgot_password";
-	}
-
-	@RequestMapping(value = "/forgot-password", method = RequestMethod.POST)
-	public String processForgotPassword(@ModelAttribute @Valid ForgotPasswordBean forgotPasswordBean, BindingResult result) {
-		if (result.hasErrors()) {
-			return "forgot_password";
-		}
-		mailService.remindPassword(forgotPasswordBean.getEmail());
-		return "forgot_password_send";
 	}
 
 	/**
