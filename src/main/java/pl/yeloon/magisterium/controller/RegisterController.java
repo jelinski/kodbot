@@ -1,11 +1,5 @@
 package pl.yeloon.magisterium.controller;
 
-import java.math.BigInteger;
-import java.security.SecureRandom;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.validation.Valid;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,32 +8,27 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.WebAuthenticationDetails;
-import org.springframework.social.connect.Connection;
-import org.springframework.social.connect.ConnectionFactory;
-import org.springframework.social.connect.ConnectionFactoryLocator;
-import org.springframework.social.connect.ConnectionRepository;
-import org.springframework.social.connect.UserProfile;
+import org.springframework.social.connect.*;
 import org.springframework.social.connect.web.ProviderSignInUtils;
 import org.springframework.social.facebook.api.Facebook;
 import org.springframework.social.facebook.connect.FacebookConnectionFactory;
 import org.springframework.social.oauth2.AccessGrant;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
-import org.springframework.validation.BindingResult;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.InitBinder;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.WebRequest;
-
 import pl.yeloon.magisterium.controller.bean.RegisterUserBean;
 import pl.yeloon.magisterium.controller.validator.RegisterUserBeanValidator;
 import pl.yeloon.magisterium.model.User;
 import pl.yeloon.magisterium.service.BadgeService;
 import pl.yeloon.magisterium.service.UserService;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
+import java.math.BigInteger;
+import java.security.SecureRandom;
 
 @Controller
 public class RegisterController {
@@ -80,11 +69,10 @@ public class RegisterController {
 	}
 
     @RequestMapping(value = "/register", method = RequestMethod.POST)
-	public String processRegister(@ModelAttribute @Valid RegisterUserBean registerUserBean, BindingResult result, HttpServletRequest request) {
-		if (result.hasErrors()) {
+	public String processRegister(@ModelAttribute @Valid RegisterUserBean registerUserBean, Errors errors, HttpServletRequest request) {
+		if (errors.hasErrors()) {
 			return "register";
 		}
-
 		logger.debug("New user registered");
 		userService.createNewUser(registerUserBean);
 		// mailService.sendMail(registerUserBean.getEmail()

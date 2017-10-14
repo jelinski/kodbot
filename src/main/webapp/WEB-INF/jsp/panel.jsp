@@ -10,7 +10,6 @@
 <security:authorize access="isAuthenticated()">
 
 
-	<!-- JESLI UZYTKOWNIK JESZCZE NIE POLACZYL SWOJEGO KONTA Z FACEBOOKIEM -->
 	<c:if test="${!facebookConnected}">
 		<div class="row">
 			<div class="col-xs-offset-3 col-xs-6" style="text-align: center; margin-top: 50px; background-color: rgb(63, 109, 179); padding: 20px;">
@@ -134,7 +133,6 @@
 	</div>
 </security:authorize>
 
-<!-- 	W PRZYPADKU BRAKU AUTENTYKACJI WYSWIETL KOMUNIKAT O KONIECZNOSCI ZALOGOWANIA -->
 <security:authorize access="isAnonymous()">
 	<div style="height: 600px; text-align: center; padding-top: 300px;">
 		<span class="h2"><spring:message code="web.content.panel.login.required" /></span>

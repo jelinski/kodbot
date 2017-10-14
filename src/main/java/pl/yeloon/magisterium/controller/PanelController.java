@@ -1,22 +1,19 @@
 package pl.yeloon.magisterium.controller;
 
-import java.util.List;
-import java.util.Locale;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
+import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.social.connect.ConnectionRepository;
 import org.springframework.social.facebook.api.Facebook;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-
+import org.springframework.validation.Errors;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.*;
 import pl.yeloon.magisterium.controller.bean.ChangePasswordBean;
+import pl.yeloon.magisterium.controller.validator.ChangePasswordBeanValidator;
 import pl.yeloon.magisterium.model.Badge;
 import pl.yeloon.magisterium.model.User;
 import pl.yeloon.magisterium.model.UserStatistic;
@@ -26,26 +23,47 @@ import pl.yeloon.magisterium.service.StatisticService;
 import pl.yeloon.magisterium.service.UserService;
 import pl.yeloon.magisterium.util.SecurityUtils;
 
+import javax.validation.Valid;
+import java.util.List;
+import java.util.Locale;
+import java.util.stream.Collectors;
+
 @RequestMapping(value = "/panel")
 @Controller
 public class PanelController {
 
-    @Autowired
-    private ConnectionRepository connectionRepository;
+	private final ConnectionRepository connectionRepository;
 
-	@Autowired
-	private SocialService socialService;
+	private final SocialService socialService;
 
-	@Autowired
-	private UserService userService;
+	private final UserService userService;
 
-	@Autowired
-	private BadgeService badgeService;
+	private final BadgeService badgeService;
 
-	@Autowired
-	private StatisticService statisticService;
+	private final StatisticService statisticService;
+
+	private final ChangePasswordBeanValidator changePasswordBeanValidator;
 
 	private static final Logger logger = LoggerFactory.getLogger(PanelController.class);
+	private MessageSourceAccessor messageSourceAccessor;
+
+	@Autowired
+	public PanelController(ConnectionRepository connectionRepository, SocialService socialService, UserService userService,
+						   BadgeService badgeService, StatisticService statisticService, MessageSource messageSource, ChangePasswordBeanValidator changePasswordBeanValidator) {
+		this.connectionRepository = connectionRepository;
+		this.socialService = socialService;
+		this.userService = userService;
+		this.badgeService = badgeService;
+		this.statisticService = statisticService;
+		this.messageSourceAccessor = new MessageSourceAccessor(messageSource);
+		this.changePasswordBeanValidator = changePasswordBeanValidator;
+	}
+
+	@InitBinder("changePasswordBean")
+	private void changePasswordBeanValidator(WebDataBinder binder) {
+		binder.setValidator(changePasswordBeanValidator);
+	}
+
 
 	@RequestMapping(method = RequestMethod.GET)
     public String panel(Locale locale, Model model) {
@@ -68,30 +86,28 @@ public class PanelController {
 
 	@ResponseBody
 	@RequestMapping(value = "/change-password", method = RequestMethod.POST)
-	public ResponseStatus changePassword(@RequestBody ChangePasswordBean changePasswordBean) {
+	public ResponseStatus changePassword(@RequestBody @Valid ChangePasswordBean changePasswordBean, Errors errors) {
 		ResponseStatus response = new ResponseStatus();
-		Integer userId = SecurityUtils.getLoggedInUserId();
-		if (userId != null) {
-			User user = userService.getUserById(userId);
-			if (user.getPassword().equals(changePasswordBean.getOldPassword())) {
-				if (changePasswordBean.getNewPassword().equals(changePasswordBean.getRepeatedNewPassword())) {
-					if (changePasswordBean.getNewPassword().length() >= 6) {
-						user.setPassword(changePasswordBean.getNewPassword());
-						userService.saveUser(user);
-						response.setStatus("Hasło zostało pomyślnie zmienione");
-					} else {
-						response.setStatus("Hasło musi mieć przynajmniej 6 znaków");
-					}
+		if (errors.hasErrors()) {
+			String errorsMessage = errors.getAllErrors().stream()
+					.map(e -> messageSourceAccessor.getMessage(e.getCode()))
+					.collect(Collectors.joining("<br>"));
+			response.setStatus(errorsMessage);
+		} else {
+			Integer userId = SecurityUtils.getLoggedInUserId();
+			if (userId != null) {
+				User user = userService.getUserById(userId);
+				if (user.getPassword().equals(changePasswordBean.getOldPassword())) {
+					user.setPassword(changePasswordBean.getNewPassword());
+					userService.saveUser(user);
+					response.setStatus("Hasło zostało pomyślnie zmienione");
 				} else {
-					response.setStatus("Podane hasła różnią się od siebie");
+					response.setStatus("Podano niepoprawne hasło");
 				}
 			} else {
-				response.setStatus("Podano niepoprawne hasło");
+				response.setStatus("Użytkownik zostal wylogowany");
 			}
-		} else {
-			response.setStatus("Użytkownik zostal wylogowany");
 		}
-
 		return response;
 	}
 

@@ -17,7 +17,7 @@ $(function () {
 
 function showModal(text) {
     $('#login-modal').modal('hide');
-    $('#custom-modal-paragraph').text(text);
+    $('#custom-modal-paragraph').html(text);
     $('#custom-modal').modal('show');
 }
 
