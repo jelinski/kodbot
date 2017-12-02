@@ -60,19 +60,6 @@ $('input, button').focus(function () {
     this.blur();
 });
 
-$("#play-button").attr('disabled', true);
-
-if ($("#accessToken").val().length == 0) {
-    $("#not-logged-in-reminder").css('visibility', 'visible');
-}
-
-$("#not-logged-in-reminder-close-button").click(function () {
-    $("#not-logged-in-reminder").css('visibility', 'hidden');
-    if (isGameLoaded) {
-        $("#play-button").attr('disabled', false);
-    }
-});
-
 var isPlaying = false;
 $("#play-button").click(function () {
     if (!isPlaying) {
@@ -130,11 +117,7 @@ var isGameLoaded = false;
 function gameLoaded() {
     $('#game-overlay').css('visibility', 'visible');
     isGameLoaded = true;
-    if ($("#not-logged-in-reminder").css('visibility') == 'hidden') {
-        $("#play-button").attr('disabled', false);
-    }
     $('#game-speed-modes-div').css('visibility', 'visible');
-
 }
 
 function displayError(errorMessage) {
@@ -158,52 +141,13 @@ function displayWin(gameResults) {
     displayScore(gameResults, 'function-definitions', 'definedFunctionCount');
     displayScore(gameResults, 'function-calls', 'calledFunctionCount');
 
-    if (gameResults.mapBestScore.commandCounter != null) {
-        $('#score-best-score').show();
-        $('#score-best-score-command').text(gameResults.mapBestScore.commandCounter);
-        $('#score-best-score-battery').text(gameResults.mapBestScore.batteryLevel);
-    }
-    else {
-        $('#score-best-score').hide();
-    }
-
-    var oldBattery = gameResults.oldMapUserScore.batteryLevel * 1;
-    var oldCommand = gameResults.oldMapUserScore.commandCounter * 1;
     var newBattery = gameResults.newMapUserScore.batteryLevel * 1;
     var newCommand = gameResults.newMapUserScore.commandCounter * 1;
 
     $('#score-command-new').text(newCommand);
     $('#score-battery-new').text(newBattery);
 
-    if (gameResults.newStatistics.overall == 0) {
-        $('#score-overall-message').hide();
-        $('#score-anonymous-user').show();
-        $('#score-rank').hide();
-    }
-    else {
-        $('#score-rank').show();
-        $('#score-rank-user').text(gameResults.mapRankingInfo.userPosition);
-        $('#score-rank-total').text(gameResults.mapRankingInfo.total);
-        $('#score-anonymous-user').hide();
-        $('#score-overall-message').show();
-        $('#score-overall').text(gameResults.newStatistics.overall);
-    }
-
-    if (oldCommand == 0) {
-        $('#score-old').hide();
-    }
-    else {
-        if ((newCommand < oldCommand) || (newCommand == oldCommand && newBattery > oldBattery)) {
-            $('#score-new-best').show();
-        }
-        else {
-            $('#score-new-best').hide();
-        }
-        $('#score-battery-old').text(gameResults.oldMapUserScore.batteryLevel);
-        $('#score-command-old').text(gameResults.oldMapUserScore.commandCounter);
-    }
-
-    if (gameUrl + gameResults.nextMapKey != null) {
+    if (gameResults.nextMapKey) {
         $('#next-map-button').show();
         $('#next-map-button').attr('href', gameUrl + gameResults.nextMapKey);
     }
@@ -213,21 +157,9 @@ function displayWin(gameResults) {
 }
 
 function displayScore(gameResults, domString, resultString) {
-    var oldOne = $('#stat-' + domString + '-old');
     var newOne = $('#stat-' + domString + '-new');
-    var diff = $('#stat-' + domString + '-diff');
-    var oldScore = gameResults.oldStatistics[resultString] * 1;
-    var diffVal = gameResults.newStatistics[resultString] * 1;
-    var newScore = oldScore + diffVal;
-    oldOne.text(oldScore);
+    var newScore = gameResults.newStatistics[resultString] * 1;
     newOne.text(newScore);
-    if (diffVal > 0) {
-        diff.text("+" + (diffVal));
-        diff.addClass('betterScore');
-    }
-    else {
-        diff.text('');
-    }
 }
 
 $('#game-speed-fast-button').click(function () {

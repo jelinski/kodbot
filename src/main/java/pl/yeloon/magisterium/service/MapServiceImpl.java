@@ -1,74 +1,61 @@
 package pl.yeloon.magisterium.service;
 
-import java.math.BigInteger;
-import java.security.SecureRandom;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import pl.yeloon.magisterium.controller.bean.MapBean;
+import pl.yeloon.magisterium.controller.bean.MapBean.DataRow;
+import pl.yeloon.magisterium.model.GameMap;
+import pl.yeloon.magisterium.repository.MapProvider;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
-import pl.yeloon.magisterium.controller.bean.MapBean;
-import pl.yeloon.magisterium.controller.bean.MapBean.DataRow;
-import pl.yeloon.magisterium.model.Map;
-import pl.yeloon.magisterium.model.MapAccessToken;
-import pl.yeloon.magisterium.repository.MapDAO;
-
 @Service
 public class MapServiceImpl implements MapService {
 
-	private SecureRandom random = new SecureRandom();
-
 	@Autowired
-    private MapDAO mapDAO;
+	private MapProvider mapProvider;
 
 	@Override
-	public List<Map> getAllMaps() {
-		return mapDAO.getAllMaps();
+	public List<GameMap> getAllMaps() {
+		return mapProvider.getAllMaps();
 	}
 
 	@Override
-	public Map getMapByKey(String key) {
-		return mapDAO.getMapByKey(key);
-	}
-
-	@Transactional
-	@Override
-	public void saveMap(Map map) {
-		mapDAO.saveMap(map);
+	public GameMap getMapByKey(String key) {
+		return mapProvider.getMapByKey(key);
 	}
 
 	@Override
 	public MapBean getMapBeanByKey(String key) {
 		MapBean result = new MapBean();
-		Map map = getMapByKey(key);
-		result.setBotPositionCol(map.getStartCol());
-		result.setBotPositionRow(map.getStartRow());
-		result.setBotRotation(map.getBotDirection());
-		result.setBatteryLevel(map.getBatteryLevel());
-		result.setData(createDataRowList(map.getData()));
-		String mapSlides = map.getMapSlides();
+		GameMap gameMap = getMapByKey(key);
+		result.setBotPositionCol(gameMap.getStartCol());
+		result.setBotPositionRow(gameMap.getStartRow());
+		result.setBotRotation(gameMap.getBotDirection());
+		result.setBatteryLevel(gameMap.getBatteryLevel());
+		result.setData(createDataRowList(gameMap.getData()));
+		String mapSlides = gameMap.getMapSlides();
 		if (mapSlides != null && !mapSlides.isEmpty()) {
-			result.setMapSlides(Arrays.asList(map.getMapSlides().split("\\|")));
+			result.setMapSlides(Arrays.asList(gameMap.getMapSlides().split("\\|")));
 		}
 		return result;
 	}
 
 	@Override
-	public MapBean createMapBeanFromMap(Map map) {
+	public MapBean createMapBeanFromMap(GameMap gameMap) {
 		MapBean result = new MapBean();
-		result.setBotPositionCol(map.getStartCol());
-		result.setBotPositionRow(map.getStartRow());
-		result.setBotRotation(map.getBotDirection());
-		result.setBatteryLevel(map.getBatteryLevel());
-		result.setData(createDataRowList(map.getData()));
-		String mapSlides = map.getMapSlides();
+		result.setBotPositionCol(gameMap.getStartCol());
+		result.setBotPositionRow(gameMap.getStartRow());
+		result.setBotRotation(gameMap.getBotDirection());
+		result.setBatteryLevel(gameMap.getBatteryLevel());
+		result.setData(createDataRowList(gameMap.getData()));
+		String mapSlides = gameMap.getMapSlides();
 		if (mapSlides != null && !mapSlides.isEmpty()) {
-			result.setMapSlides(Arrays.asList(map.getMapSlides().split("\\|")));
+			result.setMapSlides(Arrays.asList(gameMap.getMapSlides().split("\\|")));
 		}
 		return result;
 	}
@@ -87,28 +74,7 @@ public class MapServiceImpl implements MapService {
 	}
 
 	@Override
-	@Transactional
-	public String generateAccessToken(int mapId, int userId) {
-		String accessToken = new BigInteger(130, random).toString(32);
-
-		MapAccessToken mapAccessToken = mapDAO.getAccessToken(userId, mapId);
-		if (mapAccessToken == null) {
-			mapAccessToken = new MapAccessToken(userId, mapId, accessToken); // utworz nowy wpis
-		} else {
-			mapAccessToken.setAccessToken(accessToken); // nadpisz tylko access token
-		}
-
-		mapDAO.saveAccessToken(mapAccessToken);
-		return accessToken;
-	}
-
-	@Override
-	public MapAccessToken getAccessToken(String accessToken) {
-		return mapDAO.getAccessToken(accessToken);
-	}
-
-	@Override
-	public Map getMap(int mapId) {
-		return mapDAO.getMap(mapId);
+	public String getNextGameMapKey(GameMap gameMap) {
+		return mapProvider.getNextGameMapKey(gameMap);
 	}
 }

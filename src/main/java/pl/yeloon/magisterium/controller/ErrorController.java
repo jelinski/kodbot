@@ -1,21 +1,18 @@
 package pl.yeloon.magisterium.controller;
 
-import java.text.MessageFormat;
-
-import javax.servlet.RequestDispatcher;
-import javax.servlet.http.HttpServletRequest;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.support.MessageSourceAccessor;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+
+import javax.servlet.RequestDispatcher;
+import javax.servlet.http.HttpServletRequest;
+import java.text.MessageFormat;
 
 @Controller
 public class ErrorController {
@@ -34,10 +31,8 @@ public class ErrorController {
         Integer code = (Integer) request.getAttribute(RequestDispatcher.ERROR_STATUS_CODE);
         Exception exception = (Exception) request.getAttribute(RequestDispatcher.ERROR_EXCEPTION);
         String uri = (String) request.getAttribute(RequestDispatcher.ERROR_REQUEST_URI);
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
-        logger.error(MessageFormat.format("{0} ERROR. Occurred while processing request for \"{1}\". Authentication: {2}", code,
-                uri, authentication), exception);
+        logger.error(MessageFormat.format("{0} ERROR. Occurred while processing request for \"{1}\".", code, uri), exception);
 
         String errorHeader;
         String errorMessage;

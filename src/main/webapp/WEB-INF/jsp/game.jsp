@@ -52,38 +52,12 @@
 			</div>
 			<div id="score-container">
 				<h1 style="text-align: center">Gratulacje!</h1>
-				
-				<h3 id="score-overall-message" style="text-align: center">Twój aktualny wynik ogólny to <span class="betterScore" id="score-overall"></span></h3>
-				<br/>
-				<h3 id="score-anonymous-user" style="text-align: center; color: rgb(255, 138, 87)">Grasz jako niezalogowany użytkownik. Twój postęp i osiągnięcia nie zostaną zapisane.</h3>
-				
+
 				<h4 id="score-new" style="text-align: center">
-					Twój <span id="score-new-best">nowy najlepszy</span> wynik dla tej planszy to:
-					<span class="betterScore">
-						<i class="fa fa-cog"></i><span id="score-command-new" style="margin-right:10px"></span>
-						<i class="fa fa-bolt"></i><span id="score-battery-new"></span>
-					</span>
+					Twój wynik dla tej planszy to:
+                    <i class="fa fa-cog"></i><span id="score-command-new" style="margin-right:10px"></span>
+                    <i class="fa fa-bolt"></i><span id="score-battery-new"></span>
 				</h4>
-				<h4 id="score-old" style="text-align: center">
-					Twój dotychczasowy najlepszy wynik dla tej planszy to:
-					<span style="color:#f92672">
-						<i class="fa fa-cog"></i><span style="margin-right:10px" id="score-command-old"></span>
-						<i class="fa fa-bolt"></i><span id="score-battery-old"></span>
-					</span>
-				</h4>
-				<h4 id="score-best-score" style="text-align: center">
-					Najlepszy wynik dla tej planszy to:
-					<span style="color:gold">
-						<i class="fa fa-cog"></i><span style="margin-right:10px" id="score-best-score-command"></span>
-						<i class="fa fa-bolt"></i><span id="score-best-score-battery"></span>
-					</span>
-				</h4>
-				<h4 id="score-rank"  style="text-align: center">
-					Twoje miejsce w rankingu:
-					<span id="score-rank-user"></span> /
-					<span id="score-rank-total"></span>
-				</h4>
-				<br/>
 				<div style="text-align: center">
 					<a id="next-map-button" class="btn btn-success">GO TO NEXT LEVEL</a>
 				</div>
@@ -91,85 +65,53 @@
 				<table>
 					<tr>
 						<td style="width:300px">move:</td>
-						<td class="stat-col"><span id="stat-move-old"></span></td>
-						<td class="stat-col"><span id="stat-move-diff"></span></td>
 						<td class="stat-col"><span id="stat-move-new"></span></td>
 					</tr>
 					<tr class="even">
 						<td>jump:</td>
-						<td class="stat-col"><span id="stat-jump-old"></span></td>
-						<td class="stat-col"><span id="stat-jump-diff"></span></td>
 						<td class="stat-col"><span id="stat-jump-new"></span></td>
 					</tr>
 					<tr>
 						<td>left:</td>
-						<td class="stat-col"><span id="stat-left-old"></span></td>
-						<td class="stat-col"><span id="stat-left-diff"></span></td>
 						<td class="stat-col"><span id="stat-left-new"></span></td>
 					</tr>
 					<tr class="even">
 						<td>right:</td>
-						<td class="stat-col"><span id="stat-right-old"></span></td>
-						<td class="stat-col"><span id="stat-right-diff"></span></td>
 						<td class="stat-col"><span id="stat-right-new"></span></td>
 					</tr>
 					<tr>
 						<td>assign:</td>
-						<td class="stat-col"><span id="stat-assign-old"></span></td>
-						<td class="stat-col"><span id="stat-assign-diff"></span></td>
 						<td class="stat-col"><span id="stat-assign-new"></span></td>
 					</tr>
 					<tr class="even">
 						<td>assign with addition:</td>
-						<td class="stat-col"><span id="stat-assign-with-addition-old"></span></td>
-						<td class="stat-col"><span id="stat-assign-with-addition-diff"></span></td>
 						<td class="stat-col"><span id="stat-assign-with-addition-new"></span></td>
 					</tr>
 					<tr>
 						<td>assign with subtraction:</td>
-						<td class="stat-col"><span id="stat-assign-with-subtraction-old"></span></td>
-						<td class="stat-col"><span id="stat-assign-with-subtraction-diff"></span></td>
 						<td class="stat-col"><span id="stat-assign-with-subtraction-new"></span></td>
 					</tr>
 					<tr class="even">
 						<td>increment:</td>
-						<td class="stat-col"><span id="stat-increment-old"></span></td>
-						<td class="stat-col"><span id="stat-increment-diff"></span></td>
 						<td class="stat-col"><span id="stat-increment-new"></span></td>
 					</tr>
 					<tr>
 						<td>decrement:</td>
-						<td class="stat-col"><span id="stat-decrement-old"></span></td>
-						<td class="stat-col"><span id="stat-decrement-diff"></span></td>
 						<td class="stat-col"><span id="stat-decrement-new"></span></td>
 					</tr>
 					<tr class="even">
 						<td>repeat:</td>
-						<td class="stat-col"><span id="stat-repeat-old"></span></td>
-						<td class="stat-col"><span id="stat-repeat-diff"></span></td>
 						<td class="stat-col"><span id="stat-repeat-new"></span></td>
 					</tr>
 					<tr>
 						<td>function definitions:</td>
-						<td class="stat-col"><span id="stat-function-definitions-old"></span></td>
-						<td class="stat-col"><span id="stat-function-definitions-diff"></span></td>
 						<td class="stat-col"><span id="stat-function-definitions-new"></span></td>
 					</tr>
 					<tr class="even">
 						<td>function calls:</td>
-						<td class="stat-col"><span id="stat-function-calls-old"></span></td>
-						<td class="stat-col"><span id="stat-function-calls-diff"></span></td>
 						<td class="stat-col"><span id="stat-function-calls-new"></span></td>
 					</tr>
 				</table>
-			</div>
-			<div id="not-logged-in-reminder">
-				<div>
-					<p>Grasz jako niezalogowany użytkownik! Aby móc zapisać swój postęp oraz odblokować kolejne plansze należy się najpierw zalogować.</p>
-					<a href='<c:url value="/register"/>' class="btn btn-success" type="button">Zarejestruj</a>
-					<input class="btn btn-warning" id="not-logged-in-reminder-close-button" type="button" value="Zamknij" />
-				</div>
-
 			</div>
 		</div>
 		<div id="editor-div" class="container-div">
