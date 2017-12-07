@@ -34,8 +34,6 @@
 </head>
 <body>
 
-	<tiles:insertAttribute name="modals" />
-
 	<div itemscope itemtype="http://schema.org/SoftwareApplication" class="container" id="mainContainer">
 
 		<div id="header" class="row">

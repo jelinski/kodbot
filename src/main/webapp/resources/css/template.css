@@ -141,10 +141,6 @@ border: 1px solid #7C7C7C;
 }
 
 /* MODAL */
-#login-modal div.modal-dialog{
-	margin: 0px auto;
-}
-
 
 #registerUserBean .error{
 	color:red;
