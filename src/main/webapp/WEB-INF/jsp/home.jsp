@@ -4,35 +4,12 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <div class="row feature-row green-row" style="padding: 15px 0px">
-	<div class="col-md-6" style="padding:30px">
+	<div class="col-sm-4" style="margin-top: 35px">
+		<i class="fa fa-cubes" aria-hidden="true" style="font-size: 215px"></i>
+	</div>
+	<div class="col-sm-8" style="padding:30px">
 		<h1><spring:message code="web.content.features.main.title"/></h1>
 		<p><spring:message code="web.content.features.main.text"/></p>
-	</div>
-	<div class="col-md-6">
-		<div id="carousel-example-generic" class="carousel slide" data-ride="carousel" style="box-shadow: rgb(63, 75, 45) 0px 0px 30px 0px;">
-			<ol class="carousel-indicators">
-				<li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
-				<li data-target="#carousel-example-generic" data-slide-to="1"></li>
-			</ol>
-
-			<div class="carousel-inner">
-				<div class="item">
-					<img src="<c:url value="/resources/images/content/main/carousel3.png" />" alt="Carousel 3">
-				</div>
-				<div class="item active">
-					<a target="_blank" href="http://www.fizyka.umk.pl">
-					<img itemprop="screenshot" src="<c:url value="/resources/images/content/main/carousel1.png" />" alt="Carousel 1">
-					</a>
-				</div>
-			</div>
-
-			<a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">
-				<span class="glyphicon glyphicon-chevron-left"></span>
-			</a>
-			<a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next">
-				<span class="glyphicon glyphicon-chevron-right"></span>
-			</a>
-		</div>
 	</div>
 </div>
 
