@@ -30,7 +30,7 @@
             </a>
         </div>
         <div id="lang-select" class="menu-entry"
-             style="vertical-align: top; height: 66px; min-width: 30px; display: none;">
+             style="vertical-align: top; height: 66px; min-width: 30px;">
             <a class="menu-lang-entry" href="?lang=pl">
                 <img alt="PL" src="<c:url value="/resources/images/header/lang_pl.png" />" height="15"/>
             </a>

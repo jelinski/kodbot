@@ -34,9 +34,8 @@
 		<property name="defaultEncoding" value="UTF-8"/>
 	</bean>
 
-	<bean id="localeResolver"
-		class="org.springframework.web.servlet.i18n.SessionLocaleResolver">
-		<property name="defaultLocale" value="pl"/>
+	<bean id="localeResolver" class="org.springframework.web.servlet.i18n.SessionLocaleResolver">
+    <property name="defaultLocale" value="pl"/>
 	</bean>
 
 	<mvc:interceptors>
