@@ -27,7 +27,6 @@
 
 <script type="text/javascript" src="<c:url value="/webjars/jquery/1.11.1/jquery.js" />"></script>
 <script type="text/javascript" src="<c:url value="/webjars/bootstrap/3.2.0/js/bootstrap.js" />"></script>
-<script type="text/javascript" src="<c:url value="/resources/js/facebook.js" />"></script>
 <script type="text/javascript" src="<c:url value="/resources/js/cookieseu.min.js" />"></script>
 <script type="text/javascript" src="<c:url value="/resources/js/main.js" />"></script>
 
