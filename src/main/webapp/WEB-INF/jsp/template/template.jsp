@@ -12,9 +12,9 @@
 <meta property="og:title" content="KodBot" />
 <meta property="og:type" content="game" />
 <meta property="og:description" content="Gra ucząca podstaw programowania i algorytmiki." />
-<meta property="og:url" content="https://kodbot-yeloon.rhcloud.com/" />
-<meta property="og:image" content="http://kodbot-yeloon.rhcloud.com/resources/images/header/logo.png" />
-<meta property="og:image:secure_url" content="https://kodbot-yeloon.rhcloud.com/resources/images/header/logo.png" />
+<meta property="og:url" content="https://kodbot.yeloon.pl/" />
+<meta property="og:image" content="http://kodbot.yeloon.pl/resources/images/header/logo.png" />
+<meta property="og:image:secure_url" content="https://kodbot.yeloon.pl/resources/images/header/logo.png" />
 
 <!-- <meta http-equiv="Content-Type" content="text/html" charset="utf-8"> -->
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
