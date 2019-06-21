@@ -3,4 +3,8 @@
     <runtime>java8</runtime>
     <threadsafe>true</threadsafe>
     <sessions-enabled>true</sessions-enabled>
+    <instance-class>B1</instance-class>
+    <manual-scaling>
+        <instances>1</instances>
+    </manual-scaling>
 </appengine-web-app>
