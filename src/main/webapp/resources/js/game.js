@@ -299,7 +299,7 @@ function loadMapData() {
         type: "POST",
         url: fetchUrl,
         data: {
-            mapKey: $('#mapKey').val()
+            "mapKey": $('#mapKey').val()
         },
         success: function (data) {
             c.mapData = data;
