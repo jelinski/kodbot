@@ -7,4 +7,9 @@
     <automatic-scaling>
         <min-instances>1</min-instances>
     </automatic-scaling>
+
+    <static-files>
+        <include path="/resources/**"></include>
+    </static-files>
+
 </appengine-web-app>
