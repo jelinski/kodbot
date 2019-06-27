@@ -18,13 +18,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 <meta name="description" content="Oficjalna strona gry KodBot">
 
-<link rel="stylesheet" href="<c:url value="/webjars/bootstrap/3.2.0/css/bootstrap.min.css" />">
-<link rel="stylesheet" href="<c:url value="/webjars/font-awesome/4.2.0/css/font-awesome.css" />">
+<link rel="stylesheet" href="<c:url value="/resources/css/bootstrap.min.css" />">
+<link rel="stylesheet" href="<c:url value="/resources/css/font-awesome.min.css" />">
 <link href="<c:url value="/resources/css/fonts.css"/>" rel="stylesheet" type="text/css" />
 <link href="<c:url value="/resources/css/template.css"/>" rel="stylesheet" type="text/css" />
 
-<script type="text/javascript" src="<c:url value="/webjars/jquery/1.11.1/jquery.js" />"></script>
-<script type="text/javascript" src="<c:url value="/webjars/bootstrap/3.2.0/js/bootstrap.js" />"></script>
+<script type="text/javascript" src="<c:url value="/resources/js/jquery.min.js" />"></script>
+<script type="text/javascript" src="<c:url value="/resources/js/bootstrap.min.js" />"></script>
 <script type="text/javascript" src="<c:url value="/resources/js/cookieseu.min.js" />"></script>
 <script type="text/javascript" src="<c:url value="/resources/js/main.js" />"></script>
 

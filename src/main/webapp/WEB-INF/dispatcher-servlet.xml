@@ -14,7 +14,6 @@
 	</context:component-scan>
 
 	<mvc:resources mapping="/resources/**" location="/resources/"/>
-	<mvc:resources mapping="/webjars/**" location="/webjars/"/>
 
 	<bean id="tilesViewResolver" class="org.springframework.web.servlet.view.tiles3.TilesViewResolver"/>
 

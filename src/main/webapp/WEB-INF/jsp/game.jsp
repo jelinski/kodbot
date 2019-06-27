@@ -4,11 +4,11 @@
 <html>
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-<link rel="stylesheet" href="<c:url value="/webjars/font-awesome/4.2.0/css/font-awesome.css" />">
+<link rel="stylesheet" href="<c:url value="/resources/css/font-awesome.min.css" />">
 <link href="<c:url value="/resources/css/fonts.css"/>" rel="stylesheet" type="text/css" />
-<link rel="stylesheet" href="<c:url value="/webjars/bootstrap/3.2.0/css/bootstrap.min.css" />">
+<link rel="stylesheet" href="<c:url value="/resources/css/bootstrap.min.css" />">
 <link rel="stylesheet" href="<c:url value="/resources/css/game.css" />">
-<script type="text/javascript" src="<c:url value="/webjars/jquery/1.11.1/jquery.js" />"></script>
+<script type="text/javascript" src="<c:url value="/resources/js/jquery.min.js" />"></script>
 <script src="<c:url value="/resources/js/createjs-2013.12.12.min.js"/>"></script>
 <script src="<c:url value="/resources/codemirror-4.6/lib/codemirror.js"/>"></script>
 <link rel="stylesheet" href="<c:url value="/resources/codemirror-4.6/lib/codemirror.css"/>">
