@@ -5,14 +5,25 @@
 <!DOCTYPE HTML>
 <html prefix="og: http://ogp.me/ns">
 <head>
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-116483909-2"></script>
+<script>
+	window.dataLayer = window.dataLayer || [];
+	function gtag(){dataLayer.push(arguments);}
+	gtag('js', new Date());
+
+	gtag('config', 'UA-116483909-2');
+</script>
+
 <title>KodBot - Krzysztof Jeliński. Toruń 2014</title>
 <link rel="icon" type="image/png" href="<c:url value="/resources/images/icon.png" />"/>
 <meta property="og:title" content="KodBot" />
 <meta property="og:type" content="game" />
 <meta property="og:description" content="Gra ucząca podstaw programowania i algorytmiki." />
-<meta property="og:url" content="https://kodbot.yeloon.pl/" />
-<meta property="og:image" content="http://kodbot.yeloon.pl/resources/images/header/logo.png" />
-<meta property="og:image:secure_url" content="https://kodbot.yeloon.pl/resources/images/header/logo.png" />
+<meta property="og:url" content="https://kodbot.jellysoft.pl/" />
+<meta property="og:image" content="http://kodbot.jellysoft.pl/resources/images/header/logo.png" />
+<meta property="og:image:secure_url" content="https://kodbot.jellysoft.pl/resources/images/header/logo.png" />
 
 <!-- <meta http-equiv="Content-Type" content="text/html" charset="utf-8"> -->
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
@@ -49,32 +60,11 @@
 
 	</div>
 
-	<%-- GOOGLE ANALYTICS --%>
-	<script>
-        $(function () {
-            (function (i, s, o, g, r, a, m) {
-                i['GoogleAnalyticsObject'] = r;
-                i[r] = i[r] || function () {
-                        (i[r].q = i[r].q || []).push(arguments)
-                    }, i[r].l = 1 * new Date();
-                a = s.createElement(o),
-                    m = s.getElementsByTagName(o)[0];
-                a.async = 1;
-                a.src = g;
-                m.parentNode.insertBefore(a, m)
-            })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
-
-            ga('create', 'UA-56721322-1', 'auto');
-            ga('require', 'displayfeatures');
-            ga('send', 'pageview');
-        });
-	</script>
-
 	<%-- COOKIE.EU --%>
 	<script>
         $(function () {
             jQuery.fn.cookiesEU({
-                parent: $('#header'),
+                parent: $('#header')
             });
         });
 	</script>
