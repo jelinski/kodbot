@@ -31,18 +31,8 @@ public class MapServiceImpl implements MapService {
 
 	@Override
 	public MapBean getMapBeanByKey(String key) {
-		MapBean result = new MapBean();
 		GameMap gameMap = getMapByKey(key);
-		result.setBotPositionCol(gameMap.getStartCol());
-		result.setBotPositionRow(gameMap.getStartRow());
-		result.setBotRotation(gameMap.getBotDirection());
-		result.setBatteryLevel(gameMap.getBatteryLevel());
-		result.setData(createDataRowList(gameMap.getData()));
-		String mapSlides = gameMap.getMapSlides();
-		if (mapSlides != null && !mapSlides.isEmpty()) {
-			result.setMapSlides(Arrays.asList(gameMap.getMapSlides().split("\\|")));
-		}
-		return result;
+		return createMapBeanFromMap(gameMap);
 	}
 
 	@Override

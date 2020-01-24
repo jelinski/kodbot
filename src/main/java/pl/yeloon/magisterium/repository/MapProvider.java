@@ -4,13 +4,12 @@ import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.stereotype.Component;
 import pl.yeloon.magisterium.model.GameMap;
 
-import javax.annotation.PostConstruct;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
-import java.util.stream.Collectors;
+
+import static java.util.stream.Collectors.toMap;
 
 @Component
 public class MapProvider {
@@ -39,7 +38,7 @@ public class MapProvider {
 			new GameMap("c0a09c14e1f7e6364decb4bafb1e3a06", 4, 0, 0, 100, null, "[1 5 0] [1 5 1] [1 5 2] [1 5 3] [1 5 4] [1 6 0] [1 6 1] [1 6 2] [1 6 3] [1 6 4] [1 6 0] [1 6 1] [1 6 2] [1 6 3]  [1 7 0] [1 7 1] [1 7 2] [1 7 3] [1 7 4] [1 7 0] [1 7 1] [1 7 2] [1 7 3] [1 7 0] [1 7 1] [1 7 2]  [1 8 0] [1 8 1] [1 8 2] [1 8 3] [1 8 4] [1 8 0] [1 8 1] [1 8 2] [1 8 3] [1 8 0] [1 8 1] [1 8 2] [1 8 0] [1 8 1] [1 9 0] [1 9 1] [1 9 2] [1 9 3] [1 9 4] [1 9 0] [1 9 1] [1 9 2] [1 9 3] [1 9 0] [1 9 1] [1 9 2] [1 9 0] [1 9 1] [1 9 0] [100 5 0] [100 5 4] [100 6 0] [100 6 3] [100 7 0] [100 7 2] [100 8 0] [100 8 1] [100 9 0] [100 9 1] [100 9 2] [100 9 3] [100 9 4]")
 	};
 
-	private Map<String, GameMap> keyToGameMapMapping = new HashMap<>();
+	private static Map<String, GameMap> keyToGameMapMapping = Arrays.stream(GAME_MAPS).collect(toMap(GameMap::getKey, Function.identity()));
 
 	public GameMap getMapByKey(String key) {
 		return keyToGameMapMapping.get(key);
@@ -47,11 +46,6 @@ public class MapProvider {
 
 	public List<GameMap> getAllMaps() {
 		return Arrays.asList(GAME_MAPS);
-	}
-
-	@PostConstruct
-	public void initialize() {
-		keyToGameMapMapping = Arrays.stream(GAME_MAPS).collect(Collectors.toMap(GameMap::getKey, Function.identity()));
 	}
 
 	public String getNextGameMapKey(GameMap currentMap) {
