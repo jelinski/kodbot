@@ -1,24 +1,17 @@
 package pl.jellysoft.kodbot.resolver;
 
-public class ResolverErrorResponse extends ResolverResponse{
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
-    private String message;
+@Getter
+@RequiredArgsConstructor
+public class ResolverErrorResponse extends ResolverResponse {
 
-	public ResolverErrorResponse(String message) {
-		this.message = message;
-	}
-	
-	@Override
-	public String getCode() {
-		return "ERROR";
-	}
+    private final String message;
 
-	public String getMessage() {
-		return message;
-	}
+    @Override
+    public String getCode() {
+        return "ERROR";
+    }
 
-	public void setMessage(String message) {
-		this.message = message;
-	}
-	
 }

@@ -1,27 +1,24 @@
 package pl.jellysoft.kodbot.resolver.evaluator.command;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
 public class FunctionBlock extends Block {
-	public static final String KEYWORD = "function";
-	public static final String NAME_KEYWORD = "name";
-	public static final String COMMANDS_KEYWORD = "commands";
-	
-	private String name; 	
-	
-	public String getName() {
-		return name;
-	}
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public static final String KEYWORD = "function";
+    public static final String NAME_KEYWORD = "name";
+    public static final String COMMANDS_KEYWORD = "commands";
 
-	@Override
-	public boolean equals(Object obj) {
-		if(obj instanceof FunctionBlock &&  ((FunctionBlock) obj).name.equals(this.name)){
-			return true;
-		}
-		else
-			return false;
-		
-	}
+    private String name;
+
+    @Override
+    public boolean equals(Object obj) { // TODO make use of Lombok
+        if (obj instanceof FunctionBlock && ((FunctionBlock) obj).name.equals(this.name)) {
+            return true;
+        } else
+            return false;
+    }
+
 }

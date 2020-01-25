@@ -16,8 +16,8 @@ import java.text.MessageFormat;
 
 @Controller
 public class ErrorController {
-	
-	private static final Logger logger = LoggerFactory.getLogger(ErrorController.class);
+
+    private static final Logger logger = LoggerFactory.getLogger(ErrorController.class);
 
     private final MessageSourceAccessor messageSourceAccessor;
 
@@ -47,5 +47,5 @@ public class ErrorController {
         model.addAttribute("errorMessage", messageSourceAccessor.getMessage(errorMessage));
 
         return "generic_error";
-	}
+    }
 }

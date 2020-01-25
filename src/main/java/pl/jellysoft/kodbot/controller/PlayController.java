@@ -19,30 +19,31 @@ import java.util.Locale;
 @Controller
 public class PlayController {
 
-	private static final Logger logger = LoggerFactory.getLogger(PlayController.class);
+    private static final Logger logger = LoggerFactory.getLogger(PlayController.class);
 
-	@Autowired
-	private MapService mapService;
+    @Autowired
+    private MapService mapService;
 
-	@RequestMapping(value = "/play", method = RequestMethod.GET)
-	public String play(Locale locale, Model model) {
-		logger.info("PlayController. Locale is {}.", locale);
+    @RequestMapping(value = "/play", method = RequestMethod.GET)
+    public String play(Locale locale, Model model) {
+        logger.info("PlayController. Locale is {}.", locale);
 
-		List<GameMap> gameMaps = mapService.getAllMaps();
-		List<MapGalleryDTO> mapGalleryList = new ArrayList<MapGalleryDTO>();
+        List<GameMap> gameMaps = mapService.getAllMaps();
+        List<MapGalleryDTO> mapGalleryList = new ArrayList<MapGalleryDTO>();
 
-		for (GameMap gameMap : gameMaps) {
-			MapGalleryDTO mapGallery = new MapGalleryDTO();
-			mapGallery.setGameUrl(gameMap.getKey());
-			mapGallery.setImageUrl(gameMap.getKey());
-			mapGalleryList.add(mapGallery);
-		}
+        for (GameMap gameMap : gameMaps) {
+            MapGalleryDTO mapGallery = MapGalleryDTO.builder()
+                    .gameUrl(gameMap.getKey())
+                    .imageUrl(gameMap.getKey()) // TODO why gameUrl is same as imageUrl?
+                    .build();
+            mapGalleryList.add(mapGallery);
+        }
 
-		Collections.sort(mapGalleryList);
+        Collections.sort(mapGalleryList);
 
-		model.addAttribute("mapGalleryList", mapGalleryList);
+        model.addAttribute("mapGalleryList", mapGalleryList);
 
-		return "play";
-	}
+        return "play";
+    }
 
 }

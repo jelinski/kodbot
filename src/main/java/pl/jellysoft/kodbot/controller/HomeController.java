@@ -10,10 +10,10 @@ import java.util.Map;
 @Controller
 public class HomeController {
 
-	@RequestMapping(value = "/", method = RequestMethod.GET)
-	public String home(Locale locale, Map<String, Object> model) {
-		model.put("lang", locale.toString());
-		return "home";
-	}
+    @RequestMapping(value = "/", method = RequestMethod.GET)
+    public String home(Locale locale, Map<String, Object> model) {
+        model.put("lang", locale.toString());
+        return "home";
+    }
 
 }

@@ -14,80 +14,80 @@ import java.util.List;
 
 public class CodeParser extends pl.jellysoft.kodbot.resolver.parser.Parser {
 
-	private List<String> errors = new ArrayList<String>();
+    private List<String> errors = new ArrayList<String>();
 
-	@Override
-	public ParserResult parse(String code) throws ParserException {
-		ANTLRInputStream input = new ANTLRInputStream(code);
-		KodbotLexer lexer = new KodbotLexer(input);
-		lexer.addErrorListener(lexerErrorListener);
-		CommonTokenStream tokens = new CommonTokenStream(lexer);
-		KodbotParser parser = new KodbotParser(tokens);
-		KodbotBaseListener listener = new KodbotBaseListener();
-		parser.addParseListener(listener);
-		parser.addErrorListener(parserErrorListener);
+    ANTLRErrorListener parserErrorListener = new ANTLRErrorListener() {
+        @Override
+        public void syntaxError(Recognizer<?, ?> arg0, Object arg1, int arg2, int arg3, String arg4, RecognitionException arg5) {
+            CommonToken currentToken = (CommonToken) arg1;
+            KodbotParser kodbotParser = (KodbotParser) arg0;
+            String expectedTokens = kodbotParser.getExpectedTokens().toString(kodbotParser.getTokenNames());
+            String error = "Blad w linii:" + arg2 + " znak:" + arg3 + " otrzymano: " + currentToken.getText() + " spodziewano sie:" + expectedTokens;
+            System.out.println(error);
+            errors.add(error);
+        }
 
-		try {
-			parser.start();
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
-		}
+        @Override
+        public void reportContextSensitivity(Parser arg0, DFA arg1, int arg2, int arg3, int arg4, ATNConfigSet arg5) {
+            System.out.println("parserErrorListener reportContextSensitivity");
+        }
 
-		if (errors.size() > 0) {
-			throw new ParserException(errors.toString());
-		}
-		return new ParserResult(listener.getCommandsCounter(), listener.getCommands()) ;
-	}
+        @Override
+        public void reportAttemptingFullContext(Parser arg0, DFA arg1, int arg2, int arg3, BitSet arg4, ATNConfigSet arg5) {
+            System.out.println("parserErrorListener reportAttemptingFullContext");
+        }
 
-	ANTLRErrorListener parserErrorListener = new ANTLRErrorListener() {
-		@Override
-		public void syntaxError(Recognizer<?, ?> arg0, Object arg1, int arg2, int arg3, String arg4, RecognitionException arg5) {
-			CommonToken currentToken = (CommonToken) arg1;
-			KodbotParser kodbotParser = (KodbotParser) arg0;
-			String expectedTokens = kodbotParser.getExpectedTokens().toString(kodbotParser.getTokenNames());
-			String error = "Blad w linii:" + arg2 + " znak:" + arg3 + " otrzymano: " + currentToken.getText() + " spodziewano sie:" + expectedTokens;
-			System.out.println(error);
-			errors.add(error);
-		}
+        @Override
+        public void reportAmbiguity(Parser arg0, DFA arg1, int arg2, int arg3, boolean arg4, BitSet arg5, ATNConfigSet arg6) {
+            System.out.println("parserErrorListener reportAmbiguity");
+        }
+    };
 
-		@Override
-		public void reportContextSensitivity(Parser arg0, DFA arg1, int arg2, int arg3, int arg4, ATNConfigSet arg5) {
-			System.out.println("parserErrorListener reportContextSensitivity");
-		}
+    //TODO prawdopodobnie do usuniecia
+    ANTLRErrorListener lexerErrorListener = new ANTLRErrorListener() {
+        @Override
+        public void syntaxError(Recognizer<?, ?> arg0, Object arg1, int arg2, int arg3, String arg4, RecognitionException arg5) {
+            String error = "Blad skladni w linii: " + arg2 + " znak: " + arg3;
+            errors.add(error);
+        }
 
-		@Override
-		public void reportAttemptingFullContext(Parser arg0, DFA arg1, int arg2, int arg3, BitSet arg4, ATNConfigSet arg5) {
-			System.out.println("parserErrorListener reportAttemptingFullContext");
-		}
+        @Override
+        public void reportContextSensitivity(Parser arg0, DFA arg1, int arg2, int arg3, int arg4, ATNConfigSet arg5) {
+            System.out.println("lexerErrorListener reportContextSensitivity");
+        }
 
-		@Override
-		public void reportAmbiguity(Parser arg0, DFA arg1, int arg2, int arg3, boolean arg4, BitSet arg5, ATNConfigSet arg6) {
-			System.out.println("parserErrorListener reportAmbiguity");
-		}
-	};
+        @Override
+        public void reportAttemptingFullContext(Parser arg0, DFA arg1, int arg2, int arg3, BitSet arg4, ATNConfigSet arg5) {
+            System.out.println("lexerErrorListener reportAttemptingFullContext");
+        }
 
-	//TODO prawdopodobnie do usuniecia
-	ANTLRErrorListener lexerErrorListener = new ANTLRErrorListener() {
-		@Override
-		public void syntaxError(Recognizer<?, ?> arg0, Object arg1, int arg2, int arg3, String arg4, RecognitionException arg5) {
-			String error = "Blad skladni w linii: " + arg2 + " znak: " + arg3;
-			errors.add(error);
-		}
+        @Override
+        public void reportAmbiguity(Parser arg0, DFA arg1, int arg2, int arg3, boolean arg4, BitSet arg5, ATNConfigSet arg6) {
+            System.out.println("lexerErrorListener reportAmbiguity");
+        }
+    };
 
-		@Override
-		public void reportContextSensitivity(Parser arg0, DFA arg1, int arg2, int arg3, int arg4, ATNConfigSet arg5) {
-			System.out.println("lexerErrorListener reportContextSensitivity");
-		}
+    @Override
+    public ParserResult parse(String code) throws ParserException {
+        ANTLRInputStream input = new ANTLRInputStream(code);
+        KodbotLexer lexer = new KodbotLexer(input);
+        lexer.addErrorListener(lexerErrorListener);
+        CommonTokenStream tokens = new CommonTokenStream(lexer);
+        KodbotParser parser = new KodbotParser(tokens);
+        KodbotBaseListener listener = new KodbotBaseListener();
+        parser.addParseListener(listener);
+        parser.addErrorListener(parserErrorListener);
 
-		@Override
-		public void reportAttemptingFullContext(Parser arg0, DFA arg1, int arg2, int arg3, BitSet arg4, ATNConfigSet arg5) {
-			System.out.println("lexerErrorListener reportAttemptingFullContext");
-		}
+        try {
+            parser.start();
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
 
-		@Override
-		public void reportAmbiguity(Parser arg0, DFA arg1, int arg2, int arg3, boolean arg4, BitSet arg5, ATNConfigSet arg6) {
-			System.out.println("lexerErrorListener reportAmbiguity");
-		}
-	};
+        if (errors.size() > 0) {
+            throw new ParserException(errors.toString());
+        }
+        return new ParserResult(listener.getCommandsCounter(), listener.getCommands());
+    }
 
 }

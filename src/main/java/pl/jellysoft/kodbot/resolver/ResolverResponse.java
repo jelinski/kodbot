@@ -4,8 +4,8 @@ public abstract class ResolverResponse {
 
     ResolverResponse() {
         getCode();
-	}
+    }
 
-	public abstract String getCode();
+    public abstract String getCode();
 
 }

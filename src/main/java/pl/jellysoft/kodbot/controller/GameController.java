@@ -20,49 +20,49 @@ import java.util.List;
 @RequestMapping(value = "/game")
 public class GameController {
 
-	private static final Logger logger = LoggerFactory.getLogger(GameController.class);
+    private static final Logger logger = LoggerFactory.getLogger(GameController.class);
 
-	@Autowired
+    @Autowired
     private MapService mapService;
 
-	@Autowired
+    @Autowired
     private ResolverService resolverService;
 
-	@RequestMapping(value = "/{mapKey}", method = RequestMethod.GET)
+    @RequestMapping(value = "/{mapKey}", method = RequestMethod.GET)
     public String help(@PathVariable String mapKey, Model model) {
-		GameMap gameMap = mapService.getMapByKey(mapKey);
-		if (gameMap == null) {
-			logger.warn("Request for unexisting map was made with key: " + mapKey);
-			return "redirect:/play";
-		} else {
-			model.addAttribute("mapKey", mapKey);
-			return "game";
-		}
-	}
+        GameMap gameMap = mapService.getMapByKey(mapKey);
+        if (gameMap == null) {
+            logger.warn("Request for unexisting map was made with key: " + mapKey);
+            return "redirect:/play";
+        } else {
+            model.addAttribute("mapKey", mapKey);
+            return "game";
+        }
+    }
 
-	@RequestMapping(value = "/resolve/code", method = RequestMethod.POST)
-	@ResponseBody
-	public ResolverResponse resolveCode(@RequestParam(value = "data") String code, @RequestParam String mapKey) {
-		GameMap gameMap = mapService.getMapByKey(mapKey);
-		if (gameMap != null) {
-			return resolverService.resolve(code, gameMap);
-		} else {
-			return new ResolverErrorResponse("Niepoprawna wartość mapKey");
-		}
-	}
+    @RequestMapping(value = "/resolve/code", method = RequestMethod.POST)
+    @ResponseBody
+    public ResolverResponse resolveCode(@RequestParam(value = "data") String code, @RequestParam String mapKey) {
+        GameMap gameMap = mapService.getMapByKey(mapKey);
+        if (gameMap != null) {
+            return resolverService.resolve(code, gameMap);
+        } else {
+            return new ResolverErrorResponse("Niepoprawna wartość mapKey");
+        }
+    }
 
-	@RequestMapping(value = "/fetchMap", method = RequestMethod.POST)
-	@ResponseBody
-	public MapBean fetchMap(@RequestParam String mapKey, HttpServletRequest request) {
-		MapBean mb = mapService.getMapBeanByKey(mapKey);
-		List<String> mapSlidesUrls = mb.getMapSlides();
-		if (mapSlidesUrls != null) {
-			for (int i = 0; i < mapSlidesUrls.size(); i++) {
-				// TODO dodac jeszcze suffix ze wzgledu na jezyk
-				mapSlidesUrls.set(i, request.getContextPath() + MapService.MAP_SLIDES_DIRECTORY + mapSlidesUrls.get(i) + ".png");
-			}
-		}
-		return mb;
-	}
+    @RequestMapping(value = "/fetchMap", method = RequestMethod.POST)
+    @ResponseBody
+    public MapBean fetchMap(@RequestParam String mapKey, HttpServletRequest request) {
+        MapBean mb = mapService.getMapBeanByKey(mapKey);
+        List<String> mapSlidesUrls = mb.getMapSlides();
+        if (mapSlidesUrls != null) {
+            for (int i = 0; i < mapSlidesUrls.size(); i++) {
+                // TODO dodac jeszcze suffix ze wzgledu na jezyk
+                mapSlidesUrls.set(i, request.getContextPath() + MapService.MAP_SLIDES_DIRECTORY + mapSlidesUrls.get(i) + ".png");
+            }
+        }
+        return mb;
+    }
 
 }
