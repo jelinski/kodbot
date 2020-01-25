@@ -16,7 +16,7 @@
     </logger>
     -->
 
-    <logger name="pl.yeloon.magisterium">
+    <logger name="pl.jellysoft.kodbot">
         <level value="debug"/>
     </logger>
 

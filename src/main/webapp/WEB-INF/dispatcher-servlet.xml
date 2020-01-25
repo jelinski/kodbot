@@ -9,7 +9,7 @@
 
 	<mvc:annotation-driven/>
 
-	<context:component-scan base-package="pl.yeloon.magisterium.controller" >
+	<context:component-scan base-package="pl.jellysoft.kodbot.controller" >
 		<context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
 	</context:component-scan>
 

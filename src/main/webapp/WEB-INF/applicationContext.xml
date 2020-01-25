@@ -9,7 +9,7 @@
 
 	<context:property-placeholder location="classpath:application.properties"/>
 	
-	<context:component-scan base-package="pl.yeloon.magisterium" >
+	<context:component-scan base-package="pl.jellysoft.kodbot" >
 		<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
 	</context:component-scan>
 	
