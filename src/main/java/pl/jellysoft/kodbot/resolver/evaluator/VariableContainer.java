@@ -1,10 +1,10 @@
 package pl.jellysoft.kodbot.resolver.evaluator;
 
-import pl.jellysoft.kodbot.Constants;
-
 import java.util.ArrayList;
 
 public class VariableContainer {
+
+    private static final int VARIABLE_MAX_VALUE = 20;
 
     private ArrayList<Pair> variables = new ArrayList<>();
 
@@ -23,8 +23,8 @@ public class VariableContainer {
         Integer rightValue = null;
         if (isDigit(value)) {
             rightValue = Integer.valueOf(value);
-            if (rightValue > Constants.KODBOT_MAX_VARIABLE_VALUE) {
-                throw new EvaluatorException("Za duza wartosc dla zmiennej: " + name + ". Maksymalna wartość to: " + Constants.KODBOT_MAX_VARIABLE_VALUE);
+            if (rightValue > VARIABLE_MAX_VALUE) {
+                throw new EvaluatorException("Za duza wartosc dla zmiennej: " + name + ". Maksymalna wartość to: " + VARIABLE_MAX_VALUE);
             }
         } else {
             rightValue = getVariable(value);
