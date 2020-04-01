@@ -8,19 +8,10 @@ public class VariableContainer {
 
     private ArrayList<Pair> variables = new ArrayList<>();
 
-    public boolean containsVariable(String name) {
-        for (Pair p : variables) {
-            if (p.getLeft().equals(name)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
     public void setVariable(String name, String value) throws EvaluatorException {
         validate(name);
 
-        Integer rightValue = null;
+        Integer rightValue;
         if (isDigit(value)) {
             rightValue = Integer.valueOf(value);
             if (rightValue > VARIABLE_MAX_VALUE) {
