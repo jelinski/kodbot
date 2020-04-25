@@ -6,7 +6,7 @@ import java.util.List;
 
 public class StatisticCounter {
 
-    private StatisticDTO statisticDTO;
+    private final StatisticDTO statisticDTO;
 
     public StatisticCounter() {
         this.statisticDTO = new StatisticDTO();

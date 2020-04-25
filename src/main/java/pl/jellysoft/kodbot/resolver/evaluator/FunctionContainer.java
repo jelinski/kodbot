@@ -10,7 +10,7 @@ import java.util.List;
 public class FunctionContainer {
 
     private MainBlock mainFunction;
-    private List<FunctionBlock> functions;
+    private final List<FunctionBlock> functions;
 
     public FunctionContainer() {
         functions = new ArrayList<>();

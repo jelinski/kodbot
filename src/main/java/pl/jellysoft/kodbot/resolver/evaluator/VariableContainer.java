@@ -6,7 +6,7 @@ public class VariableContainer {
 
     private static final int VARIABLE_MAX_VALUE = 20;
 
-    private ArrayList<Pair> variables = new ArrayList<>();
+    private final ArrayList<Pair> variables = new ArrayList<>();
 
     public void setVariable(String name, String value) throws EvaluatorException {
         validate(name);

@@ -9,7 +9,7 @@ import java.util.*;
 
 public class Simulator {
 
-    private List<List<Deque<Element>>> map;
+    private final List<List<Deque<Element>>> map;
     private int batteryLevel;
     private int botRow;
     private int botCol;
@@ -215,8 +215,8 @@ public class Simulator {
     }
 
     private class Position {
-        private int row;
-        private int col;
+        private final int row;
+        private final int col;
 
         public Position(int row, int col) {
             this.row = row;

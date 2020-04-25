@@ -14,7 +14,7 @@ import java.util.List;
 
 public class CodeParser extends pl.jellysoft.kodbot.resolver.parser.Parser {
 
-    private List<String> errors = new ArrayList<>();
+    private final List<String> errors = new ArrayList<>();
 
     ANTLRErrorListener parserErrorListener = new ANTLRErrorListener() {
         @Override

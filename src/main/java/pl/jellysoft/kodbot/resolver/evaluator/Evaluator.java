@@ -9,12 +9,12 @@ import java.util.List;
 
 public class Evaluator {
 
-    private final int WATCHDOG_MAX = 1000;
+    private static final int WATCHDOG_MAX = 1000;
     private int watchDog;
-    private VariableContainer variables;
-    private FunctionContainer functions;
-    private List<ActionType> actions;
-    private Deque<FunctionBlock> functionCallDeque;
+    private final VariableContainer variables;
+    private final FunctionContainer functions;
+    private final List<ActionType> actions;
+    private final Deque<FunctionBlock> functionCallDeque;
 
     public Evaluator() {
         this.watchDog = WATCHDOG_MAX;

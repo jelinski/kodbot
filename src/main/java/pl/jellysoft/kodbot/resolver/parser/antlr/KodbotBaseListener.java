@@ -12,8 +12,8 @@ import java.util.List;
 
 public class KodbotBaseListener implements KodbotListener {
 
-    private List<Command> commands;
-    private Deque<Block> lastBlocksStack;
+    private final List<Command> commands;
+    private final Deque<Block> lastBlocksStack;
     private int commandCounter;
 
     public KodbotBaseListener() {

@@ -10,9 +10,9 @@ import java.util.List;
 @Getter
 public class ResolverWinResponse extends ResolverOkResponse {
 
-    private StatisticDTO newStatistics;
-    private MapUserScoreDTO newMapUserScore;
-    private String nextMapKey;
+    private final StatisticDTO newStatistics;
+    private final MapUserScoreDTO newMapUserScore;
+    private final String nextMapKey;
 
     public ResolverWinResponse(List<ActionType> actions, StatisticDTO newStatistics, MapUserScoreDTO newMapUserScoreDTO, String nextMapKey) {
         super(actions);
