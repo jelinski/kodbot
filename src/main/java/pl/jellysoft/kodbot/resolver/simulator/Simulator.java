@@ -18,11 +18,11 @@ public class Simulator {
 
     public Simulator() {
         batteryNumber = 0;
-        map = new ArrayList<List<Deque<Element>>>(10);
+        map = new ArrayList<>(10);
         for (int i = 0; i < 10; i++) {
-            map.add(new ArrayList<Deque<Element>>(10));
+            map.add(new ArrayList<>(10));
             for (int j = 0; j < 10; j++) {
-                map.get(i).add(new ArrayDeque<Element>());
+                map.get(i).add(new ArrayDeque<>());
             }
         }
     }

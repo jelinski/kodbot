@@ -13,7 +13,7 @@ public abstract class Block extends Command {
     private List<Command> commands;
 
     public Block() {
-        this.commands = new ArrayList<Command>();
+        this.commands = new ArrayList<>();
     }
 
 }

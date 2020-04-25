@@ -13,7 +13,7 @@ public class FunctionContainer {
     private List<FunctionBlock> functions;
 
     public FunctionContainer() {
-        functions = new ArrayList<FunctionBlock>();
+        functions = new ArrayList<>();
     }
 
     public void setup(List<Command> commands) throws EvaluatorException {

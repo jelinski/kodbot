@@ -20,8 +20,8 @@ public class Evaluator {
         this.watchDog = WATCHDOG_MAX;
         this.variables = new VariableContainer();
         this.functions = new FunctionContainer();
-        this.functionCallDeque = new ArrayDeque<FunctionBlock>();
-        this.actions = new ArrayList<ActionType>();
+        this.functionCallDeque = new ArrayDeque<>();
+        this.actions = new ArrayList<>();
     }
 
     private void process(List<Command> commands) throws EvaluatorException {

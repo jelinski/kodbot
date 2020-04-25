@@ -17,8 +17,8 @@ public class KodbotBaseListener implements KodbotListener {
     private int commandCounter;
 
     public KodbotBaseListener() {
-        this.commands = new ArrayList<Command>();
-        lastBlocksStack = new ArrayDeque<Block>();
+        this.commands = new ArrayList<>();
+        lastBlocksStack = new ArrayDeque<>();
         commandCounter = 0;
     }
 
@@ -136,7 +136,7 @@ public class KodbotBaseListener implements KodbotListener {
         if (currentBlock != null) {
             List<Command> commands = currentBlock.getCommands();
             if (commands == null)
-                commands = new ArrayList<Command>();
+                commands = new ArrayList<>();
             commands.add(command);
         } else {
             this.commands.add(command);

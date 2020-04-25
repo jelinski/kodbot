@@ -29,7 +29,7 @@ public class PlayController {
         logger.info("PlayController. Locale is {}.", locale);
 
         List<GameMap> gameMaps = mapService.getAllMaps();
-        List<MapGalleryDTO> mapGalleryList = new ArrayList<MapGalleryDTO>();
+        List<MapGalleryDTO> mapGalleryList = new ArrayList<>();
 
         for (GameMap gameMap : gameMaps) {
             MapGalleryDTO mapGallery = MapGalleryDTO.builder()
