@@ -44,8 +44,7 @@ public class FunctionContainer {
     }
 
     public FunctionBlock getByName(String name) throws EvaluatorException {
-        for (int i = 0; i < functions.size(); i++) {
-            FunctionBlock f = functions.get(i);
+        for (FunctionBlock f : functions) {
             if (f.getName().equals(name)) {
                 return f;
             }

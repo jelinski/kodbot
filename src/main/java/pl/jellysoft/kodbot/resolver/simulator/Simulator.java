@@ -29,9 +29,8 @@ public class Simulator {
 
     public SimulatorResult simulate(List<ActionType> actions, MapBean mapBean) throws SimulatorException {
         setupMap(mapBean);
-        for (int i = 0; i < actions.size(); i++) {
+        for (ActionType action : actions) {
 
-            ActionType action = actions.get(i);
             if (action == ActionType.MOVE) {
                 move();
             } else if (action == ActionType.JUMP) {
@@ -178,9 +177,7 @@ public class Simulator {
     private int getStandableHeight(int row, int col) throws SimulatorException {
         Deque<Element> stack = map.get(row).get(col);
         int height = 0;
-        Iterator<Element> i = stack.iterator();
-        while (i.hasNext()) {
-            Element element = i.next();
+        for (Element element : stack) {
             if (isStandable(element)) {
                 height++;
             } else {
