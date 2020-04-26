@@ -26,3 +26,8 @@ jobs:
 
       - name: Build with Maven & Deploy to GCP
         run: mvn -B clean package appengine:deploy -Dapp.deploy.projectId=kodbot-yeloon -Dapp.deploy.version=GCLOUD_CONFIG
+
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v1
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
