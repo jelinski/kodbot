@@ -1,11 +1,15 @@
 package pl.jellysoft.kodbot.resolver.simulator;
 
+import lombok.Value;
 import pl.jellysoft.kodbot.controller.bean.DataRow;
 import pl.jellysoft.kodbot.controller.bean.MapBean;
 import pl.jellysoft.kodbot.resolver.evaluator.ActionType;
 import pl.jellysoft.kodbot.resolver.simulator.element.*;
 
-import java.util.*;
+import java.util.ArrayDeque;
+import java.util.ArrayList;
+import java.util.Deque;
+import java.util.List;
 
 public class Simulator {
 
@@ -221,30 +225,11 @@ public class Simulator {
         }
     }
 
+    @Value
     public static class SimulatorResult {
-        private int batteryLevel;
-        private boolean userWon;
 
-        public SimulatorResult(int batteryLevel, boolean userWon) {
-            this.batteryLevel = batteryLevel;
-            this.userWon = userWon;
-        }
-
-        public int getBatteryLevel() {
-            return batteryLevel;
-        }
-
-        public void setBatteryLevel(int batteryLevel) {
-            this.batteryLevel = batteryLevel;
-        }
-
-        public boolean isUserWon() {
-            return userWon;
-        }
-
-        public void setUserWon(boolean userWon) {
-            this.userWon = userWon;
-        }
+        private final int batteryLevel;
+        private final boolean userWon;
 
     }
 }
