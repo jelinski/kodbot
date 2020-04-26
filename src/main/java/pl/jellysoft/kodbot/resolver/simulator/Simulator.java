@@ -214,7 +214,7 @@ public class Simulator {
         return (element instanceof HeavyBox || element instanceof LightBox);
     }
 
-    private class Position {
+    private static class Position {
         private final int row;
         private final int col;
 
@@ -224,7 +224,7 @@ public class Simulator {
         }
     }
 
-    public class SimulatorResult {
+    public static class SimulatorResult {
         private int batteryLevel;
         private boolean userWon;
 

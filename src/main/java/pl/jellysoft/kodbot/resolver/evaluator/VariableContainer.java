@@ -63,7 +63,7 @@ public class VariableContainer {
             throw new EvaluatorException("Cyfry po lewej stronie przypisania");
     }
 
-    private class Pair { // TODO use one from 3rd party lib
+    private static class Pair { // TODO use one from 3rd party lib
         private String left;
         private Integer right;
 
