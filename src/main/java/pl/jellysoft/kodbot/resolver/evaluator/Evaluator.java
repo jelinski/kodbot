@@ -10,19 +10,11 @@ import java.util.List;
 public class Evaluator {
 
     private static final int WATCHDOG_MAX = 1000;
-    private int watchDog;
-    private final VariableContainer variables;
-    private final FunctionContainer functions;
-    private final List<ActionType> actions;
-    private final Deque<FunctionBlock> functionCallDeque;
-
-    public Evaluator() {
-        this.watchDog = WATCHDOG_MAX;
-        this.variables = new VariableContainer();
-        this.functions = new FunctionContainer();
-        this.functionCallDeque = new ArrayDeque<>();
-        this.actions = new ArrayList<>();
-    }
+    private final VariableContainer variables = new VariableContainer();
+    private final FunctionContainer functions = new FunctionContainer();
+    private final List<ActionType> actions = new ArrayList<>();
+    private final Deque<FunctionBlock> functionCallDeque = new ArrayDeque<>();
+    private int watchDog = WATCHDOG_MAX;
 
     private void process(List<Command> commands) throws EvaluatorException {
         watchDog--;

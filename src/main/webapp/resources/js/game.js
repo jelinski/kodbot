@@ -483,7 +483,7 @@ function createMap() {
     for (var row = 0; row < 10; row++) {
         m.map[row] = new Array(10);
         for (var col = 0; col < 10; col++) {
-            m.map[row][col] = new Array();
+            m.map[row][col] = [];
             for (var k = 0; k < c.mapData.data.length; k++) {
                 if (c.mapData.data[k]['row'] === row && c.mapData.data[k]['col'] === col) {
                     typeId = c.mapData.data[k]['type'];

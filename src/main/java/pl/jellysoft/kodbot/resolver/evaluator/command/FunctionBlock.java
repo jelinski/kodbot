@@ -15,10 +15,7 @@ public class FunctionBlock extends Block {
 
     @Override
     public boolean equals(Object obj) { // TODO make use of Lombok
-        if (obj instanceof FunctionBlock && ((FunctionBlock) obj).name.equals(this.name)) {
-            return true;
-        } else
-            return false;
+        return obj instanceof FunctionBlock && ((FunctionBlock) obj).name.equals(this.name);
     }
 
 }

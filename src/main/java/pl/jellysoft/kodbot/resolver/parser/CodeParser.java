@@ -21,7 +21,8 @@ public class CodeParser extends pl.jellysoft.kodbot.resolver.parser.Parser {
         public void syntaxError(Recognizer<?, ?> arg0, Object arg1, int arg2, int arg3, String arg4, RecognitionException arg5) {
             CommonToken currentToken = (CommonToken) arg1;
             KodbotParser kodbotParser = (KodbotParser) arg0;
-            String expectedTokens = kodbotParser.getExpectedTokens().toString(kodbotParser.getTokenNames());
+            Vocabulary vocabulary = VocabularyImpl.fromTokenNames(kodbotParser.getTokenNames());
+            String expectedTokens = kodbotParser.getExpectedTokens().toString(vocabulary);
             String error = "Blad w linii:" + arg2 + " znak:" + arg3 + " otrzymano: " + currentToken.getText() + " spodziewano sie:" + expectedTokens;
             System.out.println(error);
             errors.add(error);
