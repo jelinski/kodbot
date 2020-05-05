@@ -8,9 +8,9 @@ import lombok.RequiredArgsConstructor;
 // TODO change to @Value when Element changed to be interface
 public class Battery extends Element {
 
-    public static int LOW_AMOUNT = 25;
-    public static int MEDIUM_AMOUNT = 50;
-    public static int HIGH_AMOUNT = 75;
+    public static final int LOW_AMOUNT = 25;
+    public static final int MEDIUM_AMOUNT = 50;
+    public static final int HIGH_AMOUNT = 75;
 
     private final int batteryAmount;
 
