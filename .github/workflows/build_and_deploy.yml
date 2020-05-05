@@ -28,6 +28,7 @@ jobs:
         run: mvn -B clean package sonar:sonar appengine:deploy -Dapp.deploy.projectId=kodbot-yeloon -Dapp.deploy.version=GCLOUD_CONFIG
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v1
