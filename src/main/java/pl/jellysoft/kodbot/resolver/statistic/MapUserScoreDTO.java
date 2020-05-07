@@ -5,7 +5,7 @@ import lombok.Value;
 @Value
 public class MapUserScoreDTO {
 
-    private Integer batteryLevel;
-    private Integer commandCounter;
+    private final Integer batteryLevel;
+    private final Integer commandCounter;
 
 }

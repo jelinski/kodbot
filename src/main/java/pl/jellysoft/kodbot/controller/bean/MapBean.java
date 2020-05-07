@@ -9,11 +9,11 @@ import java.util.List;
 @Builder
 public class MapBean {
 
-    private Integer botPositionRow;
-    private Integer botPositionCol;
-    private Integer botRotation;
-    private Integer batteryLevel;
-    private List<String> mapSlides;
-    private List<DataRow> data;
+    private final Integer botPositionRow;
+    private final Integer botPositionCol;
+    private final Integer botRotation;
+    private final Integer batteryLevel;
+    private final List<String> mapSlides;
+    private final List<DataRow> data;
 
 }

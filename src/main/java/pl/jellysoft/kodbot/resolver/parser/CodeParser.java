@@ -16,7 +16,7 @@ public class CodeParser extends pl.jellysoft.kodbot.resolver.parser.Parser {
 
     private final List<String> errors = new ArrayList<>();
 
-    ANTLRErrorListener parserErrorListener = new ANTLRErrorListener() {
+    private final ANTLRErrorListener parserErrorListener = new ANTLRErrorListener() {
         @Override
         public void syntaxError(Recognizer<?, ?> arg0, Object arg1, int arg2, int arg3, String arg4, RecognitionException arg5) {
             CommonToken currentToken = (CommonToken) arg1;
@@ -45,7 +45,7 @@ public class CodeParser extends pl.jellysoft.kodbot.resolver.parser.Parser {
     };
 
     //TODO prawdopodobnie do usuniecia
-    ANTLRErrorListener lexerErrorListener = new ANTLRErrorListener() {
+    private final ANTLRErrorListener lexerErrorListener = new ANTLRErrorListener() {
         @Override
         public void syntaxError(Recognizer<?, ?> arg0, Object arg1, int arg2, int arg3, String arg4, RecognitionException arg5) {
             String error = "Blad skladni w linii: " + arg2 + " znak: " + arg3;
@@ -88,7 +88,7 @@ public class CodeParser extends pl.jellysoft.kodbot.resolver.parser.Parser {
         if (errors.size() > 0) {
             throw new ParserException(errors.toString());
         }
-        return new ParserResult(listener.getCommandsCounter(), listener.getCommands());
+        return new ParserResult(listener.getCommandCounter(), listener.getCommands());
     }
 
 }

@@ -7,6 +7,6 @@ import java.util.List;
 @Value
 public class EvaluatorResult {
 
-    private List<ActionType> actions;
+    private final List<ActionType> actions;
 
 }

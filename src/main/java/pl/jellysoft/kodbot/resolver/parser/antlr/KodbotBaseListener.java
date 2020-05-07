@@ -1,5 +1,6 @@
 package pl.jellysoft.kodbot.resolver.parser.antlr;
 
+import lombok.Getter;
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.tree.ErrorNode;
 import org.antlr.v4.runtime.tree.TerminalNode;
@@ -12,32 +13,50 @@ import java.util.List;
 
 public class KodbotBaseListener implements KodbotListener {
 
-    private final List<Command> commands;
-    private final Deque<Block> lastBlocksStack;
-    private int commandCounter;
+    @Getter
+    private final List<Command> commands = new ArrayList<>();
+    private final Deque<Block> lastBlocksStack = new ArrayDeque<>();
+    @Getter
+    private int commandCounter = 0;
 
-    public KodbotBaseListener() {
-        this.commands = new ArrayList<>();
-        lastBlocksStack = new ArrayDeque<>();
-        commandCounter = 0;
+    @Override
+    public void enterMove(KodbotParser.MoveContext ctx) {
     }
 
     @Override
-    public void enterFunctionDef(KodbotParser.FunctionDefContext ctx) {
-        FunctionBlock function = new FunctionBlock();
-        lastBlocksStack.add(function);
+    public void exitMove(KodbotParser.MoveContext ctx) {
+        addToCurrentBlock(new MoveCommand());
     }
 
     @Override
-    public void enterMain(KodbotParser.MainContext ctx) {
-        MainBlock main = new MainBlock();
-        lastBlocksStack.addLast(main);
+    public void enterJump(KodbotParser.JumpContext ctx) {
     }
 
     @Override
-    public void enterRepeat(KodbotParser.RepeatContext ctx) {
-        RepeatBlock repeat = new RepeatBlock();
-        lastBlocksStack.addLast(repeat);
+    public void exitJump(KodbotParser.JumpContext ctx) {
+        addToCurrentBlock(new JumpCommand());
+    }
+
+    @Override
+    public void enterTurnLeft(KodbotParser.TurnLeftContext ctx) {
+    }
+
+    @Override
+    public void exitTurnLeft(KodbotParser.TurnLeftContext ctx) {
+        addToCurrentBlock(new TurnLeftCommand());
+    }
+
+    @Override
+    public void enterTurnRight(KodbotParser.TurnRightContext ctx) {
+    }
+
+    @Override
+    public void exitTurnRight(KodbotParser.TurnRightContext ctx) {
+        addToCurrentBlock(new TurnRightCommand());
+    }
+
+    @Override
+    public void enterAssign(KodbotParser.AssignContext ctx) {
     }
 
     @Override
@@ -46,6 +65,10 @@ public class KodbotBaseListener implements KodbotListener {
         assign.setLeftOperand(ctx.ID().getText());
         assign.setRightOperand(ctx.var().getText());
         addToCurrentBlock(assign);
+    }
+
+    @Override
+    public void enterAssignWithAddition(KodbotParser.AssignWithAdditionContext ctx) {
     }
 
     @Override
@@ -58,6 +81,10 @@ public class KodbotBaseListener implements KodbotListener {
     }
 
     @Override
+    public void enterAssignWithSubtraction(KodbotParser.AssignWithSubtractionContext ctx) {
+    }
+
+    @Override
     public void exitAssignWithSubtraction(KodbotParser.AssignWithSubtractionContext ctx) {
         AssignWithSubtractionCommand assignWithSubtraction = new AssignWithSubtractionCommand();
         assignWithSubtraction.setLeftOperand(ctx.ID().getText());
@@ -67,24 +94,7 @@ public class KodbotBaseListener implements KodbotListener {
     }
 
     @Override
-    public void exitDecrement(KodbotParser.DecrementContext ctx) {
-        DecrementCommand decrement = new DecrementCommand();
-        decrement.setVariable(ctx.DECREMENT_ID().getText().substring(0, 1));
-        addToCurrentBlock(decrement);
-    }
-
-    @Override
-    public void exitFunctionCall(KodbotParser.FunctionCallContext ctx) {
-        FunctionCallCommand functionCall = new FunctionCallCommand();
-        functionCall.setName(ctx.ID().getText());
-        addToCurrentBlock(functionCall);
-    }
-
-    @Override
-    public void exitFunctionDef(KodbotParser.FunctionDefContext ctx) {
-        FunctionBlock function = (FunctionBlock) lastBlocksStack.pollLast();
-        function.setName(ctx.ID().getText());
-        addToCurrentBlock(function);
+    public void enterIncrement(KodbotParser.IncrementContext ctx) {
     }
 
     @Override
@@ -95,19 +105,20 @@ public class KodbotBaseListener implements KodbotListener {
     }
 
     @Override
-    public void exitJump(KodbotParser.JumpContext ctx) {
-        addToCurrentBlock(new JumpCommand());
+    public void enterDecrement(KodbotParser.DecrementContext ctx) {
     }
 
     @Override
-    public void exitMain(KodbotParser.MainContext ctx) {
-        MainBlock main = (MainBlock) lastBlocksStack.pollLast();
-        addToCurrentBlock(main);
+    public void exitDecrement(KodbotParser.DecrementContext ctx) {
+        DecrementCommand decrement = new DecrementCommand();
+        decrement.setVariable(ctx.DECREMENT_ID().getText().substring(0, 1));
+        addToCurrentBlock(decrement);
     }
 
     @Override
-    public void exitMove(KodbotParser.MoveContext ctx) {
-        addToCurrentBlock(new MoveCommand());
+    public void enterRepeat(KodbotParser.RepeatContext ctx) {
+        RepeatBlock repeat = new RepeatBlock();
+        lastBlocksStack.addLast(repeat);
     }
 
     @Override
@@ -118,17 +129,39 @@ public class KodbotBaseListener implements KodbotListener {
     }
 
     @Override
-    public void exitTurnLeft(KodbotParser.TurnLeftContext ctx) {
-        addToCurrentBlock(new TurnLeftCommand());
+    public void enterFunctionDef(KodbotParser.FunctionDefContext ctx) {
+        FunctionBlock function = new FunctionBlock();
+        lastBlocksStack.add(function);
     }
 
     @Override
-    public void exitTurnRight(KodbotParser.TurnRightContext ctx) {
-        addToCurrentBlock(new TurnRightCommand());
+    public void exitFunctionDef(KodbotParser.FunctionDefContext ctx) {
+        FunctionBlock function = (FunctionBlock) lastBlocksStack.pollLast();
+        function.setName(ctx.ID().getText());
+        addToCurrentBlock(function);
     }
 
-    public List<Command> getCommands() {
-        return commands;
+    @Override
+    public void enterFunctionCall(KodbotParser.FunctionCallContext ctx) {
+    }
+
+    @Override
+    public void exitFunctionCall(KodbotParser.FunctionCallContext ctx) {
+        FunctionCallCommand functionCall = new FunctionCallCommand();
+        functionCall.setName(ctx.ID().getText());
+        addToCurrentBlock(functionCall);
+    }
+
+    @Override
+    public void enterMain(KodbotParser.MainContext ctx) {
+        MainBlock main = new MainBlock();
+        lastBlocksStack.addLast(main);
+    }
+
+    @Override
+    public void exitMain(KodbotParser.MainContext ctx) {
+        MainBlock main = (MainBlock) lastBlocksStack.pollLast();
+        addToCurrentBlock(main);
     }
 
     private void addToCurrentBlock(Command command) {
@@ -144,78 +177,8 @@ public class KodbotBaseListener implements KodbotListener {
         commandCounter++;
     }
 
-    // NOT IMPLEMENTED METHODS
-
-    @Override
-    public void visitErrorNode(ErrorNode node) {
-    }
-
-    @Override
-    public void visitTerminal(TerminalNode node) {
-    }
-
-    @Override
-    public void enterAssign(KodbotParser.AssignContext ctx) {
-    }
-
-    @Override
-    public void enterAssignWithAddition(KodbotParser.AssignWithAdditionContext ctx) {
-    }
-
-    @Override
-    public void enterAssignWithSubtraction(KodbotParser.AssignWithSubtractionContext ctx) {
-    }
-
     @Override
     public void enterBlock(KodbotParser.BlockContext ctx) {
-    }
-
-    @Override
-    public void enterDecrement(KodbotParser.DecrementContext ctx) {
-    }
-
-    @Override
-    public void enterEveryRule(ParserRuleContext ctx) {
-    }
-
-    @Override
-    public void enterExpr(KodbotParser.ExprContext ctx) {
-    }
-
-    @Override
-    public void enterFunctionCall(KodbotParser.FunctionCallContext ctx) {
-    }
-
-    @Override
-    public void enterIncrement(KodbotParser.IncrementContext ctx) {
-    }
-
-    @Override
-    public void enterJump(KodbotParser.JumpContext ctx) {
-    }
-
-    @Override
-    public void enterMove(KodbotParser.MoveContext ctx) {
-    }
-
-    @Override
-    public void enterStart(KodbotParser.StartContext ctx) {
-    }
-
-    @Override
-    public void enterStat(KodbotParser.StatContext ctx) {
-    }
-
-    @Override
-    public void enterTurnLeft(KodbotParser.TurnLeftContext ctx) {
-    }
-
-    @Override
-    public void enterTurnRight(KodbotParser.TurnRightContext ctx) {
-    }
-
-    @Override
-    public void enterVar(KodbotParser.VarContext ctx) {
     }
 
     @Override
@@ -223,7 +186,15 @@ public class KodbotBaseListener implements KodbotListener {
     }
 
     @Override
+    public void enterEveryRule(ParserRuleContext ctx) {
+    }
+
+    @Override
     public void exitEveryRule(ParserRuleContext ctx) {
+    }
+
+    @Override
+    public void enterExpr(KodbotParser.ExprContext ctx) {
     }
 
     @Override
@@ -231,7 +202,15 @@ public class KodbotBaseListener implements KodbotListener {
     }
 
     @Override
+    public void enterStart(KodbotParser.StartContext ctx) {
+    }
+
+    @Override
     public void exitStart(KodbotParser.StartContext ctx) {
+    }
+
+    @Override
+    public void enterStat(KodbotParser.StatContext ctx) {
     }
 
     @Override
@@ -239,11 +218,19 @@ public class KodbotBaseListener implements KodbotListener {
     }
 
     @Override
+    public void enterVar(KodbotParser.VarContext ctx) {
+    }
+
+    @Override
     public void exitVar(KodbotParser.VarContext ctx) {
     }
 
-    public int getCommandsCounter() {
-        return commandCounter;
+    @Override
+    public void visitErrorNode(ErrorNode node) {
+    }
+
+    @Override
+    public void visitTerminal(TerminalNode node) {
     }
 
 }

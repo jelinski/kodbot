@@ -32,7 +32,7 @@ public class GameController {
     public String help(@PathVariable String mapKey, Model model) {
         GameMap gameMap = mapService.getMapByKey(mapKey);
         if (gameMap == null) {
-            logger.warn("Request for unexisting map was made with key: " + mapKey);
+            logger.warn("Request for unexisting map was made with key: {}", mapKey);
             return "redirect:/play";
         } else {
             model.addAttribute("mapKey", mapKey);
