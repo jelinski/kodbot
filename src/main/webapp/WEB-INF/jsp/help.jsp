@@ -6,12 +6,12 @@
 
 <p>Do napisania programu w grze KodBot niezbędna jest znajomość instrukcji (zwanych również poleceniami). Jest ich tylko kilka i zostały one dokładnie wyjaśnione w dalszej części strony. Instrukcje dzielą się na pojedyncze i blokowe.</p>
 <p>
-	<b>Instrukcje pojedyncze</b>
+	<strong>Instrukcje pojedyncze</strong>
 	to takie, które służą do wykonania konkretnych prostych operacji jak np. poruszenie robotem, czy przypisanie wartości do zmiennej.
 </p>
 <p>
 	Instrukcje pojedyncze można łączyć w większe i bardziej skomplikowane elementy za pomocą
-	<b>instrukcji blokowych</b>
+	<strong>instrukcji blokowych</strong>
 	. Do określenia zawartości ("ciała") instrukcji blokowej używa się nawiasów klamrowych: "{" oraz "}". Instrukcje blokowe mogą być zastosowane do często powtarzających się zadań np. możemy stworzyć definicję funkcji, która porusza robota o
 	3 pola do przodu. Jeśli na planszy często poruszamy robotem właśnie o 3 pola do przodu to pozwoli to na napisanie programu przy użyciu mniejszej ilości instrukcji, przez co będzie on krótszy, bardziej czytelny i lepszej jakości. Pamiętaj,
 	że ilość użytych instrukcji w programie przekłada się na wynik. Im mniej użytych instrukckji, tym lepiej.
@@ -77,28 +77,28 @@
 
 <h3 class="cm-keyword" id="move">move</h3>
 <p>Polecenie to służy do poruszania robotem do przodu. Koszt ruchu do przodu wynosi 5 jednostek energii.</p>
-<img src='<c:url value="/resources/images/content/help/move.png" />' />
+<img alt="Move forward" src='<c:url value="/resources/images/content/help/move.png" />' />
 
 <h3 class="cm-keyword" id="jump">jump</h3>
 <p>Polecenie to służy do wskakiwania oraz zeskakiwania z bloczków. Możliwe jest wskakiwanie i zeskakiwanie tylko na elementy, które znajdują się jeden poziom niżej lub wyżej. Koszt tego ruchu to 10 jednostek energii.</p>
 <div>
-	<img src='<c:url value="/resources/images/content/help/jump1.png" />' />
-	<img src='<c:url value="/resources/images/content/help/jump2.png" />' />
+	<img alt="Jump up" src='<c:url value="/resources/images/content/help/jump1.png" />' />
+	<img alt="Jump down" src='<c:url value="/resources/images/content/help/jump2.png" />' />
 </div>
 
 Bloczki na które można wskakiwać to:
-<img src='<c:url value="/resources/images/content/help/boxHeavy.png" />' />
+<img alt="Standable blocks" src='<c:url value="/resources/images/content/help/boxHeavy.png" />' />
 Natomiast nie można wkakiwać na:
-<img src='<c:url value="/resources/images/content/help/boxSpiked.png" />' />
+<img alt="Unstandable blocks" src='<c:url value="/resources/images/content/help/boxSpiked.png" />' />
 
 
 <h3 class="cm-keyword" id="left">left</h3>
 <p>Instrukcja ta służy do obrócenia robota w lewą stronę o 90&deg;. Koszt tej operacji wynosi 5 jednostek energii.</p>
-<img src='<c:url value="/resources/images/content/help/left.png" />' />
+<img alt="Turn left" src='<c:url value="/resources/images/content/help/left.png" />' />
 
 <h3 class="cm-keyword" id="right">right</h3>
 <p>Instrukcja ta służy do obrócenia robota w prawą stronę o 90&deg;. Koszt tej operacji wynosi 5 jednostek energii.</p>
-<img src='<c:url value="/resources/images/content/help/right.png" />' />
+<img alt="Turn right" src='<c:url value="/resources/images/content/help/right.png" />' />
 
 <h3 class="cm-variable" id="variable">zmienne</h3>
 <p>Zmienne służą do przechowywania wartości liczbowej. W miejscu odwołania się do zmiennej tak naprawdę jest wstawiana jej aktualna wartość. Zmienne mają zakres globalny, co oznacza, że zmienna użyta w jednym miejscu programu może być
@@ -167,30 +167,30 @@ poprzez wyeliminowanie powtarzających się instrukcji. Pętle można zagnieżd�
 Funkcje służą do grupowania fragmentów kodu, który jest często wykorzystywany. Pozwalają one zminimalizować ilość używanych poleceń. Często jednak lepsze rezultaty jesteśmy w stanie uzyskać za pomocą pętli. Funkcje świetnie nadają się dla
 bardziej skomplikowanych zadań. Z poziomu jednej funkcji możemy wywoływać inne funkcje. Funkcje możemy definiować wyłącznie na najwyższym poziomie programu. Nie możemy definicji funkcji umieścić w bloku main, czy też w innej funkcji.
 <div>
-	<img src='<c:url value="/resources/images/content/help/function-def1.png" />' />
-	<img src='<c:url value="/resources/images/content/help/function-def2.png" />' />
+	<img alt="Separate function definition" src='<c:url value="/resources/images/content/help/function-def1.png" />' />
+	<img alt="Nested function definition" src='<c:url value="/resources/images/content/help/function-def2.png" />' />
 </div>
 
 
 <h1>Przykłady</h1>
 <h3>Poruszenie robota o 5 pól do przodu</h3>
 <div>
-	<img src='<c:url value="/resources/images/content/help/example1a.png" />' />
-	<img src='<c:url value="/resources/images/content/help/example1b.png" />' />
+	<img alt="Move five fields forward example" src='<c:url value="/resources/images/content/help/example1a.png" />' />
+	<img alt="Move five fields forward example using loop" src='<c:url value="/resources/images/content/help/example1b.png" />' />
 </div>
 <p>Po prawej bardziej optymalne rozwiązanie wykorzystujące pętle</p>
 
 <h3>Poruszanie się po kwadracie:</h3>
 <div>
-	<img src='<c:url value="/resources/images/content/help/example3a.png" />' />
+	<img alt="Square path example" src='<c:url value="/resources/images/content/help/example3a.png" />' />
 </div>
 <div>
-	<img src='<c:url value="/resources/images/content/help/example3b.png" />' />
+	<img alt="Square path solution" src='<c:url value="/resources/images/content/help/example3b.png" />' />
 </div>
 <p>Ponieważ kwadrat ma długość 4 pól, to aby dojść do następnej krawędzi KodBot musi poruszyć się o 3 pola do przodu. Ruch ten realizuje pętla wewnętrzna. Gdy robot znajdzie się na krawędzi musi zmienić kierunek ruchu, dlatego w linii
 	10 występuje polecenie left. Taką sekwencję ruchów należy wykonać 4 razy, ponieważ tyle boków ma kwadrat. Z tego powodu należy użyc pętli zewnętrznej z 4 powtórzeniami.</p>
 <h3>Pętla o zmiennej ilości wykonań</h3>
-<img src='<c:url value="/resources/images/content/help/example2.png" />' />
+<img alt="Nested loop with variable iteration count" src='<c:url value="/resources/images/content/help/example2.png" />' />
 <p>Powyższy przykład spowoduje, że robot poruszy się dokładnie 12 razy do przodu (5 + 4 + 3).</p>
 <p>Przeanalizujmy ten przykład: W linijce 3 przypisujemy zmiennej x wartość 5. Następnie definiujemy pętlę, która wykona się 3 razy. W tej pętli definiujemy kolejną pętlę, która powoduje poruszenie robota do przodu o x pól. Gdy robot
 	poruszy się o x pól następuje zmniejszenie wartości x o 1. Zatem w pierwszym przebiegu robot pójdzie 5 pól do przodu, następnie w drugim przebiegu 4 pola, a w trzecim przebiegu 3 pola.</p>
