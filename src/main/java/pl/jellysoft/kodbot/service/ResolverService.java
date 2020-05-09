@@ -1,10 +1,14 @@
 package pl.jellysoft.kodbot.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import pl.jellysoft.kodbot.controller.bean.MapBean;
 import pl.jellysoft.kodbot.model.GameMap;
-import pl.jellysoft.kodbot.resolver.*;
+import pl.jellysoft.kodbot.resolver.ResolverErrorResponse;
+import pl.jellysoft.kodbot.resolver.ResolverException;
+import pl.jellysoft.kodbot.resolver.ResolverOkResponse;
+import pl.jellysoft.kodbot.resolver.ResolverResponse;
+import pl.jellysoft.kodbot.resolver.ResolverWinResponse;
 import pl.jellysoft.kodbot.resolver.evaluator.ActionType;
 import pl.jellysoft.kodbot.resolver.evaluator.Evaluator;
 import pl.jellysoft.kodbot.resolver.evaluator.EvaluatorException;
@@ -22,10 +26,10 @@ import pl.jellysoft.kodbot.resolver.statistic.StatisticDTO;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class ResolverService {
 
-    @Autowired
-    private MapService mapService;
+    private final MapService mapService;
 
     private ParserResult parse(String input) throws ParserException {
         return new CodeParser().parse(input);

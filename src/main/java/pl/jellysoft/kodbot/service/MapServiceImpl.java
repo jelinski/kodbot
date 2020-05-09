@@ -1,6 +1,6 @@
 package pl.jellysoft.kodbot.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import pl.jellysoft.kodbot.controller.bean.DataRow;
 import pl.jellysoft.kodbot.controller.bean.MapBean;
@@ -16,10 +16,10 @@ import java.util.regex.Pattern;
 import static java.util.Optional.ofNullable;
 
 @Service
+@RequiredArgsConstructor
 public class MapServiceImpl implements MapService {
 
-    @Autowired
-    private MapProvider mapProvider;
+    private final MapProvider mapProvider;
 
     @Override
     public List<GameMap> getAllMaps() {

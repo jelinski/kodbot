@@ -1,9 +1,15 @@
 package pl.jellysoft.kodbot.controller;
 
+import lombok.RequiredArgsConstructor;
 import org.owasp.encoder.Encode;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import pl.jellysoft.kodbot.controller.bean.MapBean;
 import pl.jellysoft.kodbot.model.GameMap;
 import pl.jellysoft.kodbot.resolver.ResolverErrorResponse;
@@ -16,13 +22,11 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/game")
+@RequiredArgsConstructor
 public class GameController {
 
-    @Autowired
-    private MapService mapService;
-
-    @Autowired
-    private ResolverService resolverService;
+    private final MapService mapService;
+    private final ResolverService resolverService;
 
     @GetMapping("/{mapKey}")
     public String help(@PathVariable String mapKey, Model model) {

@@ -1,6 +1,6 @@
 package pl.jellysoft.kodbot.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,10 +13,10 @@ import java.util.Collections;
 import java.util.List;
 
 @Controller
+@RequiredArgsConstructor
 public class PlayController {
 
-    @Autowired
-    private MapService mapService;
+    private final MapService mapService;
 
     @GetMapping("/play")
     public String play(Model model) {
