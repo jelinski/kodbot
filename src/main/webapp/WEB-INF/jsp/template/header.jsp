@@ -10,7 +10,7 @@
     <a id="logo" href="<c:url value="/" />">
         <meta itemprop="url" content="https://kodbot.jellysoft.pl">
     </a>
-    <img style="display: none" src="<c:url value="/resources/images/header/logo-hover.png" />">
+    <img alt="Logo" style="display: none" src="<c:url value="/resources/images/header/logo-hover.png" />">
 </div>
 <div class="col-md-10" style="text-align: right" id="menu-container">
     <nav>

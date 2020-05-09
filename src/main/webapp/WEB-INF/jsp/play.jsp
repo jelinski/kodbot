@@ -32,7 +32,7 @@ img.level:hover {
 					<c:url value="/resources/images/content/play/${map.imageUrl}.png" var="imageUrl" />
 					<c:url value="/game/${map.gameUrl}" var="gameUrl" />
 					<a href="${gameUrl}">
-						<img src="${imageUrl}" />
+						<img alt="Game preview thumbnail" src="${imageUrl}" />
 					</a>
 				</div>
 			</div>

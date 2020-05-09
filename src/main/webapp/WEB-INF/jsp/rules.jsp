@@ -17,20 +17,20 @@
     <spring:message code="rules.description.general"/>
 </p>
 <div>
-    <img src="${pageContext.request.contextPath}/resources/images/content/rules/batteryFull.png"/>
+    <img alt="Full battery" src="${pageContext.request.contextPath}/resources/images/content/rules/batteryFull.png"/>
 </div>
 <p>
     <spring:message code="rules.description.howToGetEnergy"/>
 </p>
 <div>
-    <img src="${pageContext.request.contextPath}/resources/images/content/rules/batteryLow.png"/>
+    <img alt="Depleted battery" src="${pageContext.request.contextPath}/resources/images/content/rules/batteryLow.png"/>
     <spring:message code="rules.description.batery25"/>
 </div>
 <div>
-    <img src="${pageContext.request.contextPath}/resources/images/content/rules/batteryMedium.png"/>
+    <img alt="Medium battery level" src="${pageContext.request.contextPath}/resources/images/content/rules/batteryMedium.png"/>
     <spring:message code="rules.description.batery50"/>
 </div>
 <div>
-    <img src="${pageContext.request.contextPath}/resources/images/content/rules/batteryHigh.png"/>
+    <img alt="High battery level" src="${pageContext.request.contextPath}/resources/images/content/rules/batteryHigh.png"/>
     <spring:message code="rules.description.batery75"/>
 </div>
