@@ -7,8 +7,7 @@ import org.springframework.context.MessageSource;
 import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.GetMapping;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
@@ -26,7 +25,7 @@ public class ErrorController {
         this.messageSourceAccessor = new MessageSourceAccessor(messageSource);
     }
 
-    @RequestMapping(value = "/error", method = RequestMethod.GET)
+    @GetMapping("/error")
     public String handleError(HttpServletRequest request, Model model) {
         Integer code = (Integer) request.getAttribute(RequestDispatcher.ERROR_STATUS_CODE);
         Exception exception = (Exception) request.getAttribute(RequestDispatcher.ERROR_EXCEPTION);

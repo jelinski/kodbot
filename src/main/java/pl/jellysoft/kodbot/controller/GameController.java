@@ -1,7 +1,5 @@
 package pl.jellysoft.kodbot.controller;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,10 +15,8 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @Controller
-@RequestMapping(value = "/game")
+@RequestMapping("/game")
 public class GameController {
-
-    private static final Logger logger = LoggerFactory.getLogger(GameController.class);
 
     @Autowired
     private MapService mapService;
@@ -28,11 +24,10 @@ public class GameController {
     @Autowired
     private ResolverService resolverService;
 
-    @RequestMapping(value = "/{mapKey}", method = RequestMethod.GET)
+    @GetMapping("/{mapKey}")
     public String help(@PathVariable String mapKey, Model model) {
         GameMap gameMap = mapService.getMapByKey(mapKey);
         if (gameMap == null) {
-            logger.warn("Request for unexisting map was made with key: {}", mapKey);
             return "redirect:/play";
         } else {
             model.addAttribute("mapKey", mapKey);
@@ -40,7 +35,7 @@ public class GameController {
         }
     }
 
-    @RequestMapping(value = "/resolve/code", method = RequestMethod.POST)
+    @PostMapping("/resolve/code")
     @ResponseBody
     public ResolverResponse resolveCode(@RequestParam(value = "data") String code, @RequestParam String mapKey) {
         GameMap gameMap = mapService.getMapByKey(mapKey);
@@ -51,7 +46,7 @@ public class GameController {
         }
     }
 
-    @RequestMapping(value = "/fetchMap", method = RequestMethod.POST)
+    @PostMapping("/fetchMap")
     @ResponseBody
     public MapBean fetchMap(@RequestParam String mapKey, HttpServletRequest request) {
         MapBean mb = mapService.getMapBeanByKey(mapKey);

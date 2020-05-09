@@ -1,10 +1,8 @@
 package pl.jellysoft.kodbot.controller;
 
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import static org.springframework.web.bind.annotation.RequestMethod.GET;
 
 @RestController
 public class VersionController {
@@ -18,7 +16,7 @@ public class VersionController {
     @Value("${git.build.time}")
     private String buildTime;
 
-    @RequestMapping(method = GET, value = "/version")
+    @GetMapping("/version")
     public VersionInfo obtainVersionInfo() {
         return new VersionInfo(branchName, revision, buildTime);
     }
