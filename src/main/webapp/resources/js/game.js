@@ -70,8 +70,7 @@ $("#play-button").click(function () {
             type: "POST",
             url: resolveUrl,
             data: {
-                'data': myCodeMirror.getValue(),
-                'accessToken': $('#accessToken').val(),
+                'code': myCodeMirror.getValue(),
                 'mapKey': $('#mapKey').val()
             },
             success: function (data) {

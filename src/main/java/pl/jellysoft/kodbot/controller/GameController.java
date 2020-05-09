@@ -1,6 +1,6 @@
 package pl.jellysoft.kodbot.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.owasp.encoder.Encode;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -30,14 +30,14 @@ public class GameController {
         if (gameMap == null) {
             return "redirect:/play";
         } else {
-            model.addAttribute("mapKey", mapKey);
+            model.addAttribute("mapKey", Encode.forHtml(mapKey));
             return "game";
         }
     }
 
     @PostMapping("/resolve/code")
     @ResponseBody
-    public ResolverResponse resolveCode(@RequestParam(value = "data") String code, @RequestParam String mapKey) {
+    public ResolverResponse resolveCode(@RequestParam String code, @RequestParam String mapKey) {
         GameMap gameMap = mapService.getMapByKey(mapKey);
         if (gameMap != null) {
             return resolverService.resolve(code, gameMap);

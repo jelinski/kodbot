@@ -26,7 +26,6 @@
 	<c:url value="/game/fetchMap" var="fetchUrl" />
 	<c:url value="/game/" var="gameUrl" />
 
-	<input type="hidden" id="accessToken" value="${accessToken}" />
 	<input type="hidden" id="mapKey" value="${mapKey}" />
 
 	<div id="main-div">
