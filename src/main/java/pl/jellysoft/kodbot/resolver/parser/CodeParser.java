@@ -44,7 +44,6 @@ public class CodeParser extends pl.jellysoft.kodbot.resolver.parser.Parser {
         }
     };
 
-    //TODO prawdopodobnie do usuniecia
     private final ANTLRErrorListener lexerErrorListener = new ANTLRErrorListener() {
         @Override
         public void syntaxError(Recognizer<?, ?> arg0, Object arg1, int arg2, int arg3, String arg4, RecognitionException arg5) {

@@ -26,7 +26,7 @@ public class PlayController {
         for (GameMap gameMap : gameMaps) {
             MapGalleryDTO mapGallery = MapGalleryDTO.builder()
                     .gameUrl(gameMap.getKey())
-                    .imageUrl(gameMap.getKey()) // TODO why gameUrl is same as imageUrl?
+                    .imageUrl(gameMap.getKey())
                     .build();
             mapGalleryList.add(mapGallery);
         }

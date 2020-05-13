@@ -57,7 +57,6 @@ public class GameController {
         List<String> mapSlidesUrls = mb.getMapSlides();
         if (mapSlidesUrls != null) {
             for (int i = 0; i < mapSlidesUrls.size(); i++) {
-                // TODO dodac jeszcze suffix ze wzgledu na jezyk
                 mapSlidesUrls.set(i, request.getContextPath() + MapService.MAP_SLIDES_DIRECTORY + mapSlidesUrls.get(i) + ".png");
             }
         }
