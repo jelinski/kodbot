@@ -22,7 +22,7 @@
 <meta property="og:type" content="game" />
 <meta property="og:description" content="Gra ucząca podstaw programowania i algorytmiki." />
 <meta property="og:url" content="https://kodbot.jellysoft.pl/" />
-<meta property="og:image" content="http://kodbot.jellysoft.pl/resources/images/header/logo.png" />
+<meta property="og:image" content="https://kodbot.jellysoft.pl/resources/images/header/logo.png" />
 <meta property="og:image:secure_url" content="https://kodbot.jellysoft.pl/resources/images/header/logo.png" />
 
 <!-- <meta http-equiv="Content-Type" content="text/html" charset="utf-8"> -->
