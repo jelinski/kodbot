@@ -1,7 +1,6 @@
 package pl.jellysoft.kodbot.controller;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.context.support.MessageSourceAccessor;
@@ -11,12 +10,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
-import java.text.MessageFormat;
 
+@Slf4j
 @Controller
 public class ErrorController {
-
-    private static final Logger logger = LoggerFactory.getLogger(ErrorController.class);
 
     private final MessageSourceAccessor messageSourceAccessor;
 
@@ -31,7 +28,8 @@ public class ErrorController {
         Exception exception = (Exception) request.getAttribute(RequestDispatcher.ERROR_EXCEPTION);
         String uri = (String) request.getAttribute(RequestDispatcher.ERROR_REQUEST_URI);
 
-        logger.error(MessageFormat.format("{0} ERROR. Occurred while processing request for \"{1}\".", code, uri), exception);
+        log.error("{} ERROR. Occurred while processing request for \"{}\"", code, uri);
+        log.error("Exception:", exception);
 
         String errorHeader;
         String errorMessage;
