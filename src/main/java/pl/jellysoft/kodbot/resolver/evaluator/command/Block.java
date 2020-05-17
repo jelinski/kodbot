@@ -8,12 +8,8 @@ import java.util.List;
 
 @Getter
 @Setter
-public abstract class Block extends Command {
+public abstract class Block implements Command {
 
-    private List<Command> commands;
-
-    public Block() {
-        this.commands = new ArrayList<>();
-    }
+    private List<Command> commands = new ArrayList<>();
 
 }

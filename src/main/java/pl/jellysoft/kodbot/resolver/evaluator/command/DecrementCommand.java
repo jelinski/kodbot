@@ -1,16 +1,13 @@
 package pl.jellysoft.kodbot.resolver.evaluator.command;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Value;
 
-@Getter
-@Setter
-// TODO replace with @Data afer making Command an interface
-public final class DecrementCommand extends Command {
+@Value
+public final class DecrementCommand implements Command {
 
     public static final String KEYWORD = "decrement";
     public static final String VARIABLE_KEYWORD = "variable";
 
-    private String variable;
+    private final String variable;
 
 }
