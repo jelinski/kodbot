@@ -1,7 +1,14 @@
 package pl.jellysoft.kodbot.resolver.parser;
 
+import org.antlr.v4.runtime.ANTLRErrorListener;
+import org.antlr.v4.runtime.ANTLRInputStream;
+import org.antlr.v4.runtime.CommonToken;
+import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.Parser;
-import org.antlr.v4.runtime.*;
+import org.antlr.v4.runtime.RecognitionException;
+import org.antlr.v4.runtime.Recognizer;
+import org.antlr.v4.runtime.Vocabulary;
+import org.antlr.v4.runtime.VocabularyImpl;
 import org.antlr.v4.runtime.atn.ATNConfigSet;
 import org.antlr.v4.runtime.dfa.DFA;
 import pl.jellysoft.kodbot.resolver.parser.antlr.KodbotBaseListener;
@@ -87,7 +94,7 @@ public class CodeParser extends pl.jellysoft.kodbot.resolver.parser.Parser {
         if (errors.size() > 0) {
             throw new ParserException(errors.toString());
         }
-        return new ParserResult(listener.getCommandCounter(), listener.getCommands());
+        return new ParserResult(listener.getCommandCounter().intValue(), listener.getCommands());
     }
 
 }

@@ -4,6 +4,7 @@ import lombok.Getter;
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.tree.ErrorNode;
 import org.antlr.v4.runtime.tree.TerminalNode;
+import org.apache.commons.lang3.mutable.MutableInt;
 import pl.jellysoft.kodbot.resolver.evaluator.command.AssignCommand;
 import pl.jellysoft.kodbot.resolver.evaluator.command.AssignWithAdditionCommand;
 import pl.jellysoft.kodbot.resolver.evaluator.command.AssignWithSubtractionCommand;
@@ -28,12 +29,12 @@ import java.util.List;
 public class KodbotBaseListener implements KodbotListener {
 
     @Getter
+    private final MutableInt commandCounter = new MutableInt(0);
+
+    @Getter
     private final List<Command> commands = new ArrayList<>();
 
     private final Deque<Block> lastBlocksStack = new ArrayDeque<>();
-
-    @Getter
-    private int commandCounter = 0;
 
     @Override
     public void enterMove(KodbotParser.MoveContext ctx) {
@@ -182,7 +183,7 @@ public class KodbotBaseListener implements KodbotListener {
         } else {
             commands.add(command);
         }
-        commandCounter++;
+        commandCounter.increment();
     }
 
     @Override
