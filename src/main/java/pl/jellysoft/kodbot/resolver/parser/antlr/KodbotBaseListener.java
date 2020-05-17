@@ -4,7 +4,21 @@ import lombok.Getter;
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.tree.ErrorNode;
 import org.antlr.v4.runtime.tree.TerminalNode;
-import pl.jellysoft.kodbot.resolver.evaluator.command.*;
+import pl.jellysoft.kodbot.resolver.evaluator.command.AssignCommand;
+import pl.jellysoft.kodbot.resolver.evaluator.command.AssignWithAdditionCommand;
+import pl.jellysoft.kodbot.resolver.evaluator.command.AssignWithSubtractionCommand;
+import pl.jellysoft.kodbot.resolver.evaluator.command.Block;
+import pl.jellysoft.kodbot.resolver.evaluator.command.Command;
+import pl.jellysoft.kodbot.resolver.evaluator.command.DecrementCommand;
+import pl.jellysoft.kodbot.resolver.evaluator.command.FunctionBlock;
+import pl.jellysoft.kodbot.resolver.evaluator.command.FunctionCallCommand;
+import pl.jellysoft.kodbot.resolver.evaluator.command.IncrementCommand;
+import pl.jellysoft.kodbot.resolver.evaluator.command.JumpCommand;
+import pl.jellysoft.kodbot.resolver.evaluator.command.MainBlock;
+import pl.jellysoft.kodbot.resolver.evaluator.command.MoveCommand;
+import pl.jellysoft.kodbot.resolver.evaluator.command.RepeatBlock;
+import pl.jellysoft.kodbot.resolver.evaluator.command.TurnLeftCommand;
+import pl.jellysoft.kodbot.resolver.evaluator.command.TurnRightCommand;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;
@@ -15,7 +29,9 @@ public class KodbotBaseListener implements KodbotListener {
 
     @Getter
     private final List<Command> commands = new ArrayList<>();
+
     private final Deque<Block> lastBlocksStack = new ArrayDeque<>();
+
     @Getter
     private int commandCounter = 0;
 
@@ -61,9 +77,9 @@ public class KodbotBaseListener implements KodbotListener {
 
     @Override
     public void exitAssign(KodbotParser.AssignContext ctx) {
-        AssignCommand assign = new AssignCommand();
-        assign.setLeftOperand(ctx.ID().getText());
-        assign.setRightOperand(ctx.var().getText());
+        AssignCommand assign = new AssignCommand(
+                ctx.ID().getText(),
+                ctx.var().getText());
         addToCurrentBlock(assign);
     }
 
@@ -73,10 +89,10 @@ public class KodbotBaseListener implements KodbotListener {
 
     @Override
     public void exitAssignWithAddition(KodbotParser.AssignWithAdditionContext ctx) {
-        AssignWithAdditionCommand assignWithAddition = new AssignWithAdditionCommand();
-        assignWithAddition.setLeftOperand(ctx.ID().getText());
-        assignWithAddition.setFirstRightOperand(ctx.firstRight.getText());
-        assignWithAddition.setSecondRightOperand(ctx.secondRight.getText());
+        AssignWithAdditionCommand assignWithAddition = new AssignWithAdditionCommand(
+                ctx.ID().getText(),
+                ctx.firstRight.getText(),
+                ctx.secondRight.getText());
         addToCurrentBlock(assignWithAddition);
     }
 
@@ -86,10 +102,10 @@ public class KodbotBaseListener implements KodbotListener {
 
     @Override
     public void exitAssignWithSubtraction(KodbotParser.AssignWithSubtractionContext ctx) {
-        AssignWithSubtractionCommand assignWithSubtraction = new AssignWithSubtractionCommand();
-        assignWithSubtraction.setLeftOperand(ctx.ID().getText());
-        assignWithSubtraction.setFirstRightOperand(ctx.firstRight.getText());
-        assignWithSubtraction.setSecondRightOperand(ctx.secondRight.getText());
+        AssignWithSubtractionCommand assignWithSubtraction = new AssignWithSubtractionCommand(
+                ctx.ID().getText(),
+                ctx.firstRight.getText(),
+                ctx.secondRight.getText());
         addToCurrentBlock(assignWithSubtraction);
     }
 
@@ -99,8 +115,7 @@ public class KodbotBaseListener implements KodbotListener {
 
     @Override
     public void exitIncrement(KodbotParser.IncrementContext ctx) {
-        IncrementCommand increment = new IncrementCommand();
-        increment.setVariable(ctx.INCREMENT_ID().getText().substring(0, 1));
+        IncrementCommand increment = new IncrementCommand(ctx.INCREMENT_ID().getText().substring(0, 1));
         addToCurrentBlock(increment);
     }
 
@@ -110,34 +125,29 @@ public class KodbotBaseListener implements KodbotListener {
 
     @Override
     public void exitDecrement(KodbotParser.DecrementContext ctx) {
-        DecrementCommand decrement = new DecrementCommand();
-        decrement.setVariable(ctx.DECREMENT_ID().getText().substring(0, 1));
+        DecrementCommand decrement = new DecrementCommand(ctx.DECREMENT_ID().getText().substring(0, 1));
         addToCurrentBlock(decrement);
     }
 
     @Override
     public void enterRepeat(KodbotParser.RepeatContext ctx) {
-        RepeatBlock repeat = new RepeatBlock();
-        lastBlocksStack.addLast(repeat);
+        lastBlocksStack.addLast(new RepeatBlock(ctx.var().getText()));
     }
 
     @Override
     public void exitRepeat(KodbotParser.RepeatContext ctx) {
         RepeatBlock repeat = (RepeatBlock) lastBlocksStack.pollLast();
-        repeat.setCount(ctx.var().getText());
         addToCurrentBlock(repeat);
     }
 
     @Override
     public void enterFunctionDef(KodbotParser.FunctionDefContext ctx) {
-        FunctionBlock function = new FunctionBlock();
-        lastBlocksStack.add(function);
+        lastBlocksStack.add(new FunctionBlock(ctx.ID().getText()));
     }
 
     @Override
     public void exitFunctionDef(KodbotParser.FunctionDefContext ctx) {
         FunctionBlock function = (FunctionBlock) lastBlocksStack.pollLast();
-        function.setName(ctx.ID().getText());
         addToCurrentBlock(function);
     }
 
@@ -147,15 +157,13 @@ public class KodbotBaseListener implements KodbotListener {
 
     @Override
     public void exitFunctionCall(KodbotParser.FunctionCallContext ctx) {
-        FunctionCallCommand functionCall = new FunctionCallCommand();
-        functionCall.setName(ctx.ID().getText());
+        FunctionCallCommand functionCall = new FunctionCallCommand(ctx.ID().getText());
         addToCurrentBlock(functionCall);
     }
 
     @Override
     public void enterMain(KodbotParser.MainContext ctx) {
-        MainBlock main = new MainBlock();
-        lastBlocksStack.addLast(main);
+        lastBlocksStack.addLast(new MainBlock());
     }
 
     @Override
@@ -172,7 +180,7 @@ public class KodbotBaseListener implements KodbotListener {
                 commands = new ArrayList<>();
             commands.add(command);
         } else {
-            this.commands.add(command);
+            commands.add(command);
         }
         commandCounter++;
     }

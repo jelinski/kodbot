@@ -1,11 +1,9 @@
 package pl.jellysoft.kodbot.resolver.evaluator.command;
 
+import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
 
-@Getter
-@Setter
+@Data
 @EqualsAndHashCode(callSuper = false)
 public class FunctionBlock extends Block {
 
@@ -13,6 +11,6 @@ public class FunctionBlock extends Block {
     public static final String NAME_KEYWORD = "name";
     public static final String COMMANDS_KEYWORD = "commands";
 
-    private String name;
+    private final String name;
 
 }

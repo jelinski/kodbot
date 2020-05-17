@@ -5,7 +5,7 @@ public class MainBlock extends FunctionBlock {
     public static final String KEYWORD = "main";
 
     public MainBlock() {
-        setName(KEYWORD);
+        super(KEYWORD);
     }
 
 }
