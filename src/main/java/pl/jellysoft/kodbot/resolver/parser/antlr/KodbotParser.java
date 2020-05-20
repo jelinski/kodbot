@@ -1,6 +1,10 @@
 package pl.jellysoft.kodbot.resolver.parser.antlr;
 
-import org.antlr.v4.runtime.*;
+import org.antlr.v4.runtime.NoViableAltException;
+import org.antlr.v4.runtime.Parser;
+import org.antlr.v4.runtime.ParserRuleContext;
+import org.antlr.v4.runtime.RecognitionException;
+import org.antlr.v4.runtime.TokenStream;
 import org.antlr.v4.runtime.atn.ATN;
 import org.antlr.v4.runtime.atn.ATNSimulator;
 import org.antlr.v4.runtime.atn.ParserATNSimulator;
@@ -630,12 +634,16 @@ public class KodbotParser extends Parser {
 
         @Override
         public void enterRule(ParseTreeListener listener) {
-            if (listener instanceof KodbotListener) ((KodbotListener) listener).enterStart(this);
+            if (listener instanceof KodbotListener) {
+                ((KodbotListener) listener).enterStart(this);
+            }
         }
 
         @Override
         public void exitRule(ParseTreeListener listener) {
-            if (listener instanceof KodbotListener) ((KodbotListener) listener).exitStart(this);
+            if (listener instanceof KodbotListener) {
+                ((KodbotListener) listener).exitStart(this);
+            }
         }
     }
 
@@ -659,12 +667,16 @@ public class KodbotParser extends Parser {
 
         @Override
         public void enterRule(ParseTreeListener listener) {
-            if (listener instanceof KodbotListener) ((KodbotListener) listener).enterMain(this);
+            if (listener instanceof KodbotListener) {
+                ((KodbotListener) listener).enterMain(this);
+            }
         }
 
         @Override
         public void exitRule(ParseTreeListener listener) {
-            if (listener instanceof KodbotListener) ((KodbotListener) listener).exitMain(this);
+            if (listener instanceof KodbotListener) {
+                ((KodbotListener) listener).exitMain(this);
+            }
         }
     }
 
@@ -688,12 +700,16 @@ public class KodbotParser extends Parser {
 
         @Override
         public void enterRule(ParseTreeListener listener) {
-            if (listener instanceof KodbotListener) ((KodbotListener) listener).enterFunctionDef(this);
+            if (listener instanceof KodbotListener) {
+                ((KodbotListener) listener).enterFunctionDef(this);
+            }
         }
 
         @Override
         public void exitRule(ParseTreeListener listener) {
-            if (listener instanceof KodbotListener) ((KodbotListener) listener).exitFunctionDef(this);
+            if (listener instanceof KodbotListener) {
+                ((KodbotListener) listener).exitFunctionDef(this);
+            }
         }
     }
 
@@ -721,12 +737,16 @@ public class KodbotParser extends Parser {
 
         @Override
         public void enterRule(ParseTreeListener listener) {
-            if (listener instanceof KodbotListener) ((KodbotListener) listener).enterBlock(this);
+            if (listener instanceof KodbotListener) {
+                ((KodbotListener) listener).enterBlock(this);
+            }
         }
 
         @Override
         public void exitRule(ParseTreeListener listener) {
-            if (listener instanceof KodbotListener) ((KodbotListener) listener).exitBlock(this);
+            if (listener instanceof KodbotListener) {
+                ((KodbotListener) listener).exitBlock(this);
+            }
         }
     }
 
@@ -758,12 +778,16 @@ public class KodbotParser extends Parser {
 
         @Override
         public void enterRule(ParseTreeListener listener) {
-            if (listener instanceof KodbotListener) ((KodbotListener) listener).enterStat(this);
+            if (listener instanceof KodbotListener) {
+                ((KodbotListener) listener).enterStat(this);
+            }
         }
 
         @Override
         public void exitRule(ParseTreeListener listener) {
-            if (listener instanceof KodbotListener) ((KodbotListener) listener).exitStat(this);
+            if (listener instanceof KodbotListener) {
+                ((KodbotListener) listener).exitStat(this);
+            }
         }
     }
 
@@ -823,12 +847,16 @@ public class KodbotParser extends Parser {
 
         @Override
         public void enterRule(ParseTreeListener listener) {
-            if (listener instanceof KodbotListener) ((KodbotListener) listener).enterExpr(this);
+            if (listener instanceof KodbotListener) {
+                ((KodbotListener) listener).enterExpr(this);
+            }
         }
 
         @Override
         public void exitRule(ParseTreeListener listener) {
-            if (listener instanceof KodbotListener) ((KodbotListener) listener).exitExpr(this);
+            if (listener instanceof KodbotListener) {
+                ((KodbotListener) listener).exitExpr(this);
+            }
         }
     }
 
@@ -864,12 +892,16 @@ public class KodbotParser extends Parser {
 
         @Override
         public void enterRule(ParseTreeListener listener) {
-            if (listener instanceof KodbotListener) ((KodbotListener) listener).enterRepeat(this);
+            if (listener instanceof KodbotListener) {
+                ((KodbotListener) listener).enterRepeat(this);
+            }
         }
 
         @Override
         public void exitRule(ParseTreeListener listener) {
-            if (listener instanceof KodbotListener) ((KodbotListener) listener).exitRepeat(this);
+            if (listener instanceof KodbotListener) {
+                ((KodbotListener) listener).exitRepeat(this);
+            }
         }
     }
 
@@ -889,12 +921,16 @@ public class KodbotParser extends Parser {
 
         @Override
         public void enterRule(ParseTreeListener listener) {
-            if (listener instanceof KodbotListener) ((KodbotListener) listener).enterFunctionCall(this);
+            if (listener instanceof KodbotListener) {
+                ((KodbotListener) listener).enterFunctionCall(this);
+            }
         }
 
         @Override
         public void exitRule(ParseTreeListener listener) {
-            if (listener instanceof KodbotListener) ((KodbotListener) listener).exitFunctionCall(this);
+            if (listener instanceof KodbotListener) {
+                ((KodbotListener) listener).exitFunctionCall(this);
+            }
         }
     }
 
@@ -918,12 +954,16 @@ public class KodbotParser extends Parser {
 
         @Override
         public void enterRule(ParseTreeListener listener) {
-            if (listener instanceof KodbotListener) ((KodbotListener) listener).enterVar(this);
+            if (listener instanceof KodbotListener) {
+                ((KodbotListener) listener).enterVar(this);
+            }
         }
 
         @Override
         public void exitRule(ParseTreeListener listener) {
-            if (listener instanceof KodbotListener) ((KodbotListener) listener).exitVar(this);
+            if (listener instanceof KodbotListener) {
+                ((KodbotListener) listener).exitVar(this);
+            }
         }
     }
 
@@ -962,12 +1002,16 @@ public class KodbotParser extends Parser {
 
         @Override
         public void enterRule(ParseTreeListener listener) {
-            if (listener instanceof KodbotListener) ((KodbotListener) listener).enterAssignWithAddition(this);
+            if (listener instanceof KodbotListener) {
+                ((KodbotListener) listener).enterAssignWithAddition(this);
+            }
         }
 
         @Override
         public void exitRule(ParseTreeListener listener) {
-            if (listener instanceof KodbotListener) ((KodbotListener) listener).exitAssignWithAddition(this);
+            if (listener instanceof KodbotListener) {
+                ((KodbotListener) listener).exitAssignWithAddition(this);
+            }
         }
     }
 
@@ -1006,12 +1050,16 @@ public class KodbotParser extends Parser {
 
         @Override
         public void enterRule(ParseTreeListener listener) {
-            if (listener instanceof KodbotListener) ((KodbotListener) listener).enterAssignWithSubtraction(this);
+            if (listener instanceof KodbotListener) {
+                ((KodbotListener) listener).enterAssignWithSubtraction(this);
+            }
         }
 
         @Override
         public void exitRule(ParseTreeListener listener) {
-            if (listener instanceof KodbotListener) ((KodbotListener) listener).exitAssignWithSubtraction(this);
+            if (listener instanceof KodbotListener) {
+                ((KodbotListener) listener).exitAssignWithSubtraction(this);
+            }
         }
     }
 
@@ -1039,12 +1087,16 @@ public class KodbotParser extends Parser {
 
         @Override
         public void enterRule(ParseTreeListener listener) {
-            if (listener instanceof KodbotListener) ((KodbotListener) listener).enterAssign(this);
+            if (listener instanceof KodbotListener) {
+                ((KodbotListener) listener).enterAssign(this);
+            }
         }
 
         @Override
         public void exitRule(ParseTreeListener listener) {
-            if (listener instanceof KodbotListener) ((KodbotListener) listener).exitAssign(this);
+            if (listener instanceof KodbotListener) {
+                ((KodbotListener) listener).exitAssign(this);
+            }
         }
     }
 
@@ -1064,12 +1116,16 @@ public class KodbotParser extends Parser {
 
         @Override
         public void enterRule(ParseTreeListener listener) {
-            if (listener instanceof KodbotListener) ((KodbotListener) listener).enterMove(this);
+            if (listener instanceof KodbotListener) {
+                ((KodbotListener) listener).enterMove(this);
+            }
         }
 
         @Override
         public void exitRule(ParseTreeListener listener) {
-            if (listener instanceof KodbotListener) ((KodbotListener) listener).exitMove(this);
+            if (listener instanceof KodbotListener) {
+                ((KodbotListener) listener).exitMove(this);
+            }
         }
     }
 
@@ -1089,12 +1145,16 @@ public class KodbotParser extends Parser {
 
         @Override
         public void enterRule(ParseTreeListener listener) {
-            if (listener instanceof KodbotListener) ((KodbotListener) listener).enterJump(this);
+            if (listener instanceof KodbotListener) {
+                ((KodbotListener) listener).enterJump(this);
+            }
         }
 
         @Override
         public void exitRule(ParseTreeListener listener) {
-            if (listener instanceof KodbotListener) ((KodbotListener) listener).exitJump(this);
+            if (listener instanceof KodbotListener) {
+                ((KodbotListener) listener).exitJump(this);
+            }
         }
     }
 
@@ -1114,12 +1174,16 @@ public class KodbotParser extends Parser {
 
         @Override
         public void enterRule(ParseTreeListener listener) {
-            if (listener instanceof KodbotListener) ((KodbotListener) listener).enterTurnLeft(this);
+            if (listener instanceof KodbotListener) {
+                ((KodbotListener) listener).enterTurnLeft(this);
+            }
         }
 
         @Override
         public void exitRule(ParseTreeListener listener) {
-            if (listener instanceof KodbotListener) ((KodbotListener) listener).exitTurnLeft(this);
+            if (listener instanceof KodbotListener) {
+                ((KodbotListener) listener).exitTurnLeft(this);
+            }
         }
     }
 
@@ -1139,12 +1203,16 @@ public class KodbotParser extends Parser {
 
         @Override
         public void enterRule(ParseTreeListener listener) {
-            if (listener instanceof KodbotListener) ((KodbotListener) listener).enterTurnRight(this);
+            if (listener instanceof KodbotListener) {
+                ((KodbotListener) listener).enterTurnRight(this);
+            }
         }
 
         @Override
         public void exitRule(ParseTreeListener listener) {
-            if (listener instanceof KodbotListener) ((KodbotListener) listener).exitTurnRight(this);
+            if (listener instanceof KodbotListener) {
+                ((KodbotListener) listener).exitTurnRight(this);
+            }
         }
     }
 
@@ -1164,12 +1232,16 @@ public class KodbotParser extends Parser {
 
         @Override
         public void enterRule(ParseTreeListener listener) {
-            if (listener instanceof KodbotListener) ((KodbotListener) listener).enterIncrement(this);
+            if (listener instanceof KodbotListener) {
+                ((KodbotListener) listener).enterIncrement(this);
+            }
         }
 
         @Override
         public void exitRule(ParseTreeListener listener) {
-            if (listener instanceof KodbotListener) ((KodbotListener) listener).exitIncrement(this);
+            if (listener instanceof KodbotListener) {
+                ((KodbotListener) listener).exitIncrement(this);
+            }
         }
     }
 
@@ -1189,12 +1261,16 @@ public class KodbotParser extends Parser {
 
         @Override
         public void enterRule(ParseTreeListener listener) {
-            if (listener instanceof KodbotListener) ((KodbotListener) listener).enterDecrement(this);
+            if (listener instanceof KodbotListener) {
+                ((KodbotListener) listener).enterDecrement(this);
+            }
         }
 
         @Override
         public void exitRule(ParseTreeListener listener) {
-            if (listener instanceof KodbotListener) ((KodbotListener) listener).exitDecrement(this);
+            if (listener instanceof KodbotListener) {
+                ((KodbotListener) listener).exitDecrement(this);
+            }
         }
     }
 

@@ -1,6 +1,19 @@
 package pl.jellysoft.kodbot.resolver.statistic;
 
-import pl.jellysoft.kodbot.resolver.evaluator.command.*;
+import pl.jellysoft.kodbot.resolver.evaluator.command.AssignCommand;
+import pl.jellysoft.kodbot.resolver.evaluator.command.AssignWithAdditionCommand;
+import pl.jellysoft.kodbot.resolver.evaluator.command.AssignWithSubtractionCommand;
+import pl.jellysoft.kodbot.resolver.evaluator.command.Command;
+import pl.jellysoft.kodbot.resolver.evaluator.command.DecrementCommand;
+import pl.jellysoft.kodbot.resolver.evaluator.command.FunctionBlock;
+import pl.jellysoft.kodbot.resolver.evaluator.command.FunctionCallCommand;
+import pl.jellysoft.kodbot.resolver.evaluator.command.IncrementCommand;
+import pl.jellysoft.kodbot.resolver.evaluator.command.JumpCommand;
+import pl.jellysoft.kodbot.resolver.evaluator.command.MainBlock;
+import pl.jellysoft.kodbot.resolver.evaluator.command.MoveCommand;
+import pl.jellysoft.kodbot.resolver.evaluator.command.RepeatBlock;
+import pl.jellysoft.kodbot.resolver.evaluator.command.TurnLeftCommand;
+import pl.jellysoft.kodbot.resolver.evaluator.command.TurnRightCommand;
 
 import java.util.List;
 

@@ -52,8 +52,9 @@ public class ResolverService {
 
             ParserResult parserResult = parse(input);
             List<Command> commands = parserResult.getCommands();
-            if (commands == null || commands.isEmpty())
+            if (commands == null || commands.isEmpty()) {
                 throw new ResolverException("No commands generated");
+            }
             EvaluatorResult evaluatorResult = evaluate(commands);
             List<ActionType> actions = evaluatorResult.getActions();
             Simulator.SimulatorResult simulatorResult = simulate(actions, mapService.createMapBeanFromMap(gameMap));
@@ -68,10 +69,11 @@ public class ResolverService {
             }
         } catch (Exception e) {
             String message;
-            if (e instanceof ResolverException)
+            if (e instanceof ResolverException) {
                 message = e.getMessage();
-            else
+            } else {
                 message = "Nastapil nieznany blad";
+            }
 
             return new ResolverErrorResponse(message);
         }

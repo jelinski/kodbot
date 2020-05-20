@@ -4,7 +4,12 @@ import lombok.Value;
 import pl.jellysoft.kodbot.controller.bean.DataRow;
 import pl.jellysoft.kodbot.controller.bean.MapBean;
 import pl.jellysoft.kodbot.resolver.evaluator.ActionType;
-import pl.jellysoft.kodbot.resolver.simulator.element.*;
+import pl.jellysoft.kodbot.resolver.simulator.element.Battery;
+import pl.jellysoft.kodbot.resolver.simulator.element.Element;
+import pl.jellysoft.kodbot.resolver.simulator.element.ElementType;
+import pl.jellysoft.kodbot.resolver.simulator.element.HeavyBox;
+import pl.jellysoft.kodbot.resolver.simulator.element.LightBox;
+import pl.jellysoft.kodbot.resolver.simulator.element.SpikedBox;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;
@@ -150,7 +155,9 @@ public class Simulator {
                 Deque<Element> stack = map.get(row).get(col);
                 if (stack.size() == destinationHeight) {
                     return true; //idziemy na kafelek/bloczek na ktorym juz nic nie stoi
-                } else return isPickupable(map.get(row).get(col).peekLast()); //jesli cos na nim stoi, to musi to byc do zebrania np. bateria
+                } else {
+                    return isPickupable(map.get(row).get(col).peekLast()); //jesli cos na nim stoi, to musi to byc do zebrania np. bateria
+                }
             }
         }
         return false;
@@ -164,7 +171,9 @@ public class Simulator {
                 Deque<Element> stack = map.get(row).get(col);
                 if (stack.size() == destinationHeight) {
                     return true; //tam gdzie chcemy skoczyc nic nie stoi
-                } else return isPickupable(map.get(row).get(col).peekLast()); //jesli jednak cos stoi to musi byc do podniesienia
+                } else {
+                    return isPickupable(map.get(row).get(col).peekLast()); //jesli jednak cos stoi to musi byc do podniesienia
+                }
             }
         }
         return false;
@@ -196,8 +205,9 @@ public class Simulator {
             map.get(botRow).get(botCol).pollLast();
             if (element instanceof Battery) {
                 batteryLevel += ((Battery) element).getBatteryAmount();
-                if (batteryLevel > 100)
+                if (batteryLevel > 100) {
                     batteryLevel = 100;
+                }
                 batteryNumber--;
             }
         }

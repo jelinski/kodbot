@@ -177,8 +177,9 @@ public class KodbotBaseListener implements KodbotListener {
         Block currentBlock = lastBlocksStack.peekLast();
         if (currentBlock != null) {
             List<Command> commands = currentBlock.getCommands();
-            if (commands == null)
+            if (commands == null) {
                 commands = new ArrayList<>();
+            }
             commands.add(command);
         } else {
             commands.add(command);

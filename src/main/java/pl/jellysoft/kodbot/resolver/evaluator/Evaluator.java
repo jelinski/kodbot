@@ -30,8 +30,9 @@ public class Evaluator {
 
     private void process(List<Command> commands) throws EvaluatorException {
         watchDog--;
-        if (watchDog == 0)
+        if (watchDog == 0) {
             throw new EvaluatorException("Zbyt wiele zagniezdzen");
+        }
 
         for (Command currentCommand : commands) {
             if (currentCommand instanceof MoveCommand) {

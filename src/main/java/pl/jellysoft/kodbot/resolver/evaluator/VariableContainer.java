@@ -59,8 +59,9 @@ public class VariableContainer {
     }
 
     private void validate(String name) throws EvaluatorException {
-        if (isDigit(name))
+        if (isDigit(name)) {
             throw new EvaluatorException("Cyfry po lewej stronie przypisania");
+        }
     }
 
     private static class Pair {
