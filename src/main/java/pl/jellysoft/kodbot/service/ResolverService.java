@@ -25,6 +25,8 @@ import pl.jellysoft.kodbot.resolver.statistic.StatisticDTO;
 
 import java.util.List;
 
+import static org.apache.commons.collections4.CollectionUtils.isEmpty;
+
 @Service
 @RequiredArgsConstructor
 public class ResolverService {
@@ -49,10 +51,9 @@ public class ResolverService {
 
     public ResolverResponse resolve(String input, GameMap gameMap) {
         try {
-
             ParserResult parserResult = parse(input);
             List<Command> commands = parserResult.getCommands();
-            if (commands == null || commands.isEmpty()) {
+            if (isEmpty(commands)) {
                 throw new ResolverException("No commands generated");
             }
             EvaluatorResult evaluatorResult = evaluate(commands);

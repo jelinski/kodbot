@@ -1,5 +1,6 @@
 package pl.jellysoft.kodbot.resolver.evaluator;
 
+import org.apache.commons.lang3.mutable.MutableInt;
 import pl.jellysoft.kodbot.resolver.evaluator.command.AssignCommand;
 import pl.jellysoft.kodbot.resolver.evaluator.command.AssignWithAdditionCommand;
 import pl.jellysoft.kodbot.resolver.evaluator.command.AssignWithSubtractionCommand;
@@ -22,15 +23,15 @@ import java.util.List;
 public class Evaluator {
 
     private static final int WATCHDOG_MAX = 1000;
+
     private final VariableContainer variables = new VariableContainer();
     private final FunctionContainer functions = new FunctionContainer();
     private final List<ActionType> actions = new ArrayList<>();
     private final Deque<FunctionBlock> functionCallDeque = new ArrayDeque<>();
-    private int watchDog = WATCHDOG_MAX;
+    private final MutableInt watchDog = new MutableInt(WATCHDOG_MAX);
 
     private void process(List<Command> commands) throws EvaluatorException {
-        watchDog--;
-        if (watchDog == 0) {
+        if (watchDog.decrementAndGet() == 0) {
             throw new EvaluatorException("Zbyt wiele zagniezdzen");
         }
 

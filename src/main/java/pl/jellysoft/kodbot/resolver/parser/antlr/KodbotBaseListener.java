@@ -32,7 +32,7 @@ public class KodbotBaseListener implements KodbotListener {
     private final MutableInt commandCounter = new MutableInt(0);
 
     @Getter
-    private final List<Command> commands = new ArrayList<>();
+    private final List<Command> rootCommands = new ArrayList<>();
 
     private final Deque<Block> lastBlocksStack = new ArrayDeque<>();
 
@@ -132,23 +132,23 @@ public class KodbotBaseListener implements KodbotListener {
 
     @Override
     public void enterRepeat(KodbotParser.RepeatContext ctx) {
-        lastBlocksStack.addLast(new RepeatBlock(ctx.var().getText()));
+        lastBlocksStack.push(new RepeatBlock(ctx.var().getText()));
     }
 
     @Override
     public void exitRepeat(KodbotParser.RepeatContext ctx) {
-        RepeatBlock repeat = (RepeatBlock) lastBlocksStack.pollLast();
+        RepeatBlock repeat = (RepeatBlock) lastBlocksStack.pop();
         addToCurrentBlock(repeat);
     }
 
     @Override
     public void enterFunctionDef(KodbotParser.FunctionDefContext ctx) {
-        lastBlocksStack.add(new FunctionBlock(ctx.ID().getText()));
+        lastBlocksStack.push(new FunctionBlock(ctx.ID().getText()));
     }
 
     @Override
     public void exitFunctionDef(KodbotParser.FunctionDefContext ctx) {
-        FunctionBlock function = (FunctionBlock) lastBlocksStack.pollLast();
+        FunctionBlock function = (FunctionBlock) lastBlocksStack.pop();
         addToCurrentBlock(function);
     }
 
@@ -164,25 +164,21 @@ public class KodbotBaseListener implements KodbotListener {
 
     @Override
     public void enterMain(KodbotParser.MainContext ctx) {
-        lastBlocksStack.addLast(new MainBlock());
+        lastBlocksStack.push(new MainBlock());
     }
 
     @Override
     public void exitMain(KodbotParser.MainContext ctx) {
-        MainBlock main = (MainBlock) lastBlocksStack.pollLast();
+        MainBlock main = (MainBlock) lastBlocksStack.pop();
         addToCurrentBlock(main);
     }
 
     private void addToCurrentBlock(Command command) {
-        Block currentBlock = lastBlocksStack.peekLast();
+        Block currentBlock = lastBlocksStack.peek();
         if (currentBlock != null) {
-            List<Command> commands = currentBlock.getCommands();
-            if (commands == null) {
-                commands = new ArrayList<>();
-            }
-            commands.add(command);
+            currentBlock.getCommands().add(command);
         } else {
-            commands.add(command);
+            rootCommands.add(command);
         }
         commandCounter.increment();
     }

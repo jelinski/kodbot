@@ -55,7 +55,7 @@ public class CodeParser extends pl.jellysoft.kodbot.resolver.parser.Parser {
         if (errors.size() > 0) {
             throw new ParserException(errors.toString());
         }
-        return new ParserResult(listener.getCommandCounter().intValue(), listener.getCommands());
+        return new ParserResult(listener.getCommandCounter().intValue(), listener.getRootCommands());
     }
 
 }

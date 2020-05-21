@@ -7,23 +7,19 @@ import pl.jellysoft.kodbot.resolver.evaluator.command.MainBlock;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.google.common.collect.MoreCollectors.toOptional;
+
 public class FunctionContainer {
 
-    private MainBlock mainFunction;
-    private final List<FunctionBlock> functions;
-
-    public FunctionContainer() {
-        functions = new ArrayList<>();
-    }
+    private final List<FunctionBlock> functions = new ArrayList<>();
+    private MainBlock mainFunction = null;
 
     public void setup(List<Command> commands) throws EvaluatorException {
-        boolean mainFunctionFound = false;
-        // Iteracja po zewnetrznych elementach bez rekurencji, poniewaz funkcjie nie moga byc definiowane wewnatrz innych blokow
+
         for (Command command : commands) {
             if (command instanceof MainBlock) {
-                if (!mainFunctionFound) {
-                    setMainFunction((MainBlock) command);
-                    mainFunctionFound = true;
+                if (mainFunction == null) {
+                    mainFunction = ((MainBlock) command);
                 } else {
                     throw new EvaluatorException("Może być tylko jedna funkcja main w programie!");
                 }
@@ -38,26 +34,20 @@ public class FunctionContainer {
                 throw new EvaluatorException("Zewnętrzny element musi być funkcją");
             }
         }
-        if (!mainFunctionFound) {
+        if (mainFunction == null) {
             throw new EvaluatorException("Nie znaleziono żadnej funkcji main w programie");
         }
     }
 
     public FunctionBlock getByName(String name) throws EvaluatorException {
-        for (FunctionBlock f : functions) {
-            if (f.getName().equals(name)) {
-                return f;
-            }
-        }
-        throw new EvaluatorException("Odwolano sie do funkcji, ktora nie jest zdefiniowana");
+        return functions.stream()
+                .filter(function -> function.getName().equals(name))
+                .collect(toOptional())
+                .orElseThrow(() -> new EvaluatorException("Odwolano sie do funkcji, ktora nie jest zdefiniowana"));
     }
 
     public MainBlock getMainFunction() {
-        return this.mainFunction;
-    }
-
-    private void setMainFunction(MainBlock mainFunction) {
-        this.mainFunction = mainFunction;
+        return mainFunction;
     }
 
 }

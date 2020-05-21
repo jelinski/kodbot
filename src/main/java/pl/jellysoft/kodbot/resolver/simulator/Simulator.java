@@ -154,9 +154,9 @@ public class Simulator {
             if (currentHeight == destinationHeight) {
                 Deque<Element> stack = map.get(row).get(col);
                 if (stack.size() == destinationHeight) {
-                    return true; //idziemy na kafelek/bloczek na ktorym juz nic nie stoi
+                    return true;
                 } else {
-                    return isPickupable(map.get(row).get(col).peekLast()); //jesli cos na nim stoi, to musi to byc do zebrania np. bateria
+                    return isPickupable(map.get(row).get(col).peekLast());
                 }
             }
         }
@@ -170,9 +170,9 @@ public class Simulator {
             if (Math.abs(currentHeight - destinationHeight) == 1) {
                 Deque<Element> stack = map.get(row).get(col);
                 if (stack.size() == destinationHeight) {
-                    return true; //tam gdzie chcemy skoczyc nic nie stoi
+                    return true;
                 } else {
-                    return isPickupable(map.get(row).get(col).peekLast()); //jesli jednak cos stoi to musi byc do podniesienia
+                    return isPickupable(map.get(row).get(col).peekLast());
                 }
             }
         }

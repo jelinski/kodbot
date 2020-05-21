@@ -1,8 +1,10 @@
 package pl.jellysoft.kodbot.resolver.evaluator.command;
 
+import lombok.EqualsAndHashCode;
 import lombok.Value;
 
 @Value
+@EqualsAndHashCode(callSuper = false)
 public class RepeatBlock extends Block {
 
     public static final String KEYWORD = "repeat";
