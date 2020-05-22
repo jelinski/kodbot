@@ -1,5 +1,6 @@
 package pl.jellysoft.kodbot.controller;
 
+import io.vavr.control.Try;
 import lombok.RequiredArgsConstructor;
 import org.owasp.encoder.Encode;
 import org.springframework.stereotype.Controller;
@@ -44,7 +45,8 @@ public class GameController {
     public ResolverResponse resolveCode(@RequestParam String code, @RequestParam String mapKey) {
         GameMap gameMap = mapService.getMapByKey(mapKey);
         if (gameMap != null) {
-            return resolverService.resolve(code, gameMap);
+            return Try.ofSupplier(() -> resolverService.resolve(code, gameMap))
+                    .getOrElse(new ResolverErrorResponse("Nastapil nieznany blad"));
         } else {
             return new ResolverErrorResponse("Niepoprawna wartość mapKey");
         }
