@@ -1,6 +1,8 @@
 package pl.jellysoft.kodbot.resolver.simulator;
 
+import io.vavr.control.Either;
 import lombok.Value;
+import org.apache.commons.lang3.mutable.MutableInt;
 import pl.jellysoft.kodbot.controller.bean.DataRow;
 import pl.jellysoft.kodbot.controller.bean.MapBean;
 import pl.jellysoft.kodbot.resolver.evaluator.ActionType;
@@ -16,92 +18,80 @@ import java.util.ArrayList;
 import java.util.Deque;
 import java.util.List;
 
+import static io.vavr.collection.List.ofAll;
+import static io.vavr.control.Either.left;
+import static io.vavr.control.Either.right;
+
 public class Simulator {
 
-    private final List<List<Deque<Element>>> map;
-    private int batteryLevel;
-    private int botRow;
-    private int botCol;
-    private int botDirection;
-    private int batteryNumber;
+    public static Either<String, SimulatorResult> simulate(List<ActionType> actions, MapBean mapBean) {
+        return ofAll(actions)
+                .foldLeft(setupMap(mapBean), (acc, action) ->
+                        acc.flatMap(simulationContext -> {
+                            if (action == ActionType.MOVE) {
+                                return wrap(move(simulationContext));
+                            } else if (action == ActionType.JUMP) {
+                                return wrap(jump(simulationContext));
+                            } else if (action == ActionType.TURN_LEFT) {
+                                return wrap(turnLeft(simulationContext));
+                            } else if (action == ActionType.TURN_RIGHT) {
+                                return wrap(turnRight(simulationContext));
+                            } else {
+                                return Either.<String, SimulationContext>left("Nieznany rodzaj otrzymanej akcji");
+                            }
+                        })
+                )
+                .map(simulationContext -> new SimulatorResult(simulationContext.batteryLevel, checkIfWin(simulationContext)));
+    }
 
-    public Simulator() {
-        batteryNumber = 0;
-        map = new ArrayList<>(10);
-        for (int i = 0; i < 10; i++) {
-            map.add(new ArrayList<>(10));
-            for (int j = 0; j < 10; j++) {
-                map.get(i).add(new ArrayDeque<>());
+    private static SimulationContext move(SimulationContext simulationContext) {
+        if (simulationContext.batteryLevel >= ActionType.MOVE.getBatteryCost()) {
+            simulationContext.batteryLevel -= ActionType.MOVE.getBatteryCost();
+            Position nextPosition = getNextPositionInCurrentDirection(simulationContext);
+            if (validateMove(nextPosition.row, nextPosition.col, simulationContext)) {
+                simulationContext.botRow = nextPosition.row;
+                simulationContext.botCol = nextPosition.col;
+                checkAndPickupItems(simulationContext);
             }
         }
+        return simulationContext;
     }
 
-    public SimulatorResult simulate(List<ActionType> actions, MapBean mapBean) throws SimulatorException {
-        setupMap(mapBean);
-        for (ActionType action : actions) {
-
-            if (action == ActionType.MOVE) {
-                move();
-            } else if (action == ActionType.JUMP) {
-                jump();
-            } else if (action == ActionType.TURN_LEFT) {
-                turnLeft();
-            } else if (action == ActionType.TURN_RIGHT) {
-                turnRight();
-            } else {
-                throw new SimulatorException("Nieznany rodzaj otrzymanej akcji");
+    private static SimulationContext jump(SimulationContext simulationContext) {
+        if (simulationContext.batteryLevel >= ActionType.JUMP.getBatteryCost()) {
+            simulationContext.batteryLevel -= ActionType.JUMP.getBatteryCost();
+            Position nextPosition = getNextPositionInCurrentDirection(simulationContext);
+            if (validateJump(nextPosition.row, nextPosition.col, simulationContext)) {
+                simulationContext.botRow = nextPosition.row;
+                simulationContext.botCol = nextPosition.col;
+                checkAndPickupItems(simulationContext);
             }
         }
-        if (checkIfWin()) {
-            return new SimulatorResult(batteryLevel, true);
-        }
-        return new SimulatorResult(batteryLevel, false);
+        return simulationContext;
     }
 
-    private void move() throws SimulatorException {
-        if (batteryLevel >= ActionType.MOVE.getBatteryCost()) {
-            batteryLevel -= ActionType.MOVE.getBatteryCost();
-            Position nextPosition = getNextPositionInCurrentDirection();
-            if (validateMove(nextPosition.row, nextPosition.col)) {
-                botRow = nextPosition.row;
-                botCol = nextPosition.col;
-                checkAndPickupItems();
-            }
-
+    private static SimulationContext turnLeft(SimulationContext simulationContext) {
+        if (simulationContext.batteryLevel >= ActionType.TURN_LEFT.getBatteryCost()) {
+            simulationContext.batteryLevel -= ActionType.TURN_LEFT.getBatteryCost();
+            simulationContext.botDirection += 3;
         }
+        return simulationContext;
     }
 
-    private void jump() throws SimulatorException {
-        if (batteryLevel >= ActionType.JUMP.getBatteryCost()) {
-            batteryLevel -= ActionType.JUMP.getBatteryCost();
-            Position nextPosition = getNextPositionInCurrentDirection();
-            if (validateJump(nextPosition.row, nextPosition.col)) {
-                botRow = nextPosition.row;
-                botCol = nextPosition.col;
-                checkAndPickupItems();
-            }
+    private static SimulationContext turnRight(SimulationContext simulationContext) {
+        if (simulationContext.batteryLevel >= ActionType.TURN_RIGHT.getBatteryCost()) {
+            simulationContext.batteryLevel -= ActionType.TURN_RIGHT.getBatteryCost();
+            simulationContext.botDirection++;
         }
+        return simulationContext;
     }
 
-    private void turnLeft() {
-        if (batteryLevel >= ActionType.TURN_LEFT.getBatteryCost()) {
-            batteryLevel -= ActionType.TURN_LEFT.getBatteryCost();
-            botDirection += 3;
-        }
-    }
-
-    private void turnRight() {
-        if (batteryLevel >= ActionType.TURN_RIGHT.getBatteryCost()) {
-            batteryLevel -= ActionType.TURN_RIGHT.getBatteryCost();
-            botDirection++;
-        }
-    }
-
-    private void setupMap(MapBean mapBean) throws SimulatorException {
-        batteryLevel = mapBean.getBatteryLevel();
-        botCol = mapBean.getBotPositionCol();
-        botRow = mapBean.getBotPositionRow();
-        botDirection = mapBean.getBotRotation();
+    private static Either<String, SimulationContext> setupMap(MapBean mapBean) {
+        SimulationContext simulationContext = new SimulationContext();
+        simulationContext.batteryLevel = mapBean.getBatteryLevel();
+        simulationContext.botCol = mapBean.getBotPositionCol();
+        simulationContext.botRow = mapBean.getBotPositionRow();
+        simulationContext.botDirection = mapBean.getBotRotation();
         for (DataRow row : mapBean.getData()) {
             Element element;
             int typeId = row.getType();
@@ -113,78 +103,79 @@ public class Simulator {
                 element = new SpikedBox();
             } else if (typeId == ElementType.BATTERY_LOW.getId()) {
                 element = new Battery(Battery.LOW_AMOUNT);
-                batteryNumber++;
+                simulationContext.batteryCount.increment();
             } else if (typeId == ElementType.BATTERY_MEDIUM.getId()) {
                 element = new Battery(Battery.MEDIUM_AMOUNT);
-                batteryNumber++;
+                simulationContext.batteryCount.increment();
             } else if (typeId == ElementType.BATTERY_HIGH.getId()) {
                 element = new Battery(Battery.HIGH_AMOUNT);
-                batteryNumber++;
+                simulationContext.batteryCount.increment();
             } else {
-                throw new SimulatorException("Nieznany typ elementu podczas tworzenia mapy dla symulacji");
+                return left("Nieznany typ elementu podczas tworzenia mapy dla symulacji");
             }
-            map.get(row.getRow()).get(row.getCol()).addLast(element);
+            simulationContext.map.get(row.getRow()).get(row.getCol()).addLast(element);
         }
+        return right(simulationContext);
     }
 
-    private Position getNextPositionInCurrentDirection() {
-        botDirection = botDirection % 4;
-        int newRow = botRow;
-        int newCol = botCol;
-        if (botDirection == BotDirection.BOTTOM_RIGHT.getId()) {
+    private static Position getNextPositionInCurrentDirection(SimulationContext simulationContext) {
+        simulationContext.botDirection = simulationContext.botDirection % 4;
+        int newRow = simulationContext.botRow;
+        int newCol = simulationContext.botCol;
+        if (simulationContext.botDirection == BotDirection.BOTTOM_RIGHT.getId()) {
             newCol++;
-        } else if (botDirection == BotDirection.BOTTOM_LEFT.getId()) {
+        } else if (simulationContext.botDirection == BotDirection.BOTTOM_LEFT.getId()) {
             newRow--;
-        } else if (botDirection == BotDirection.TOP_LEFT.getId()) {
+        } else if (simulationContext.botDirection == BotDirection.TOP_LEFT.getId()) {
             newCol--;
-        } else if (botDirection == BotDirection.TOP_RIGHT.getId()) {
+        } else if (simulationContext.botDirection == BotDirection.TOP_RIGHT.getId()) {
             newRow++;
         }
         return new Position(newRow, newCol);
     }
 
-    private boolean checkIfWin() {
-        return batteryNumber == 0;
+    private static boolean checkIfWin(SimulationContext simulationContext) {
+        return simulationContext.batteryCount.intValue() == 0;
     }
 
-    private boolean validateMove(int row, int col) throws SimulatorException {
+    private static boolean validateMove(int row, int col, SimulationContext simulationContext) {
         if (validatePosition(row, col)) {
-            int currentHeight = getStandableHeight(botRow, botCol);
-            int destinationHeight = getStandableHeight(row, col);
+            int currentHeight = getStandableHeight(simulationContext.botRow, simulationContext.botCol, simulationContext);
+            int destinationHeight = getStandableHeight(row, col, simulationContext);
             if (currentHeight == destinationHeight) {
-                Deque<Element> stack = map.get(row).get(col);
+                Deque<Element> stack = simulationContext.map.get(row).get(col);
                 if (stack.size() == destinationHeight) {
                     return true;
                 } else {
-                    return isPickupable(map.get(row).get(col).peekLast());
+                    return isPickupable(simulationContext.map.get(row).get(col).peekLast());
                 }
             }
         }
         return false;
     }
 
-    private boolean validateJump(int row, int col) throws SimulatorException {
+    private static boolean validateJump(int row, int col, SimulationContext simulationContext) {
         if (validatePosition(row, col)) {
-            int currentHeight = getStandableHeight(botRow, botCol);
-            int destinationHeight = getStandableHeight(row, col);
+            int currentHeight = getStandableHeight(simulationContext.botRow, simulationContext.botCol, simulationContext);
+            int destinationHeight = getStandableHeight(row, col, simulationContext);
             if (Math.abs(currentHeight - destinationHeight) == 1) {
-                Deque<Element> stack = map.get(row).get(col);
+                Deque<Element> stack = simulationContext.map.get(row).get(col);
                 if (stack.size() == destinationHeight) {
                     return true;
                 } else {
-                    return isPickupable(map.get(row).get(col).peekLast());
+                    return isPickupable(simulationContext.map.get(row).get(col).peekLast());
                 }
             }
         }
         return false;
     }
 
-    private boolean validatePosition(int row, int col) {
+    private static boolean validatePosition(int row, int col) {
         return row >= 0 && row < 10 && col >= 0 && col < 10;
     }
 
-    private int getStandableHeight(int row, int col) throws SimulatorException {
-        Deque<Element> stack = map.get(row).get(col);
+    private static int getStandableHeight(int row, int col, SimulationContext simulationContext) {
+        Deque<Element> stack = simulationContext.map.get(row).get(col);
         int height = 0;
         for (Element element : stack) {
             if (isStandable(element)) {
@@ -193,32 +184,53 @@ public class Simulator {
                 break;
             }
         }
-        if ((stack.size() - height) > 1) {
-            throw new SimulatorException("Istnieje wiecej niz jeden element non-standable na wierzchu. [ROW,COL]=" + row + "," + col);
-        }
         return height;
     }
 
-    private void checkAndPickupItems() {
-        Element element = map.get(botRow).get(botCol).peekLast();
+    private static void checkAndPickupItems(SimulationContext simulationContext) {
+        Element element = simulationContext.map.get(simulationContext.botRow).get(simulationContext.botCol).peekLast();
         if (isPickupable(element)) {
-            map.get(botRow).get(botCol).pollLast();
+            simulationContext.map.get(simulationContext.botRow).get(simulationContext.botCol).pollLast();
             if (element instanceof Battery) {
-                batteryLevel += ((Battery) element).getBatteryAmount();
-                if (batteryLevel > 100) {
-                    batteryLevel = 100;
+                simulationContext.batteryLevel += ((Battery) element).getBatteryAmount();
+                if (simulationContext.batteryLevel > 100) {
+                    simulationContext.batteryLevel = 100;
                 }
-                batteryNumber--;
+                simulationContext.batteryCount.decrement();
             }
         }
     }
 
-    private boolean isPickupable(Element element) {
+    private static boolean isPickupable(Element element) {
         return element instanceof Battery;
     }
 
-    private boolean isStandable(Element element) {
+    private static boolean isStandable(Element element) {
         return (element instanceof HeavyBox || element instanceof LightBox);
+    }
+
+    private static Either<String, SimulationContext> wrap(SimulationContext simulationContext) {
+        return Either.right(simulationContext);
+    }
+
+    // TODO change to immutable structure
+    private static class SimulationContext {
+        private final List<List<Deque<Element>>> map = new ArrayList<>();
+        private final MutableInt batteryCount = new MutableInt();
+        private int batteryLevel;
+        private int botRow;
+        private int botCol;
+        private int botDirection;
+
+        SimulationContext() {
+            for (int i = 0; i < 10; i++) {
+                map.add(new ArrayList<>(10));
+                for (int j = 0; j < 10; j++) {
+                    map.get(i).add(new ArrayDeque<>());
+                }
+            }
+        }
+
     }
 
     private static class Position {

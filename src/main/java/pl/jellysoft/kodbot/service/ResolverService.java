@@ -16,7 +16,6 @@ import pl.jellysoft.kodbot.resolver.evaluator.EvaluatorResult;
 import pl.jellysoft.kodbot.resolver.evaluator.command.Command;
 import pl.jellysoft.kodbot.resolver.parser.CodeParser;
 import pl.jellysoft.kodbot.resolver.simulator.Simulator;
-import pl.jellysoft.kodbot.resolver.simulator.SimulatorException;
 import pl.jellysoft.kodbot.resolver.statistic.MapUserScoreDTO;
 import pl.jellysoft.kodbot.resolver.statistic.StatisticCounter;
 import pl.jellysoft.kodbot.resolver.statistic.StatisticDTO;
@@ -64,11 +63,7 @@ public class ResolverService {
     }
 
     private Either<String, Simulator.SimulatorResult> simulate(List<ActionType> actions, MapBean mapBean) {
-        try {
-            return right(new Simulator().simulate(actions, mapBean));
-        } catch (SimulatorException se) {
-            return left(se.getMessage());
-        }
+        return Simulator.simulate(actions, mapBean);
     }
 
     private StatisticDTO calculateStatistics(List<Command> commands) {
