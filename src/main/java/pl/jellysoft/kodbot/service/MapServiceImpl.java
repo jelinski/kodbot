@@ -19,7 +19,22 @@ import static java.util.Optional.ofNullable;
 @RequiredArgsConstructor
 public class MapServiceImpl implements MapService {
 
+    private static final Pattern DATA_ROW_FORMAT_PATTERN = Pattern.compile("\\[([0-9]+)\\s([0-9]+)\\s([0-9]+)]");
+
     private final MapProvider mapProvider;
+
+    private static List<DataRow> createDataRowList(String data) {
+        List<DataRow> result = new ArrayList<>();
+
+        Matcher matcher = DATA_ROW_FORMAT_PATTERN.matcher(data);
+        while (matcher.find()) {
+            Integer type = Integer.parseInt(matcher.group(1));
+            Integer row = Integer.parseInt(matcher.group(2));
+            Integer col = Integer.parseInt(matcher.group(3));
+            result.add(new DataRow(type, row, col));
+        }
+        return result;
+    }
 
     @Override
     public List<GameMap> getAllMaps() {
@@ -52,19 +67,6 @@ public class MapServiceImpl implements MapService {
                                 .map(Arrays::asList)
                                 .orElse(null))
                 .build();
-    }
-
-    private List<DataRow> createDataRowList(String data) {
-        List<DataRow> result = new ArrayList<>();
-        Pattern pattern = Pattern.compile("\\[([0-9]+)\\s([0-9]+)\\s([0-9]+)\\]");
-        Matcher matcher = pattern.matcher(data);
-        while (matcher.find()) {
-            Integer type = Integer.parseInt(matcher.group(1));
-            Integer row = Integer.parseInt(matcher.group(2));
-            Integer col = Integer.parseInt(matcher.group(3));
-            result.add(new DataRow(type, row, col));
-        }
-        return result;
     }
 
     @Override
