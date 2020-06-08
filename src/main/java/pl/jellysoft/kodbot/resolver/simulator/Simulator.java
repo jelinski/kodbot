@@ -1,8 +1,8 @@
 package pl.jellysoft.kodbot.resolver.simulator;
 
+import io.vavr.collection.Array;
+import io.vavr.collection.List;
 import io.vavr.control.Either;
-import lombok.Value;
-import org.apache.commons.lang3.mutable.MutableInt;
 import pl.jellysoft.kodbot.controller.bean.DataRow;
 import pl.jellysoft.kodbot.controller.bean.MapBean;
 import pl.jellysoft.kodbot.resolver.evaluator.ActionType;
@@ -13,22 +13,20 @@ import pl.jellysoft.kodbot.resolver.simulator.element.HeavyBox;
 import pl.jellysoft.kodbot.resolver.simulator.element.LightBox;
 import pl.jellysoft.kodbot.resolver.simulator.element.SpikedBox;
 
-import java.util.ArrayDeque;
-import java.util.ArrayList;
-import java.util.Deque;
-import java.util.List;
+import java.util.Collection;
+import java.util.Optional;
+import java.util.function.Predicate;
 
 import static io.vavr.collection.List.ofAll;
-import static io.vavr.control.Either.left;
 import static io.vavr.control.Either.right;
 
 public class Simulator {
 
-    public static Either<String, SimulatorResult> simulate(List<ActionType> actions, MapBean mapBean) {
+    public static Either<String, SimulatorResult> simulate(Iterable<ActionType> actions, MapBean mapBean) {
         return ofAll(actions)
-                .foldLeft(setupMap(mapBean), (acc, action) ->
+                .foldLeft(setupSimulationContext(mapBean), (acc, action) ->
                         acc.flatMap(simulationContext -> {
-                            if (action == ActionType.MOVE) {
+                            if (action == ActionType.MOVE) {// TODO Get rid of wraps by rearranging the code
                                 return wrap(move(simulationContext));
                             } else if (action == ActionType.JUMP) {
                                 return wrap(jump(simulationContext));
@@ -41,113 +39,131 @@ public class Simulator {
                             }
                         })
                 )
-                .map(simulationContext -> new SimulatorResult(simulationContext.batteryLevel, checkIfWin(simulationContext)));
+                .map(simulationContext -> new SimulatorResult(simulationContext.getBatteryLevel(), checkIfWin(simulationContext)));
     }
 
     private static SimulationContext move(SimulationContext simulationContext) {
-        if (simulationContext.batteryLevel >= ActionType.MOVE.getBatteryCost()) {
-            simulationContext.batteryLevel -= ActionType.MOVE.getBatteryCost();
+        SimulationContext result = simulationContext;
+        if (simulationContext.getBatteryLevel() >= ActionType.MOVE.getBatteryCost()) {
+            result = result.withBatteryLevel(result.getBatteryLevel() - ActionType.MOVE.getBatteryCost());
             Position nextPosition = getNextPositionInCurrentDirection(simulationContext);
             if (validateMove(nextPosition.row, nextPosition.col, simulationContext)) {
-                simulationContext.botRow = nextPosition.row;
-                simulationContext.botCol = nextPosition.col;
-                checkAndPickupItems(simulationContext);
+                result = result.withBotRow(nextPosition.row).withBotCol(nextPosition.col);
+                result = checkAndPickupItems(result);
             }
         }
-        return simulationContext;
+        return result;
     }
 
     private static SimulationContext jump(SimulationContext simulationContext) {
-        if (simulationContext.batteryLevel >= ActionType.JUMP.getBatteryCost()) {
-            simulationContext.batteryLevel -= ActionType.JUMP.getBatteryCost();
+        SimulationContext result = simulationContext;
+        if (simulationContext.getBatteryLevel() >= ActionType.JUMP.getBatteryCost()) {
+            result = result.withBatteryLevel(result.getBatteryLevel() - ActionType.JUMP.getBatteryCost());
             Position nextPosition = getNextPositionInCurrentDirection(simulationContext);
             if (validateJump(nextPosition.row, nextPosition.col, simulationContext)) {
-                simulationContext.botRow = nextPosition.row;
-                simulationContext.botCol = nextPosition.col;
-                checkAndPickupItems(simulationContext);
+                result = result.withBotRow(nextPosition.row).withBotCol(nextPosition.col);
+                result = checkAndPickupItems(result);
             }
         }
-        return simulationContext;
+        return result;
     }
 
     private static SimulationContext turnLeft(SimulationContext simulationContext) {
-        if (simulationContext.batteryLevel >= ActionType.TURN_LEFT.getBatteryCost()) {
-            simulationContext.batteryLevel -= ActionType.TURN_LEFT.getBatteryCost();
-            simulationContext.botDirection += 3;
-        }
-        return simulationContext;
+        return Optional.of(simulationContext)
+                .filter(sm -> sm.getBatteryLevel() >= ActionType.TURN_LEFT.getBatteryCost())
+                .map(sm -> sm.withBatteryLevel(sm.getBatteryLevel() - ActionType.TURN_LEFT.getBatteryCost())
+                        .withBotDirection((sm.getBotDirection() + 3) % 4))
+                .orElse(simulationContext);
     }
 
     private static SimulationContext turnRight(SimulationContext simulationContext) {
-        if (simulationContext.batteryLevel >= ActionType.TURN_RIGHT.getBatteryCost()) {
-            simulationContext.batteryLevel -= ActionType.TURN_RIGHT.getBatteryCost();
-            simulationContext.botDirection++;
-        }
-        return simulationContext;
+        return Optional.of(simulationContext)
+                .filter(sm -> sm.getBatteryLevel() >= ActionType.TURN_RIGHT.getBatteryCost())
+                .map(sm -> sm
+                        .withBatteryLevel(sm.getBatteryLevel() - ActionType.TURN_RIGHT.getBatteryCost())
+                        .withBotDirection((sm.getBotDirection() + 1) % 4))
+                .orElse(simulationContext);
     }
 
-    private static Either<String, SimulationContext> setupMap(MapBean mapBean) {
-        SimulationContext simulationContext = new SimulationContext();
-        simulationContext.batteryLevel = mapBean.getBatteryLevel();
-        simulationContext.botCol = mapBean.getBotPositionCol();
-        simulationContext.botRow = mapBean.getBotPositionRow();
-        simulationContext.botDirection = mapBean.getBotRotation();
-        for (DataRow row : mapBean.getData()) {
-            Element element;
-            int typeId = row.getType();
-            if (typeId == ElementType.HEAVY_BOX.getId()) {
-                element = new HeavyBox();
-            } else if (typeId == ElementType.LIGHT_BOX.getId()) {
-                element = new LightBox();
-            } else if (typeId == ElementType.SPIKED_BOX.getId()) {
-                element = new SpikedBox();
-            } else if (typeId == ElementType.BATTERY_LOW.getId()) {
-                element = new Battery(Battery.LOW_AMOUNT);
-                simulationContext.batteryCount.increment();
-            } else if (typeId == ElementType.BATTERY_MEDIUM.getId()) {
-                element = new Battery(Battery.MEDIUM_AMOUNT);
-                simulationContext.batteryCount.increment();
-            } else if (typeId == ElementType.BATTERY_HIGH.getId()) {
-                element = new Battery(Battery.HIGH_AMOUNT);
-                simulationContext.batteryCount.increment();
-            } else {
-                return left("Nieznany typ elementu podczas tworzenia mapy dla symulacji");
-            }
-            simulationContext.map.get(row.getRow()).get(row.getCol()).addLast(element);
-        }
-        return right(simulationContext);
+    private static Either<String, Array<Array<List<Element>>>> createElementsBoard(Collection<DataRow> data) {
+        Array<Array<List<Element>>> elements = Array.fill(10, () -> Array.fill(10, List::empty));
+        return List.ofAll(data)
+                .foldLeft(Either.right(elements), (acc, d) ->
+                        acc.flatMap(e -> {
+                            Element element;
+                            int typeId = d.getType();
+                            if (typeId == ElementType.HEAVY_BOX.getId()) {
+                                element = new HeavyBox();
+                            } else if (typeId == ElementType.LIGHT_BOX.getId()) {
+                                element = new LightBox();
+                            } else if (typeId == ElementType.SPIKED_BOX.getId()) {
+                                element = new SpikedBox();
+                            } else if (typeId == ElementType.BATTERY_LOW.getId()) {
+                                element = new Battery(Battery.LOW_AMOUNT);
+                            } else if (typeId == ElementType.BATTERY_MEDIUM.getId()) {
+                                element = new Battery(Battery.MEDIUM_AMOUNT);
+                            } else if (typeId == ElementType.BATTERY_HIGH.getId()) {
+                                element = new Battery(Battery.HIGH_AMOUNT);
+                            } else {
+                                return Either.<String, Array<Array<List<Element>>>>left("Nieznany typ elementu podczas tworzenia mapy dla symulacji");
+                            }
+                            return right(e.update(d.getRow(), cols -> cols.update(d.getCol(), old -> old.push(element))));
+                        }));
+    }
+
+    private static int countBatteries(Collection<DataRow> data) {
+        List<Integer> batteryIds =
+                List.of(ElementType.BATTERY_LOW, ElementType.BATTERY_MEDIUM, ElementType.BATTERY_HIGH)
+                        .map(ElementType::getId);
+        Predicate<Integer> isBatteryType = batteryIds::contains;
+        return (int) data.stream()
+                .map(DataRow::getType)
+                .filter(isBatteryType)
+                .count();
+    }
+
+    private static Either<String, SimulationContext> setupSimulationContext(MapBean mapBean) {
+        return createElementsBoard(mapBean.getData()).map(elements ->
+                SimulationContext.builder()
+                        .elements(elements)
+                        .batteryLevel(mapBean.getBatteryLevel())
+                        .botCol(mapBean.getBotPositionCol())
+                        .botRow(mapBean.getBotPositionRow())
+                        .botDirection(mapBean.getBotRotation())
+                        .batteryCount(countBatteries(mapBean.getData()))
+                        .build());
     }
 
     private static Position getNextPositionInCurrentDirection(SimulationContext simulationContext) {
-        simulationContext.botDirection = simulationContext.botDirection % 4;
-        int newRow = simulationContext.botRow;
-        int newCol = simulationContext.botCol;
-        if (simulationContext.botDirection == BotDirection.BOTTOM_RIGHT.getId()) {
+        int newRow = simulationContext.getBotRow();
+        int newCol = simulationContext.getBotCol();
+        // TODO why simulationContext cant use Enum directly?
+        if (simulationContext.getBotDirection() == BotDirection.BOTTOM_RIGHT.getId()) {
             newCol++;
-        } else if (simulationContext.botDirection == BotDirection.BOTTOM_LEFT.getId()) {
+        } else if (simulationContext.getBotDirection() == BotDirection.BOTTOM_LEFT.getId()) {
             newRow--;
-        } else if (simulationContext.botDirection == BotDirection.TOP_LEFT.getId()) {
+        } else if (simulationContext.getBotDirection() == BotDirection.TOP_LEFT.getId()) {
             newCol--;
-        } else if (simulationContext.botDirection == BotDirection.TOP_RIGHT.getId()) {
+        } else if (simulationContext.getBotDirection() == BotDirection.TOP_RIGHT.getId()) {
             newRow++;
         }
         return new Position(newRow, newCol);
     }
 
     private static boolean checkIfWin(SimulationContext simulationContext) {
-        return simulationContext.batteryCount.intValue() == 0;
+        return simulationContext.getBatteryCount() == 0;
     }
 
     private static boolean validateMove(int row, int col, SimulationContext simulationContext) {
         if (validatePosition(row, col)) {
-            int currentHeight = getStandableHeight(simulationContext.botRow, simulationContext.botCol, simulationContext);
+            int currentHeight = getStandableHeight(simulationContext.getBotRow(), simulationContext.getBotCol(), simulationContext);
             int destinationHeight = getStandableHeight(row, col, simulationContext);
             if (currentHeight == destinationHeight) {
-                Deque<Element> stack = simulationContext.map.get(row).get(col);
+                List<Element> stack = simulationContext.getElements().get(row).get(col);
                 if (stack.size() == destinationHeight) {
                     return true;
                 } else {
-                    return isPickupable(simulationContext.map.get(row).get(col).peekLast());
+                    return isPickupable(simulationContext.getElements().get(row).get(col).peek());
                 }
             }
         }
@@ -156,14 +172,14 @@ public class Simulator {
 
     private static boolean validateJump(int row, int col, SimulationContext simulationContext) {
         if (validatePosition(row, col)) {
-            int currentHeight = getStandableHeight(simulationContext.botRow, simulationContext.botCol, simulationContext);
+            int currentHeight = getStandableHeight(simulationContext.getBotRow(), simulationContext.getBotCol(), simulationContext);
             int destinationHeight = getStandableHeight(row, col, simulationContext);
             if (Math.abs(currentHeight - destinationHeight) == 1) {
-                Deque<Element> stack = simulationContext.map.get(row).get(col);
+                List<Element> stack = simulationContext.getElements().get(row).get(col);
                 if (stack.size() == destinationHeight) {
                     return true;
                 } else {
-                    return isPickupable(simulationContext.map.get(row).get(col).peekLast());
+                    return isPickupable(simulationContext.getElements().get(row).get(col).peek());
                 }
             }
         }
@@ -175,7 +191,7 @@ public class Simulator {
     }
 
     private static int getStandableHeight(int row, int col, SimulationContext simulationContext) {
-        Deque<Element> stack = simulationContext.map.get(row).get(col);
+        List<Element> stack = simulationContext.getElements().get(row).get(col);
         int height = 0;
         for (Element element : stack) {
             if (isStandable(element)) {
@@ -187,18 +203,20 @@ public class Simulator {
         return height;
     }
 
-    private static void checkAndPickupItems(SimulationContext simulationContext) {
-        Element element = simulationContext.map.get(simulationContext.botRow).get(simulationContext.botCol).peekLast();
+    private static SimulationContext checkAndPickupItems(SimulationContext simulationContext) {
+        SimulationContext result = simulationContext;
+        Element element = simulationContext.getElements()
+                .get(simulationContext.getBotRow())
+                .get(simulationContext.getBotCol())
+                .peek();
         if (isPickupable(element)) {
-            simulationContext.map.get(simulationContext.botRow).get(simulationContext.botCol).pollLast();
+            result = result.withElements(result.getElements().update(simulationContext.getBotRow(), cols -> cols.update(simulationContext.getBotCol(), List::pop)));
             if (element instanceof Battery) {
-                simulationContext.batteryLevel += ((Battery) element).getBatteryAmount();
-                if (simulationContext.batteryLevel > 100) {
-                    simulationContext.batteryLevel = 100;
-                }
-                simulationContext.batteryCount.decrement();
+                result = result.withBatteryLevel(Math.min(100, result.getBatteryLevel() + ((Battery) element).getBatteryAmount()))
+                        .withBatteryCount(result.getBatteryCount() - 1);
             }
         }
+        return result;
     }
 
     private static boolean isPickupable(Element element) {
@@ -213,26 +231,7 @@ public class Simulator {
         return Either.right(simulationContext);
     }
 
-    // TODO change to immutable structure
-    private static class SimulationContext {
-        private final List<List<Deque<Element>>> map = new ArrayList<>();
-        private final MutableInt batteryCount = new MutableInt();
-        private int batteryLevel;
-        private int botRow;
-        private int botCol;
-        private int botDirection;
-
-        SimulationContext() {
-            for (int i = 0; i < 10; i++) {
-                map.add(new ArrayList<>(10));
-                for (int j = 0; j < 10; j++) {
-                    map.get(i).add(new ArrayDeque<>());
-                }
-            }
-        }
-
-    }
-
+    // TODO use Lombok magic here
     private static class Position {
         private final int row;
         private final int col;
@@ -243,11 +242,4 @@ public class Simulator {
         }
     }
 
-    @Value
-    public static class SimulatorResult {
-
-        private final int batteryLevel;
-        private final boolean userWon;
-
-    }
 }
