@@ -1,7 +1,10 @@
 package pl.jellysoft.kodbot.resolver.simulator;
 
+import com.google.common.collect.MoreCollectors;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+
+import java.util.Arrays;
 
 @Getter
 @RequiredArgsConstructor
@@ -13,5 +16,11 @@ public enum BotDirection {
     TOP_RIGHT(3);
 
     private final int id;
+
+    static BotDirection fromId(int id) {
+        return Arrays.stream(values())
+                .filter(botDirection -> id == botDirection.getId())
+                .collect(MoreCollectors.onlyElement());
+    }
 
 }

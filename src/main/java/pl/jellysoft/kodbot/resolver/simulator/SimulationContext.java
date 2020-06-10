@@ -28,8 +28,7 @@ public class SimulationContext {
     private final Array<Array<List<Element>>> elements;
     private final int batteryCount;
     private final int batteryLevel;
-    private final int botRow;
-    private final int botCol;
+    private final Position botPosition;
     private final int botDirection;
 
     public static Either<String, SimulationContext> setupSimulationContext(MapBean mapBean) {
@@ -37,8 +36,7 @@ public class SimulationContext {
                 SimulationContext.builder()
                         .elements(elements)
                         .batteryLevel(mapBean.getBatteryLevel())
-                        .botCol(mapBean.getBotPositionCol())
-                        .botRow(mapBean.getBotPositionRow())
+                        .botPosition(new Position(mapBean.getBotPositionRow(), mapBean.getBotPositionCol()))
                         .botDirection(mapBean.getBotRotation())
                         .batteryCount(countBatteries(mapBean.getData()))
                         .build());
