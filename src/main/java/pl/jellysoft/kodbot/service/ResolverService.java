@@ -25,6 +25,7 @@ import java.util.List;
 
 import static io.vavr.control.Either.left;
 import static io.vavr.control.Either.right;
+import static pl.jellysoft.kodbot.resolver.simulator.SimulationContext.setupSimulationContext;
 
 @Service
 @RequiredArgsConstructor
@@ -64,7 +65,8 @@ public class ResolverService {
     }
 
     private Either<String, SimulatorResult> simulate(List<ActionType> actions, MapBean mapBean) {
-        return Simulator.simulate(actions, mapBean);
+        return setupSimulationContext(mapBean)
+                .flatMap(simulationContext -> Simulator.simulate(actions, simulationContext));
     }
 
     private StatisticDTO calculateStatistics(List<Command> commands) {
