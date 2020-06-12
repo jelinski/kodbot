@@ -1,5 +1,9 @@
 package pl.jellysoft.kodbot.resolver.simulator.element;
 
-public class Element {
+public interface Element {
+
+    boolean isPickable();
+
+    boolean isStandable();
 
 }

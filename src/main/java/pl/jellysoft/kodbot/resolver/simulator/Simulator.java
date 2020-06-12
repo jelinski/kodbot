@@ -5,8 +5,6 @@ import io.vavr.control.Either;
 import pl.jellysoft.kodbot.resolver.evaluator.ActionType;
 import pl.jellysoft.kodbot.resolver.simulator.element.Battery;
 import pl.jellysoft.kodbot.resolver.simulator.element.Element;
-import pl.jellysoft.kodbot.resolver.simulator.element.HeavyBox;
-import pl.jellysoft.kodbot.resolver.simulator.element.LightBox;
 
 import java.util.Optional;
 
@@ -93,7 +91,7 @@ public class Simulator {
                 if (stack.size() == destinationHeight) {
                     return true;
                 } else {
-                    return isPickupable(stack.peek());
+                    return stack.peek().isPickable();
                 }
             }
         }
@@ -109,7 +107,7 @@ public class Simulator {
                 if (stack.size() == destinationHeight) {
                     return true;
                 } else {
-                    return isPickupable(stack.peek());
+                    return stack.peek().isPickable();
                 }
             }
         }
@@ -124,7 +122,7 @@ public class Simulator {
         List<Element> stack = simulationContext.getElementsAtPosition(position);
         int height = 0;
         for (Element element : stack) {
-            if (isStandable(element)) {
+            if (element.isStandable()) {
                 height++;
             } else {
                 break;
@@ -136,7 +134,7 @@ public class Simulator {
     private static SimulationContext checkAndPickupItems(SimulationContext simulationContext) {
         Position botPosition = simulationContext.getBotPosition();
         Element element = simulationContext.getElementsAtPosition(botPosition).peek();
-        if (isPickupable(element)) {
+        if (element.isPickable()) {
             int botRow = botPosition.getRow();
             int botCol = botPosition.getCol();
             int batteryLevelDelta = element instanceof Battery ? ((Battery) element).getBatteryAmount() : 0;
@@ -148,14 +146,6 @@ public class Simulator {
                     .withElements(simulationContext.getElements().update(botRow, cols -> cols.update(botCol, List::pop)));
         }
         return simulationContext;
-    }
-
-    private static boolean isPickupable(Element element) {
-        return element instanceof Battery;
-    }
-
-    private static boolean isStandable(Element element) {
-        return (element instanceof HeavyBox || element instanceof LightBox);
     }
 
     private static Either<String, SimulationContext> wrap(SimulationContext simulationContext) {

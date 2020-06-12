@@ -1,17 +1,24 @@
 package pl.jellysoft.kodbot.resolver.simulator.element;
 
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import lombok.Value;
 
-@Getter
-@RequiredArgsConstructor
-// TODO change to @Value when Element changed to be interface
-public class Battery extends Element {
+@Value
+public class Battery implements Element {
 
     public static final int LOW_AMOUNT = 25;
     public static final int MEDIUM_AMOUNT = 50;
     public static final int HIGH_AMOUNT = 75;
 
     private final int batteryAmount;
+
+    @Override
+    public boolean isPickable() {
+        return true;
+    }
+
+    @Override
+    public boolean isStandable() {
+        return false;
+    }
 
 }
