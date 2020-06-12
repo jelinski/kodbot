@@ -134,21 +134,20 @@ public class Simulator {
     }
 
     private static SimulationContext checkAndPickupItems(SimulationContext simulationContext) {
-        SimulationContext result = simulationContext;
-        int botRow = simulationContext.getBotPosition().getRow();
-        int botCol = simulationContext.getBotPosition().getCol();
-        Element element = simulationContext.getElements()
-                .get(botRow)
-                .get(botCol)
-                .peek();
+        Position botPosition = simulationContext.getBotPosition();
+        Element element = simulationContext.getElementsAtPosition(botPosition).peek();
         if (isPickupable(element)) {
-            result = result.withElements(result.getElements().update(botRow, cols -> cols.update(botCol, List::pop)));
-            if (element instanceof Battery) {
-                result = result.withBatteryLevel(Math.min(100, result.getBatteryLevel() + ((Battery) element).getBatteryAmount()))
-                        .withBatteryCount(result.getBatteryCount() - 1);
-            }
+            int botRow = botPosition.getRow();
+            int botCol = botPosition.getCol();
+            int batteryLevelDelta = element instanceof Battery ? ((Battery) element).getBatteryAmount() : 0;
+            int newBatteryLevel = Math.min(100, simulationContext.getBatteryLevel() + batteryLevelDelta);
+            int newBatteryCount = simulationContext.getBatteryCount() - (element instanceof Battery ? 1 : 0);
+            return simulationContext
+                    .withBatteryLevel(newBatteryLevel)
+                    .withBatteryCount(newBatteryCount)
+                    .withElements(simulationContext.getElements().update(botRow, cols -> cols.update(botCol, List::pop)));
         }
-        return result;
+        return simulationContext;
     }
 
     private static boolean isPickupable(Element element) {
