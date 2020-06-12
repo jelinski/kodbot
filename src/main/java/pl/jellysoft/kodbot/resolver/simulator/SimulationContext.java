@@ -79,4 +79,8 @@ public class SimulationContext {
                 .count();
     }
 
+    List<Element> getElementsAtPosition(Position position) {
+        return getElements().get(position.getRow()).get(position.getCol());
+    }
+
 }

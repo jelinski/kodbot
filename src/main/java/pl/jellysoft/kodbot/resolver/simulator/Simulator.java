@@ -11,8 +11,8 @@ import pl.jellysoft.kodbot.resolver.simulator.element.LightBox;
 import java.util.Optional;
 
 import static io.vavr.collection.List.ofAll;
-import static pl.jellysoft.kodbot.resolver.simulator.BotDirectionRotateRightVisitor.rotateRight;
 import static pl.jellysoft.kodbot.resolver.simulator.BotDirectionRotateLeftVisitor.rotateLeft;
+import static pl.jellysoft.kodbot.resolver.simulator.BotDirectionRotateRightVisitor.rotateRight;
 import static pl.jellysoft.kodbot.resolver.simulator.Position.getNextPosition;
 
 public class Simulator {
@@ -89,7 +89,7 @@ public class Simulator {
             int currentHeight = getStandableHeight(simulationContext.getBotPosition(), simulationContext);
             int destinationHeight = getStandableHeight(position, simulationContext);
             if (currentHeight == destinationHeight) {
-                List<Element> stack = simulationContext.getElements().get(position.getRow()).get(position.getCol());
+                List<Element> stack = simulationContext.getElementsAtPosition(position);
                 if (stack.size() == destinationHeight) {
                     return true;
                 } else {
@@ -105,7 +105,7 @@ public class Simulator {
             int currentHeight = getStandableHeight(simulationContext.getBotPosition(), simulationContext);
             int destinationHeight = getStandableHeight(position, simulationContext);
             if (Math.abs(currentHeight - destinationHeight) == 1) {
-                List<Element> stack = simulationContext.getElements().get(position.getRow()).get(position.getCol());
+                List<Element> stack = simulationContext.getElementsAtPosition(position);
                 if (stack.size() == destinationHeight) {
                     return true;
                 } else {
@@ -121,7 +121,7 @@ public class Simulator {
     }
 
     private static int getStandableHeight(Position position, SimulationContext simulationContext) {
-        List<Element> stack = simulationContext.getElements().get(position.getRow()).get(position.getCol());
+        List<Element> stack = simulationContext.getElementsAtPosition(position);
         int height = 0;
         for (Element element : stack) {
             if (isStandable(element)) {
