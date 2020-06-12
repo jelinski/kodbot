@@ -119,16 +119,8 @@ public class Simulator {
     }
 
     private static int getStandableHeight(Position position, SimulationContext simulationContext) {
-        List<Element> stack = simulationContext.getElementsAtPosition(position);
-        int height = 0;
-        for (Element element : stack) {
-            if (element.isStandable()) {
-                height++;
-            } else {
-                break;
-            }
-        }
-        return height;
+        return simulationContext.getElementsAtPosition(position)
+                .count(Element::isStandable);
     }
 
     private static SimulationContext checkAndPickupItems(SimulationContext simulationContext) {
