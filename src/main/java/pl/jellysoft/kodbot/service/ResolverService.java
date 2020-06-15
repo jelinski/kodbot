@@ -65,8 +65,7 @@ public class ResolverService {
     }
 
     private Either<String, SimulatorResult> simulate(List<ActionType> actions, MapBean mapBean) {
-        return setupSimulationContext(mapBean)
-                .flatMap(simulationContext -> Simulator.simulate(actions, simulationContext));
+        return setupSimulationContext(mapBean).map(simulationContext -> Simulator.simulate(actions, simulationContext));
     }
 
     private StatisticDTO calculateStatistics(List<Command> commands) {

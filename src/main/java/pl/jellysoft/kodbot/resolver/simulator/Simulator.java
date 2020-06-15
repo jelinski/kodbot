@@ -1,8 +1,9 @@
 package pl.jellysoft.kodbot.resolver.simulator;
 
 import io.vavr.collection.List;
-import io.vavr.control.Either;
+import lombok.RequiredArgsConstructor;
 import pl.jellysoft.kodbot.resolver.evaluator.ActionType;
+import pl.jellysoft.kodbot.resolver.evaluator.ActionTypeVisitor;
 import pl.jellysoft.kodbot.resolver.simulator.element.Battery;
 import pl.jellysoft.kodbot.resolver.simulator.element.Element;
 
@@ -12,27 +13,14 @@ import static io.vavr.collection.List.ofAll;
 import static pl.jellysoft.kodbot.resolver.simulator.BotDirectionRotateLeftVisitor.rotateLeft;
 import static pl.jellysoft.kodbot.resolver.simulator.BotDirectionRotateRightVisitor.rotateRight;
 import static pl.jellysoft.kodbot.resolver.simulator.Position.getNextPosition;
+import static pl.jellysoft.kodbot.resolver.simulator.Simulator.ActionTypeSimulationVisitor.simulateNextStep;
 
 public class Simulator {
 
-    public static Either<String, SimulatorResult> simulate(Iterable<ActionType> actions, SimulationContext initialContext) {
-        return ofAll(actions)
-                .foldLeft(Either.<String, SimulationContext>right(initialContext), (acc, action) ->
-                        acc.flatMap(simulationContext -> {
-                            if (action == ActionType.MOVE) {
-                                return wrap(move(simulationContext));
-                            } else if (action == ActionType.JUMP) {
-                                return wrap(jump(simulationContext));
-                            } else if (action == ActionType.TURN_LEFT) {
-                                return wrap(turnLeft(simulationContext));
-                            } else if (action == ActionType.TURN_RIGHT) {
-                                return wrap(turnRight(simulationContext));
-                            } else {
-                                return Either.<String, SimulationContext>left("Nieznany rodzaj otrzymanej akcji");
-                            }
-                        })
-                )
-                .map(simulationContext -> new SimulatorResult(simulationContext.getBatteryLevel(), checkIfWin(simulationContext)));
+    public static SimulatorResult simulate(Iterable<ActionType> actions, SimulationContext initialContext) {
+        SimulationContext result = ofAll(actions)
+                .foldLeft((initialContext), (simulationContext, action) -> simulateNextStep(action, simulationContext));
+        return new SimulatorResult(result.getBatteryLevel(), checkIfWin(result));
     }
 
     private static SimulationContext move(SimulationContext simulationContext) {
@@ -140,8 +128,34 @@ public class Simulator {
         return simulationContext;
     }
 
-    private static Either<String, SimulationContext> wrap(SimulationContext simulationContext) {
-        return Either.right(simulationContext);
+    @RequiredArgsConstructor
+    static class ActionTypeSimulationVisitor implements ActionTypeVisitor<SimulationContext> {
+
+        private final SimulationContext simulationContext;
+
+        static SimulationContext simulateNextStep(ActionType actionType, SimulationContext simulationContext) {
+            return actionType.accept(new ActionTypeSimulationVisitor(simulationContext));
+        }
+
+        @Override
+        public SimulationContext visitMove() {
+            return move(simulationContext);
+        }
+
+        @Override
+        public SimulationContext visitJump() {
+            return jump(simulationContext);
+        }
+
+        @Override
+        public SimulationContext visitTurnLeft() {
+            return turnLeft(simulationContext);
+        }
+
+        @Override
+        public SimulationContext visitTurnRight() {
+            return turnRight(simulationContext);
+        }
     }
 
 }
