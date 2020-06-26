@@ -69,7 +69,7 @@ public class ResolverService {
     }
 
     private StatisticDTO calculateStatistics(List<Command> commands) {
-        return new StatisticCounter().countStatistics(commands);
+        return StatisticCounter.countStatistics(commands);
     }
 
 }
