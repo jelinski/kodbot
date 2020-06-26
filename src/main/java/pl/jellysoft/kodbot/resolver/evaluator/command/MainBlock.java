@@ -1,11 +1,10 @@
 package pl.jellysoft.kodbot.resolver.evaluator.command;
 
-public class MainBlock extends FunctionBlock {
+public class MainBlock extends Block {
 
-    public static final String KEYWORD = "main";
-
-    public MainBlock() {
-        super(KEYWORD);
+    @Override
+    public <R> R accept(CommandVisitor<R> visitor) {
+        return visitor.visit(this);
     }
 
 }

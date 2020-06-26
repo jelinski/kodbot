@@ -5,9 +5,11 @@ import lombok.Value;
 @Value
 public final class DecrementCommand implements Command {
 
-    public static final String KEYWORD = "decrement";
-    public static final String VARIABLE_KEYWORD = "variable";
-
     private final String variable;
+
+    @Override
+    public <R> R accept(CommandVisitor<R> visitor) {
+        return visitor.visit(this);
+    }
 
 }

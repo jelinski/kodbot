@@ -7,10 +7,11 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = false)
 public class FunctionBlock extends Block {
 
-    public static final String KEYWORD = "function";
-    public static final String NAME_KEYWORD = "name";
-    public static final String COMMANDS_KEYWORD = "commands";
-
     private final String name;
+
+    @Override
+    public <R> R accept(CommandVisitor<R> visitor) {
+        return visitor.visit(this);
+    }
 
 }

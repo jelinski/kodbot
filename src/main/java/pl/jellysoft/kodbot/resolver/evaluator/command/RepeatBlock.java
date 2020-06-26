@@ -7,10 +7,11 @@ import lombok.Value;
 @EqualsAndHashCode(callSuper = false)
 public class RepeatBlock extends Block {
 
-    public static final String KEYWORD = "repeat";
-    public static final String COUNT_KEYWORD = "count";
-    public static final String COMMANDS_KEYWORD = "commands";
-
     private final String count;
+
+    @Override
+    public <R> R accept(CommandVisitor<R> visitor) {
+        return visitor.visit(this);
+    }
 
 }

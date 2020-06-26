@@ -5,9 +5,11 @@ import lombok.Value;
 @Value
 public class FunctionCallCommand implements Command {
 
-    public static final String KEYWORD = "functionCall";
-    public static final String NAME_KEYWORD = "name";
-
     private final String name;
+
+    @Override
+    public <R> R accept(CommandVisitor<R> visitor) {
+        return visitor.visit(this);
+    }
 
 }
