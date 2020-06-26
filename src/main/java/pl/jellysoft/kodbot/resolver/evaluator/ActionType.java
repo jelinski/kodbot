@@ -9,12 +9,11 @@ import java.util.function.Function;
 @RequiredArgsConstructor
 public enum ActionType {
 
-    MOVE(5, ActionTypeVisitor::visitMove),
-    JUMP(10, ActionTypeVisitor::visitJump),
-    TURN_LEFT(5, ActionTypeVisitor::visitTurnLeft),
-    TURN_RIGHT(5, ActionTypeVisitor::visitTurnRight);
+    MOVE(ActionTypeVisitor::visitMove),
+    JUMP(ActionTypeVisitor::visitJump),
+    TURN_LEFT(ActionTypeVisitor::visitTurnLeft),
+    TURN_RIGHT(ActionTypeVisitor::visitTurnRight);
 
-    private final int batteryCost;
     private final Function<ActionTypeVisitor<?>, ?> dispatcher;
 
     @SuppressWarnings("unchecked")

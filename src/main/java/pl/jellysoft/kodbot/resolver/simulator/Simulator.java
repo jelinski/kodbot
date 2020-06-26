@@ -10,6 +10,11 @@ import pl.jellysoft.kodbot.resolver.simulator.element.Element;
 import java.util.Optional;
 
 import static io.vavr.collection.List.ofAll;
+import static pl.jellysoft.kodbot.resolver.evaluator.ActionType.JUMP;
+import static pl.jellysoft.kodbot.resolver.evaluator.ActionType.MOVE;
+import static pl.jellysoft.kodbot.resolver.evaluator.ActionType.TURN_LEFT;
+import static pl.jellysoft.kodbot.resolver.evaluator.ActionType.TURN_RIGHT;
+import static pl.jellysoft.kodbot.resolver.evaluator.BatteryCostResolvingActionTypeVisitor.batteryCostForAction;
 import static pl.jellysoft.kodbot.resolver.simulator.BotDirectionRotateLeftVisitor.rotateLeft;
 import static pl.jellysoft.kodbot.resolver.simulator.BotDirectionRotateRightVisitor.rotateRight;
 import static pl.jellysoft.kodbot.resolver.simulator.Position.getNextPosition;
@@ -25,8 +30,8 @@ public class Simulator {
 
     private static SimulationContext move(SimulationContext simulationContext) {
         SimulationContext result = simulationContext;
-        if (simulationContext.getBatteryLevel() >= ActionType.MOVE.getBatteryCost()) {
-            result = result.withBatteryLevel(result.getBatteryLevel() - ActionType.MOVE.getBatteryCost());
+        if (simulationContext.getBatteryLevel() >= batteryCostForAction(MOVE)) {
+            result = result.withBatteryLevel(result.getBatteryLevel() - batteryCostForAction(MOVE));
             Position nextPosition = getNextPosition(simulationContext.getBotPosition(), simulationContext.getBotDirection());
             if (validateMove(nextPosition, simulationContext)) {
                 result = result.withBotPosition(nextPosition);
@@ -38,8 +43,8 @@ public class Simulator {
 
     private static SimulationContext jump(SimulationContext simulationContext) {
         SimulationContext result = simulationContext;
-        if (simulationContext.getBatteryLevel() >= ActionType.JUMP.getBatteryCost()) {
-            result = result.withBatteryLevel(result.getBatteryLevel() - ActionType.JUMP.getBatteryCost());
+        if (simulationContext.getBatteryLevel() >= batteryCostForAction(JUMP)) {
+            result = result.withBatteryLevel(result.getBatteryLevel() - batteryCostForAction(JUMP));
             Position nextPosition = getNextPosition(simulationContext.getBotPosition(), simulationContext.getBotDirection());
             if (validateJump(nextPosition, simulationContext)) {
                 result = result.withBotPosition(nextPosition);
@@ -51,17 +56,17 @@ public class Simulator {
 
     private static SimulationContext turnLeft(SimulationContext simulationContext) {
         return Optional.of(simulationContext)
-                .filter(sm -> sm.getBatteryLevel() >= ActionType.TURN_LEFT.getBatteryCost())
-                .map(sm -> sm.withBatteryLevel(sm.getBatteryLevel() - ActionType.TURN_LEFT.getBatteryCost())
+                .filter(sm -> sm.getBatteryLevel() >= batteryCostForAction(TURN_LEFT))
+                .map(sm -> sm.withBatteryLevel(sm.getBatteryLevel() - batteryCostForAction(TURN_LEFT))
                         .withBotDirection(rotateLeft(sm.getBotDirection())))
                 .orElse(simulationContext);
     }
 
     private static SimulationContext turnRight(SimulationContext simulationContext) {
         return Optional.of(simulationContext)
-                .filter(sm -> sm.getBatteryLevel() >= ActionType.TURN_RIGHT.getBatteryCost())
+                .filter(sm -> sm.getBatteryLevel() >= batteryCostForAction(TURN_RIGHT))
                 .map(sm -> sm
-                        .withBatteryLevel(sm.getBatteryLevel() - ActionType.TURN_RIGHT.getBatteryCost())
+                        .withBatteryLevel(sm.getBatteryLevel() - batteryCostForAction(TURN_RIGHT))
                         .withBotDirection(rotateRight(sm.getBotDirection())))
                 .orElse(simulationContext);
     }
