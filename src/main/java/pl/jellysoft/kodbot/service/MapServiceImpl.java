@@ -57,7 +57,7 @@ public class MapServiceImpl implements MapService {
         return MapBean.builder()
                 .botPositionCol(gameMap.getStartCol())
                 .botPositionRow(gameMap.getStartRow())
-                .botRotation(gameMap.getBotDirection())
+                .botDirection(gameMap.getBotDirection())
                 .batteryLevel(gameMap.getBatteryLevel())
                 .data(createDataRowList(gameMap.getData()))
                 .mapSlides(

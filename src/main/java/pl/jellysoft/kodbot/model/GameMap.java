@@ -1,6 +1,7 @@
 package pl.jellysoft.kodbot.model;
 
 import lombok.Value;
+import pl.jellysoft.kodbot.resolver.simulator.BotDirection;
 
 @Value
 public class GameMap {
@@ -8,7 +9,7 @@ public class GameMap {
     private final String key;
     private final Integer startRow;
     private final Integer startCol;
-    private final Integer botDirection;
+    private final BotDirection botDirection;
     private final Integer batteryLevel;
     private final String mapSlides;
     private final String data;

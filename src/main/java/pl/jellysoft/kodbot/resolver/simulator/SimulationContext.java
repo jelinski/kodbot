@@ -37,7 +37,7 @@ public class SimulationContext {
                         .elements(elements)
                         .batteryLevel(mapBean.getBatteryLevel())
                         .botPosition(new Position(mapBean.getBotPositionRow(), mapBean.getBotPositionCol()))
-                        .botDirection(BotDirection.fromId(mapBean.getBotRotation()))
+                        .botDirection(mapBean.getBotDirection())
                         .batteryCount(countBatteries(mapBean.getData()))
                         .build());
     }
