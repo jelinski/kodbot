@@ -208,7 +208,7 @@
                 <artifactId>appengine-maven-plugin</artifactId>
                 <version>2.2.0</version>
                 <configuration>
-                    <deploy.version>latest</deploy.version>
+                    <deploy.version>primary</deploy.version>
                 </configuration>
             </plugin>
 
