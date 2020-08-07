@@ -436,7 +436,7 @@ function resetGameState() {
     m.bot.row = c.mapData.botPositionRow;
     m.bot.col = c.mapData.botPositionCol;
     m.bot.level = m.map[m.bot.row][m.bot.col].length;
-    m.bot.direction = c.mapData.botRotation;
+    m.bot.direction = directions[c.mapData.botDirection];
     m.batteryLevel = c.mapData.batteryLevel;
     updateBatteryLevel();
     redrawBoxes();
