@@ -118,17 +118,20 @@ public class Simulator {
 
     private static SimulationContext checkAndPickupItems(SimulationContext simulationContext) {
         Position botPosition = simulationContext.getBotPosition();
-        Element element = simulationContext.getElementsAtPosition(botPosition).peek();
-        if (element.isPickable()) {
-            int botRow = botPosition.getRow();
-            int botCol = botPosition.getCol();
-            int batteryLevelDelta = element instanceof Battery ? ((Battery) element).getBatteryAmount() : 0;
-            int newBatteryLevel = Math.min(100, simulationContext.getBatteryLevel() + batteryLevelDelta);
-            int newBatteryCount = simulationContext.getBatteryCount() - (element instanceof Battery ? 1 : 0);
-            return simulationContext
-                    .withBatteryLevel(newBatteryLevel)
-                    .withBatteryCount(newBatteryCount)
-                    .withElements(simulationContext.getElements().update(botRow, cols -> cols.update(botCol, List::pop)));
+        List<Element> elementsAtPosition = simulationContext.getElementsAtPosition(botPosition);
+        if (elementsAtPosition.size() > 0) {
+            Element element = elementsAtPosition.peek();
+            if (element.isPickable()) {
+                int botRow = botPosition.getRow();
+                int botCol = botPosition.getCol();
+                int batteryLevelDelta = element instanceof Battery ? ((Battery) element).getBatteryAmount() : 0;
+                int newBatteryLevel = Math.min(100, simulationContext.getBatteryLevel() + batteryLevelDelta);
+                int newBatteryCount = simulationContext.getBatteryCount() - (element instanceof Battery ? 1 : 0);
+                return simulationContext
+                        .withBatteryLevel(newBatteryLevel)
+                        .withBatteryCount(newBatteryCount)
+                        .withElements(simulationContext.getElements().update(botRow, cols -> cols.update(botCol, List::pop)));
+            }
         }
         return simulationContext;
     }
