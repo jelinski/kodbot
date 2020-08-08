@@ -8,7 +8,6 @@ import org.apache.commons.lang3.mutable.MutableInt;
 import pl.jellysoft.kodbot.resolver.evaluator.command.AssignCommand;
 import pl.jellysoft.kodbot.resolver.evaluator.command.AssignWithAdditionCommand;
 import pl.jellysoft.kodbot.resolver.evaluator.command.AssignWithSubtractionCommand;
-import pl.jellysoft.kodbot.resolver.evaluator.command.Block;
 import pl.jellysoft.kodbot.resolver.evaluator.command.Command;
 import pl.jellysoft.kodbot.resolver.evaluator.command.DecrementCommand;
 import pl.jellysoft.kodbot.resolver.evaluator.command.FunctionBlock;
@@ -34,7 +33,7 @@ public class KodbotBaseListener implements KodbotListener {
     @Getter
     private final List<Command> rootCommands = new ArrayList<>();
 
-    private final Deque<Block> lastBlocksStack = new ArrayDeque<>();
+    private final Deque<List<Command>> blockCommandsStack = new ArrayDeque<>();
 
     @Override
     public void enterMove(KodbotParser.MoveContext ctx) {
@@ -132,23 +131,23 @@ public class KodbotBaseListener implements KodbotListener {
 
     @Override
     public void enterRepeat(KodbotParser.RepeatContext ctx) {
-        lastBlocksStack.push(new RepeatBlock(ctx.var().getText()));
+        pushBlockCommands();
     }
 
     @Override
     public void exitRepeat(KodbotParser.RepeatContext ctx) {
-        RepeatBlock repeat = (RepeatBlock) lastBlocksStack.pop();
+        RepeatBlock repeat = new RepeatBlock(ctx.var().getText(), popBlockCommands());
         addToCurrentBlock(repeat);
     }
 
     @Override
     public void enterFunctionDef(KodbotParser.FunctionDefContext ctx) {
-        lastBlocksStack.push(new FunctionBlock(ctx.ID().getText()));
+        pushBlockCommands();
     }
 
     @Override
     public void exitFunctionDef(KodbotParser.FunctionDefContext ctx) {
-        FunctionBlock function = (FunctionBlock) lastBlocksStack.pop();
+        FunctionBlock function = new FunctionBlock(ctx.ID().getText(), popBlockCommands());
         addToCurrentBlock(function);
     }
 
@@ -164,19 +163,27 @@ public class KodbotBaseListener implements KodbotListener {
 
     @Override
     public void enterMain(KodbotParser.MainContext ctx) {
-        lastBlocksStack.push(new MainBlock());
+        pushBlockCommands();
     }
 
     @Override
     public void exitMain(KodbotParser.MainContext ctx) {
-        MainBlock main = (MainBlock) lastBlocksStack.pop();
+        MainBlock main = new MainBlock(popBlockCommands());
         addToCurrentBlock(main);
     }
 
+    private void pushBlockCommands() {
+        blockCommandsStack.push(new ArrayList<>());
+    }
+
+    private List<Command> popBlockCommands() {
+        return blockCommandsStack.pop();
+    }
+
     private void addToCurrentBlock(Command command) {
-        Block currentBlock = lastBlocksStack.peek();
-        if (currentBlock != null) {
-            currentBlock.getCommands().add(command);
+        List<Command> blockCommands = blockCommandsStack.peek();
+        if (blockCommands != null) {
+            blockCommands.add(command);
         } else {
             rootCommands.add(command);
         }

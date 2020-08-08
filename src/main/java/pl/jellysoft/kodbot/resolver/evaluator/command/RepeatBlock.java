@@ -1,13 +1,14 @@
 package pl.jellysoft.kodbot.resolver.evaluator.command;
 
-import lombok.EqualsAndHashCode;
 import lombok.Value;
 
+import java.util.List;
+
 @Value
-@EqualsAndHashCode(callSuper = false)
-public class RepeatBlock extends Block {
+public class RepeatBlock implements Command {
 
     private final String count;
+    private final List<Command> commands;
 
     @Override
     public <R> R accept(CommandVisitor<R> visitor) {

@@ -17,8 +17,7 @@ public class EvaluatorTest {
 
 
         // when
-        MainBlock mainBlock = new MainBlock();
-        mainBlock.setCommands(List.<Command>of(new MoveCommand()).asJava());
+        MainBlock mainBlock = new MainBlock(List.<Command>of(new MoveCommand()).asJava());
 
         EvaluatorResult evaluatorResult = evaluator.evaluate(List.<Command>of(mainBlock).asJava());
 

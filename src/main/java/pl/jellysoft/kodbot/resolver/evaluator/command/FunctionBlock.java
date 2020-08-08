@@ -1,13 +1,14 @@
 package pl.jellysoft.kodbot.resolver.evaluator.command;
 
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.Value;
 
-@Data
-@EqualsAndHashCode(callSuper = false)
-public class FunctionBlock extends Block {
+import java.util.List;
+
+@Value
+public class FunctionBlock implements Command {
 
     private final String name;
+    private final List<Command> commands;
 
     @Override
     public <R> R accept(CommandVisitor<R> visitor) {
