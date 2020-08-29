@@ -15,7 +15,7 @@
 	<definition name="generic_error" extends="defaultTemplate">
 		<put-attribute name="content" value="/WEB-INF/jsp/errors/generic_error.jsp" />
 	</definition>
-	
+
 	<definition name="game" template="/WEB-INF/jsp/game.jsp"/>
 
 </tiles-definitions>
