@@ -12,10 +12,6 @@
 		<put-attribute name="content" value="/WEB-INF/jsp/{1}.jsp" />
 	</definition>
 
-	<definition name="rerequest" extends="defaultTemplate">
-		<put-attribute name="content" value="/WEB-INF/jsp/rerequest_facebook_permissions.jsp" />
-	</definition>
-
 	<definition name="generic_error" extends="defaultTemplate">
 		<put-attribute name="content" value="/WEB-INF/jsp/errors/generic_error.jsp" />
 	</definition>
