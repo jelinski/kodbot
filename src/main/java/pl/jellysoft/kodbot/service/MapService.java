@@ -1,22 +1,71 @@
 package pl.jellysoft.kodbot.service;
 
+import lombok.RequiredArgsConstructor;
+import pl.jellysoft.kodbot.controller.bean.DataRow;
 import pl.jellysoft.kodbot.controller.bean.MapBean;
 import pl.jellysoft.kodbot.model.GameMap;
+import pl.jellysoft.kodbot.repository.MapProvider;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
-// TODO get rid of interface...
-public interface MapService {
+import static java.util.Optional.ofNullable;
 
-    String MAP_SLIDES_DIRECTORY = "/resources/images/game/map_slides/";
+@RequiredArgsConstructor
+public class MapService {
 
-    MapBean getMapBeanByKey(String key);
+    public static final String MAP_SLIDES_DIRECTORY = "/resources/images/game/map_slides/";
+    private static final Pattern DATA_ROW_FORMAT_PATTERN = Pattern.compile("\\[([0-9]+)\\s([0-9]+)\\s([0-9]+)]");
 
-    GameMap getMapByKey(String key);
+    private final MapProvider mapProvider;
 
-    List<GameMap> getAllMaps();
+    private static List<DataRow> createDataRowList(String data) {
+        List<DataRow> result = new ArrayList<>();
 
-    MapBean createMapBeanFromMap(GameMap gameMap);
+        Matcher matcher = DATA_ROW_FORMAT_PATTERN.matcher(data);
+        while (matcher.find()) {
+            Integer type = Integer.parseInt(matcher.group(1));
+            Integer row = Integer.parseInt(matcher.group(2));
+            Integer col = Integer.parseInt(matcher.group(3));
+            result.add(new DataRow(type, row, col));
+        }
+        return result;
+    }
 
-    String getNextGameMapKey(GameMap gameMap);
+    public List<GameMap> getAllMaps() {
+        return mapProvider.getAllMaps();
+    }
+
+    public GameMap getMapByKey(String key) {
+        return mapProvider.getMapByKey(key);
+    }
+
+    public MapBean getMapBeanByKey(String key) {
+        GameMap gameMap = getMapByKey(key);
+        return createMapBeanFromMap(gameMap);
+    }
+
+    public MapBean createMapBeanFromMap(GameMap gameMap) {
+        return MapBean.builder()
+                .botPositionCol(gameMap.getStartCol())
+                .botPositionRow(gameMap.getStartRow())
+                .botDirection(gameMap.getBotDirection())
+                .batteryLevel(gameMap.getBatteryLevel())
+                .data(createDataRowList(gameMap.getData()))
+                .mapSlides(
+                        ofNullable(gameMap.getMapSlides())
+                                .filter(mapSlides -> !mapSlides.isEmpty())
+                                .map(mapSlides -> mapSlides.split("\\|"))
+                                .map(Arrays::asList)
+                                .orElse(null))
+                .build();
+    }
+
+    public String getNextGameMapKey(GameMap gameMap) {
+        return mapProvider.getNextGameMapKey(gameMap);
+    }
+
 }
