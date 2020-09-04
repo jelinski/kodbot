@@ -1,7 +1,6 @@
 package pl.jellysoft.kodbot.repository;
 
 import org.apache.commons.lang3.ArrayUtils;
-import org.springframework.stereotype.Component;
 import pl.jellysoft.kodbot.model.GameMap;
 
 import java.util.Arrays;
@@ -32,7 +31,6 @@ import static pl.jellysoft.kodbot.repository.Map19.map19;
 import static pl.jellysoft.kodbot.repository.Map20.map20;
 import static pl.jellysoft.kodbot.repository.Map21.map21;
 
-@Component
 public class MapProvider {
 
     private static final GameMap[] GAME_MAPS = new GameMap[]{

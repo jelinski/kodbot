@@ -1,7 +1,6 @@
 package pl.jellysoft.kodbot.service;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
 import pl.jellysoft.kodbot.controller.bean.DataRow;
 import pl.jellysoft.kodbot.controller.bean.MapBean;
 import pl.jellysoft.kodbot.model.GameMap;
@@ -15,7 +14,6 @@ import java.util.regex.Pattern;
 
 import static java.util.Optional.ofNullable;
 
-@Service
 @RequiredArgsConstructor
 public class MapServiceImpl implements MapService {
 

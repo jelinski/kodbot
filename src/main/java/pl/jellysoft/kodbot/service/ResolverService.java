@@ -2,7 +2,6 @@ package pl.jellysoft.kodbot.service;
 
 import io.vavr.control.Either;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
 import pl.jellysoft.kodbot.controller.bean.MapBean;
 import pl.jellysoft.kodbot.model.GameMap;
 import pl.jellysoft.kodbot.resolver.ResolverErrorResponse;
@@ -27,7 +26,6 @@ import static io.vavr.control.Either.left;
 import static io.vavr.control.Either.right;
 import static pl.jellysoft.kodbot.resolver.simulator.SimulationContext.setupSimulationContext;
 
-@Service
 @RequiredArgsConstructor
 public class ResolverService {
 
