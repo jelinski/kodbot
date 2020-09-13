@@ -4,10 +4,10 @@
 
 
 <h1>
-    <spring:message code="goal.title"/>
+    <spring:message code="rules.goal.title"/>
 </h1>
 <p>
-    <spring:message code="goal.description"/>
+    <spring:message code="rules.goal.description"/>
 </p>
 
 <h1>

@@ -8,8 +8,8 @@
 		<i class="fa fa-cubes" aria-hidden="true" style="font-size: 215px"></i>
 	</div>
 	<div class="col-sm-8" style="padding:30px">
-		<h1><spring:message code="web.content.features.main.title"/></h1>
-		<p><spring:message code="web.content.features.main.text"/></p>
+		<h1><spring:message code="home.features.main.title"/></h1>
+		<p><spring:message code="home.features.main.text"/></p>
 	</div>
 </div>
 
@@ -21,10 +21,10 @@
 		</div><!--
 	 --><div class="col-sm-8 col-sm-pull-4 vcenter">
 			<h1>
-				<spring:message code="web.content.features.free.title" />
+				<spring:message code="home.features.free.title" />
 			</h1>
 			<p>
-				<spring:message code="web.content.features.free.text" />
+				<spring:message code="home.features.free.text" />
 			</p>
 		</div>
 	</div>
@@ -37,10 +37,10 @@
 		</div><!--
 	--><div class="col-sm-8 vcenter">
 			<h1>
-				<spring:message code="web.content.features.programming.title" />
+				<spring:message code="home.features.programming.title" />
 			</h1>
 			<p>
-				<spring:message code="web.content.features.programming.text" />
+				<spring:message code="home.programming.text" />
 			</p>
 		</div>
 	</div>
@@ -53,10 +53,10 @@
 		</div><!--
 	--><div class="col-sm-8 col-sm-pull-4 vcenter">
 			<h1>
-				<spring:message code="web.content.features.social.title" />
+				<spring:message code="home.features.social.title" />
 			</h1>
 			<p>
-				<spring:message code="web.content.features.social.text" />
+				<spring:message code="home.features.social.text" />
 			</p>
 		</div>
 	</div>
