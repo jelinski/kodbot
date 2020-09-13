@@ -15,6 +15,12 @@ import javax.servlet.http.HttpServletRequest;
 @Controller
 public class ErrorController {
 
+    private static final String ERROR_HEADER = "errorHeader";
+    private static final String ERROR_MESSAGE = "errorMessage";
+    private static final String WEB_ERRORS_ERROR_404_HEADER = "web.errors.error404.header";
+    private static final String WEB_ERRORS_ERROR_404_MESSAGE = "web.errors.error404.message";
+    private static final String WEB_ERRORS_GENERIC_ERROR_HEADER = "web.errors.generic_error.header";
+    private static final String WEB_ERRORS_GENERIC_ERROR_MESSAGE = "web.errors.generic_error.message";
     private final MessageSourceAccessor messageSourceAccessor;
 
     @Autowired
@@ -31,18 +37,18 @@ public class ErrorController {
         log.error("{} ERROR. Occurred while processing request for \"{}\"", code, uri);
         log.error("Exception:", exception);
 
-        String errorHeader;
-        String errorMessage;
-        if (404 == code) {
-            errorHeader = "web.errors.error404.header";
-            errorMessage = "web.errors.error404.message";
+        if (Integer.valueOf(404).equals(code)) {
+            addErrorMessageToModel(model, WEB_ERRORS_ERROR_404_HEADER, WEB_ERRORS_ERROR_404_MESSAGE);
         } else {
-            errorHeader = "web.errors.generic_error.header";
-            errorMessage = "web.errors.generic_error.message";
+            addErrorMessageToModel(model, WEB_ERRORS_GENERIC_ERROR_HEADER, WEB_ERRORS_GENERIC_ERROR_MESSAGE);
         }
-        model.addAttribute("errorHeader", messageSourceAccessor.getMessage(errorHeader));
-        model.addAttribute("errorMessage", messageSourceAccessor.getMessage(errorMessage));
 
         return "generic_error";
     }
+
+    private void addErrorMessageToModel(Model model, String headerKey, String messageKey) {
+        model.addAttribute(ERROR_HEADER, messageSourceAccessor.getMessage(headerKey));
+        model.addAttribute(ERROR_MESSAGE, messageSourceAccessor.getMessage(messageKey));
+    }
+
 }
