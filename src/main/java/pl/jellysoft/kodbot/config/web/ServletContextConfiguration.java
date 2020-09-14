@@ -43,7 +43,8 @@ public class ServletContextConfiguration {
                 "classpath:messages/panel",
                 "classpath:messages/register",
                 "classpath:messages/home",
-                "classpath:messages/rules"
+                "classpath:messages/rules",
+                "classpath:messages/terms_of_use"
         );
         return messageSource;
     }
