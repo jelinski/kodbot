@@ -2,8 +2,8 @@ package pl.jellysoft.kodbot.service;
 
 import io.vavr.control.Either;
 import lombok.RequiredArgsConstructor;
-import pl.jellysoft.kodbot.controller.bean.MapBean;
 import pl.jellysoft.kodbot.model.GameMap;
+import pl.jellysoft.kodbot.model.MapBean;
 import pl.jellysoft.kodbot.resolver.ResolverErrorResponse;
 import pl.jellysoft.kodbot.resolver.ResolverOkResponse;
 import pl.jellysoft.kodbot.resolver.ResolverResponse;

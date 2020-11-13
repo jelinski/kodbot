@@ -1,7 +1,7 @@
 package pl.jellysoft.kodbot.repository;
 
+import pl.jellysoft.kodbot.model.BotDirection;
 import pl.jellysoft.kodbot.model.GameMap;
-import pl.jellysoft.kodbot.resolver.simulator.BotDirection;
 
 
 final class Map18 {

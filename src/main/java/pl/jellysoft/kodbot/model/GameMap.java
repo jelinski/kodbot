@@ -1,7 +1,6 @@
 package pl.jellysoft.kodbot.model;
 
 import lombok.Value;
-import pl.jellysoft.kodbot.resolver.simulator.BotDirection;
 
 @Value
 public class GameMap {

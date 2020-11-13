@@ -10,13 +10,13 @@ import pl.jellysoft.kodbot.resolver.simulator.element.Element;
 import java.util.Optional;
 
 import static io.vavr.collection.List.ofAll;
+import static pl.jellysoft.kodbot.model.BotDirectionRotateLeftVisitor.rotateLeft;
+import static pl.jellysoft.kodbot.model.BotDirectionRotateRightVisitor.rotateRight;
 import static pl.jellysoft.kodbot.resolver.evaluator.ActionType.JUMP;
 import static pl.jellysoft.kodbot.resolver.evaluator.ActionType.MOVE;
 import static pl.jellysoft.kodbot.resolver.evaluator.ActionType.TURN_LEFT;
 import static pl.jellysoft.kodbot.resolver.evaluator.ActionType.TURN_RIGHT;
 import static pl.jellysoft.kodbot.resolver.evaluator.BatteryCostResolvingActionTypeVisitor.batteryCostForAction;
-import static pl.jellysoft.kodbot.resolver.simulator.BotDirectionRotateLeftVisitor.rotateLeft;
-import static pl.jellysoft.kodbot.resolver.simulator.BotDirectionRotateRightVisitor.rotateRight;
 import static pl.jellysoft.kodbot.resolver.simulator.Position.getNextPosition;
 import static pl.jellysoft.kodbot.resolver.simulator.Simulator.ActionTypeSimulationVisitor.simulateNextStep;
 

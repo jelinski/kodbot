@@ -1,4 +1,4 @@
-package pl.jellysoft.kodbot.resolver.simulator;
+package pl.jellysoft.kodbot.model;
 
 public interface BotDirectionVisitor<T> {
 

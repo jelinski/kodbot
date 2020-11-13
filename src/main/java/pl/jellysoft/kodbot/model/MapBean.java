@@ -1,8 +1,7 @@
-package pl.jellysoft.kodbot.controller.bean;
+package pl.jellysoft.kodbot.model;
 
 import lombok.Builder;
 import lombok.Value;
-import pl.jellysoft.kodbot.resolver.simulator.BotDirection;
 
 import java.util.List;
 

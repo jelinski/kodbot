@@ -4,8 +4,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import pl.jellysoft.kodbot.controller.bean.MapGalleryDTO;
 import pl.jellysoft.kodbot.model.GameMap;
+import pl.jellysoft.kodbot.model.MapGalleryDTO;
 import pl.jellysoft.kodbot.service.MapService;
 
 import java.util.ArrayList;

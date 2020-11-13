@@ -1,4 +1,4 @@
-package pl.jellysoft.kodbot.controller.bean;
+package pl.jellysoft.kodbot.model;
 
 import lombok.Builder;
 import lombok.Value;

@@ -2,6 +2,7 @@ package pl.jellysoft.kodbot.resolver.simulator;
 
 import lombok.Value;
 import lombok.With;
+import pl.jellysoft.kodbot.model.BotDirection;
 
 @Value
 @With

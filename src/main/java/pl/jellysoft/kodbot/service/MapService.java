@@ -1,9 +1,9 @@
 package pl.jellysoft.kodbot.service;
 
 import lombok.RequiredArgsConstructor;
-import pl.jellysoft.kodbot.controller.bean.DataRow;
-import pl.jellysoft.kodbot.controller.bean.MapBean;
+import pl.jellysoft.kodbot.model.DataRow;
 import pl.jellysoft.kodbot.model.GameMap;
+import pl.jellysoft.kodbot.model.MapBean;
 import pl.jellysoft.kodbot.repository.MapProvider;
 
 import java.util.ArrayList;
@@ -64,7 +64,7 @@ public class MapService {
                 .build();
     }
 
-    public String getNextGameMapKey(GameMap gameMap) {
+    String getNextGameMapKey(GameMap gameMap) {
         return mapProvider.getNextGameMapKey(gameMap);
     }
 

@@ -1,8 +1,8 @@
-package pl.jellysoft.kodbot.resolver.simulator;
+package pl.jellysoft.kodbot.model;
 
 public class BotDirectionRotateLeftVisitor implements BotDirectionVisitor<BotDirection> {
 
-    static BotDirection rotateLeft(BotDirection botDirection) {
+    public static BotDirection rotateLeft(BotDirection botDirection) {
         return botDirection.accept(new BotDirectionRotateLeftVisitor());
     }
 
