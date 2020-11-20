@@ -28,3 +28,16 @@
 		</span>
     </footer>
 </div>
+<div class="col-xs-12 text-right text-muted">
+    version: <span id="version-span"></span>
+    <script>
+        $(function(){
+            $.get("/version")
+                .done(function(data){
+                    var time = (new Date(data.commitTime)).toLocaleDateString();
+                    var revision = data.revision;
+                    $("#version-span").text(time + " (" + revision + ")");
+                })
+        });
+    </script>
+</div>

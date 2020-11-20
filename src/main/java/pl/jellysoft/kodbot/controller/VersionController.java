@@ -13,12 +13,12 @@ public class VersionController {
     @Value("${git.commit.id}")
     private String revision;
 
-    @Value("${git.build.time}")
-    private String buildTime;
+    @Value("${git.commit.time}")
+    private String commitTime;
 
     @GetMapping("/version")
     public VersionInfo obtainVersionInfo() {
-        return new VersionInfo(branchName, revision, buildTime);
+        return new VersionInfo(branchName, revision, commitTime);
     }
 
     @lombok.Value
@@ -26,7 +26,7 @@ public class VersionController {
 
         private final String branchName;
         private final String revision;
-        private final String buildTime;
+        private final String commitTime;
 
     }
 
