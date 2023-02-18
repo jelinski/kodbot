@@ -17,7 +17,7 @@
             </a>
         </strong>
         .
-        <a href="mailto:krzysztofjelinski@gmail.com">
+        <a href="https://www.linkedin.com/in/krzysztof-jelinski">
             <span itemprop="author" itemscope itemtype="http://schema.org/Person">
                 <span itemprop="name">Krzysztof Jeliński</span>
             </span>
